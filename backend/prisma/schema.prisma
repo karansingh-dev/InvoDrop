@@ -1,0 +1,158 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Role {
+  admin
+  user
+}
+
+enum InvoiceStatus {
+  pending
+  paid
+  overdue
+}
+
+enum Currency {
+  Rupees
+  Dollar
+  Euro
+  Pound
+  Yen
+}
+
+model User {
+  id                   String    @id @default(uuid()) @db.Uuid
+  firstName            String    @map("first_name") @db.VarChar(50)
+  lastName             String    @map("last_name") @db.VarChar(50)
+  email                String    @unique @db.VarChar(255)
+  password             String    @db.Text
+  verifyCode           String    @map("verify_code") @db.VarChar(6)
+  verifyCodeExpiresAt  DateTime  @map("verify_code_expires_at")
+  isVerified           Boolean   @map("is_verified") @default(false)
+
+  createdAt            DateTime  @map("created_at") @default(now())
+  updatedAt            DateTime  @map("updated_at") @default(now())
+
+  role                 Role      @default(user)
+
+  // Relations
+  clients              Client[]
+  invoices             Invoice[]
+  company              Company?
+
+   // Invite Code Relations
+   
+  createdInviteCodes   InviteCode[] @relation("InviteCreatedBy")
+  usedInviteCodes      InviteCode[] @relation("InviteUsedBy")
+
+
+  @@map("users")
+}
+
+model Company {
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @unique @map("user_id") @db.Uuid
+  name           String   @db.VarChar(255)
+  streetAddress  String   @map("street_address") @db.VarChar(255)
+  city           String   @db.VarChar(100)
+  state          String   @db.VarChar(100)
+  country        String   @db.VarChar(100)
+  pinCode        String   @map("pin_code") @db.VarChar(10)
+
+  createdAt      DateTime @map("created_at") @default(now())
+  updatedAt      DateTime @map("updated_at") @default(now())
+
+  // Relations
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("companies")
+}
+
+model Client {
+  id                 String   @id @default(uuid()) @db.Uuid
+  userId             String   @map("user_id") @db.Uuid
+  companyName        String   @map("company_name") @db.VarChar(255)
+  contactPersonName  String   @map("contact_person_name") @db.VarChar(100)
+  phoneNumber        String   @map("phone_number") @db.VarChar(20)
+  email              String   @unique @db.VarChar(255)
+  streetAddress      String   @map("street_address") @db.VarChar(255)
+  city               String   @db.VarChar(100)
+  state              String   @db.VarChar(100)
+  country            String   @db.VarChar(100)
+  pinCode            String   @map("pin_code") @db.VarChar(10)
+
+  createdAt          DateTime @map("created_at") @default(now())
+  updatedAt          DateTime @map("updated_at") @default(now())
+
+  // Relations
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices           Invoice[]
+
+  @@map("clients")
+}
+
+model Invoice {
+  id             String     @id @default(uuid()) @db.Uuid
+  invoiceNumber  String     @map("invoice_number") @db.VarChar(50)
+  status         InvoiceStatus
+  userId         String     @map("user_id") @db.Uuid
+  clientId       String     @map("client_id") @db.Uuid
+  subTotal       Decimal    @map("sub_total") @db.Decimal(10, 2)
+  taxPercent     Decimal    @map("tax_percent") @db.Decimal(5, 2)
+  grandTotal     Decimal    @map("grand_total") @db.Decimal(10, 2)
+
+  createdAt      DateTime   @map("created_at") @default(now())
+  updatedAt      DateTime   @map("updated_at") @default(now())
+  
+  issueDate      DateTime   @map("issue_date") 
+  dueDate        DateTime   @map("due_date")
+
+  currency       Currency
+
+  // Relations
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client         Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  items          Item[]
+
+
+  @@map("invoices")
+}
+
+model Item {
+  id          String   @id @default(uuid()) @db.Uuid
+  invoiceId   String   @map("invoice_id") @db.Uuid
+  name        String   @db.VarChar(100)
+  description String   @db.Text
+
+  unitPrice   Decimal  @map("unit_price") @db.Decimal(10, 2)
+  quantity    Int
+  totalPrice  Decimal  @map("total_price") @db.Decimal(10, 2)
+
+  // Relations
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("items")
+}
+
+model InviteCode {
+  id         String   @id @default(uuid()) @db.Uuid
+  code       String   @unique @db.VarChar(20)
+  createdBy  String   @map("created_by") @db.Uuid
+  isUsed     Boolean  @map("is_used") @default(false)
+  usedBy     String?  @map("used_by") @db.Uuid
+  createdAt  DateTime @map("created_at") @default(now())
+
+  // Relations
+  creator    User     @relation("InviteCreatedBy", fields: [createdBy], references: [id])
+  usedByUser User?    @relation("InviteUsedBy", fields: [usedBy], references: [id])
+
+  @@map("invite_codes")
+}
