@@ -18,7 +18,7 @@ export async function sendVerificationEmail(
 ): Promise<ApiResponse> {
   const templatePath = path.resolve(
     __dirname,
-    "../views/emailTemplate.ejs"
+    "../../views/emailTemplate.ejs"
   );
   const template = fs.readFileSync(templatePath, "utf-8");
   const html = ejs.render(template, { fullName, verifyCode });

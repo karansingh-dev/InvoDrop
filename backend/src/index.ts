@@ -7,13 +7,14 @@ import { router } from "./routes/router";
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use("/invodrop",router);
 
-async function startServer(): Promise<void> {
+async function startServer() {
+    app.use(cors());
+    app.use(bodyParser.json());
+    app.use("/invodrop", router);
+
     await dbConnection();
-     
+
     app.listen(config.PORT, () => {
         console.log(`Server running on port ${config.PORT}`);
     })

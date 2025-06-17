@@ -19,8 +19,8 @@
     "@types/jsonwebtoken": "^9.0.10"
   },
   "scripts": {
-    "start": "node --watch dist/index.js",
-    "build": "tsc",
-    "dev": "node --watch dist/index.js"
+    "start": " node --watch dist/index.js" ,
+    "tsc":"tsc --watch"
+   
   }
 }
