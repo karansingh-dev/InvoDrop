@@ -18,13 +18,14 @@ interface newUser {
     verifyCodeExpiresAt: Date;
 }
 
-export const signUp = async (req: Request, res: Response): Promise<Response> => {
+export const signUp = async (req: Request, res: Response) => {
 
     const user = req.body;
     const requestValidation = signUpSchema.safeParse(user);
 
     if (!requestValidation.success) {
-        return response.error(res, "Invalid Data sent", 400, requestValidation.error.format());
+        response.error(res, "Invalid Data sent", 400, requestValidation.error.format());
+        return;
     }
 
     const userExist = await prisma.user.findUnique({
@@ -38,7 +39,11 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
 
     if (userExist) {
 
-        if (userExist.isVerified) return response.error(res, "User already Exist with this email");
+        if (userExist.isVerified) {
+            response.error(res, "User already Exist with this email");
+            return;
+        }
+
 
         //handle when user is registered but not verified
         await prisma.user.update({
@@ -52,7 +57,8 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
             }
         })
 
-        return response.ok(res, "Verify your account", 200);
+        response.ok(res, "Verify your account", 200);
+        return
 
     }
 
@@ -75,10 +81,14 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
 
     const verificationResponse = await sendVerificationEmail(newUser.email, fullName, verifyCode);
 
-    if (!verificationResponse.success) return response.error(res, verificationResponse.message);
+    if (!verificationResponse.success) {
+        response.error(res, verificationResponse.message);
+        return
+    }
 
 
-    return response.ok(res, "User Registered Successfully", 201);
+    response.ok(res, "User Registered Successfully", 201);
+    return;
 
 
 
