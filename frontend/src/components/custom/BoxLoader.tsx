@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 
-const Loader = () => {
+const BoxLoader = () => {
   return (
     <StyledWrapper>
       <div className="spinner">
@@ -74,4 +74,4 @@ const StyledWrapper = styled.div`
    }
   }`;
 
-export default Loader;
+export default BoxLoader;
