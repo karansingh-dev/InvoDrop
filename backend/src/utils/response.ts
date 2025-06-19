@@ -2,7 +2,7 @@ import { Response } from "express";
 
 
 export const response = {
-    ok: (res: Response, message: string, statusCode: number = 200, data?: any,) => {
+    ok: (res: Response, message: string, statusCode: number, data?: any,) => {
         return res.status(statusCode).json({
             success: true,
             message,
@@ -13,11 +13,11 @@ export const response = {
 
     },
 
-    error: (res: Response, message: string, statusCode = 400, error?: any) => {
+    error: (res: Response, message: string, statusCode:number) => {
         return res.status(statusCode).json({
             success: false,
             message,
-            error
+
         });
     },
 

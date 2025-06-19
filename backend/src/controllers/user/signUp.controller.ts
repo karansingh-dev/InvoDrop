@@ -5,6 +5,7 @@ import prisma from "../../helpers/prismaClient";
 import { sendVerificationEmail } from "../../utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import z from "zod";
+import { api } from "../../routes/router";
 
 
 type user = z.infer<typeof signUpSchema>
@@ -21,7 +22,7 @@ export const signUp = async (req: Request, res: Response) => {
         const requestValidation = signUpSchema.safeParse(user);
 
         if (!requestValidation.success) {
-            response.error(res, "Invalid Data sent", 400, requestValidation.error.format());
+            response.error(res, "Invalid Data Sent", 400);
             return;
         }
 
@@ -41,7 +42,7 @@ export const signUp = async (req: Request, res: Response) => {
         if (userExist) {
 
             if (userExist.isVerified) {
-                response.error(res, "User already Exist with this email");
+                response.error(res, "User Already Exist With This Email",409);
                 return;
             }
 
@@ -85,7 +86,7 @@ export const signUp = async (req: Request, res: Response) => {
         const verificationResponse = await sendVerificationEmail(newUser.email, fullName, verifyCode);
 
         if (!verificationResponse.success) {
-            response.error(res, verificationResponse.message);
+            response.error(res, verificationResponse.message,400);
             return
         }
 
@@ -93,11 +94,13 @@ export const signUp = async (req: Request, res: Response) => {
         response.ok(res, "User Registered Successfully", 201);
         return;
     } catch (error) {
-        console.log("Error registering user", error);
-        response.error(res, "Internal server Error");
+        console.log("Error Eegistering User", error);
+        response.error(res, "Internal Server Error",501);
 
     }
 
 
-
 }
+
+api.post("/sign-up","noauth",signUp);
+
