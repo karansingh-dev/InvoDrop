@@ -13,12 +13,14 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { signUpSchema } from "@/validations/signUpSchema";
 import z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { apiCall } from "@/utils/apiCall";
+import { apiCall, type apiResponse } from "@/utils/apiCall";
 import { useState } from "react";
 import BasicLoader from "@/components/custom/BasicLoader";
-
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+    let navigate = useNavigate();
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -34,20 +36,17 @@ const SignUp = () => {
     });
 
     const onSubmit: SubmitHandler<z.infer<typeof signUpSchema>> = async (data) => {
-        try {
-            setLoading(true);
-            const result: {
 
-            } = await apiCall("/sign-up", "post", "noauth", data);
+        setLoading(true);
+        const result: apiResponse = await apiCall("/sign-up", "post", "noauth", data);
 
-            ;
+        if (result.success) {
+            toast.success(result.message);
 
-        } catch (error) {
-            console.error("error in registering users");
-
-
+            navigate(`/verify-code/${data.email}`);
         }
-        finally {
+        else {
+            toast.error(result.message);
             setLoading(false);
         }
 
