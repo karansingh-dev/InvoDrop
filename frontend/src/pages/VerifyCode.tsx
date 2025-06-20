@@ -21,7 +21,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 const VerifyCode = () => {
-    
+
     let navigate = useNavigate();
 
     const { emailAddress } = useParams();

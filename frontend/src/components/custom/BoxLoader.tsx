@@ -1,77 +1,72 @@
 import styled from 'styled-components';
 
-
 const BoxLoader = () => {
   return (
     <StyledWrapper>
-      <div className="spinner">
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
+      <div className="loader">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
       </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  .spinner {
-   width: 44px;
-   height: 44px;
-   animation: spinner-y0fdc1 2s infinite ease;
-   transform-style: preserve-3d;
+  .loader {
+    --color: #a5a5b0;
+    --size: 70px;
+    width: var(--size);
+    height: var(--size);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
   }
 
-  .spinner > div {
-   background-color: rgba(0,77,255,0.2);
-   height: 100%;
-   position: absolute;
-   width: 100%;
-   border: 2px solid #004dff;
+  .loader span {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color);
+    animation: keyframes-blink 0.6s alternate infinite linear;
   }
 
-  .spinner div:nth-of-type(1) {
-   transform: translateZ(-22px) rotateY(180deg);
+  .loader span:nth-child(1) {
+    animation-delay: 0ms;
   }
 
-  .spinner div:nth-of-type(2) {
-   transform: rotateY(-270deg) translateX(50%);
-   transform-origin: top right;
+  .loader span:nth-child(2) {
+    animation-delay: 200ms;
   }
 
-  .spinner div:nth-of-type(3) {
-   transform: rotateY(270deg) translateX(-50%);
-   transform-origin: center left;
+  .loader span:nth-child(3) {
+    animation-delay: 300ms;
   }
 
-  .spinner div:nth-of-type(4) {
-   transform: rotateX(90deg) translateY(-50%);
-   transform-origin: top center;
+  .loader span:nth-child(4) {
+    animation-delay: 400ms;
   }
 
-  .spinner div:nth-of-type(5) {
-   transform: rotateX(-90deg) translateY(50%);
-   transform-origin: bottom center;
+  .loader span:nth-child(5) {
+    animation-delay: 500ms;
   }
 
-  .spinner div:nth-of-type(6) {
-   transform: translateZ(22px);
+  .loader span:nth-child(6) {
+    animation-delay: 600ms;
   }
 
-  @keyframes spinner-y0fdc1 {
-   0% {
-    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
-   }
+  @keyframes keyframes-blink {
+    0% {
+      opacity: 0.3;
+      transform: scale(0.5) rotate(5deg);
+    }
 
-   50% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
-   }
-
-   100% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
-   }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
   }`;
 
 export default BoxLoader;

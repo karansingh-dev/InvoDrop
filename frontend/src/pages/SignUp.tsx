@@ -42,7 +42,7 @@ const SignUp = () => {
 
         if (result.success) {
             toast.success(result.message);
-
+            setLoading(false);
             navigate(`/verify-code/${data.email}`);
         }
         else {

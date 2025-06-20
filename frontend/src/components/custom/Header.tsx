@@ -3,16 +3,18 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "../ui/button";
 import { ChevronDown, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 const Header = () => {
+
+    let navigate = useNavigate();
 
     return <header className="h-14 py-2 px-4 bg-white sticky top-0 border-b border-slate-200 ">
 
@@ -44,7 +46,12 @@ const Header = () => {
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuItem>Subscription</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuLabel>Logout</DropdownMenuLabel>
+                    <DropdownMenuItem onClick={() => {
+                        sessionStorage.removeItem("token")
+                        navigate("/");
+                        navigate(0);
+
+                    }}>Logout</DropdownMenuItem>
 
 
                 </DropdownMenuContent>

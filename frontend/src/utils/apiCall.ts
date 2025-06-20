@@ -9,10 +9,10 @@ type auth = "noauth" | "auth"
 export interface apiResponse {
     success: boolean,
     message: string,
-    data: object | object[]
+    data: object | object[] | string
 }
 
-export const apiCall = async (path: string, method: methods, auth: auth, data?: object | object[], token?: string ) => {
+export const apiCall = async (path: string, method: methods, auth: auth, data?: object | object[]) => {
 
     if (auth == "noauth") {
         try {
@@ -29,6 +29,7 @@ export const apiCall = async (path: string, method: methods, auth: auth, data?: 
         } catch (error) {
 
             if (error instanceof AxiosError) {
+                console.log(error)
 
                 return error.response?.data;
             }
@@ -36,15 +37,18 @@ export const apiCall = async (path: string, method: methods, auth: auth, data?: 
         }
     }
 
-    else {
+    else if (auth == "auth") {
         try {
-            const response = await axios[method](`${baseUrl}${path}`, data, {
+
+            const token = sessionStorage.getItem("token");
+
+            const response = await axios[method](`${baseUrl}${path}`, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
 
                 }
             })
+
             const result = response.data;
 
             return result;
