@@ -1,6 +1,6 @@
 import { response } from "../../utils/response";
 import { Request, Response } from "express";
-import { verificationCodeSchema } from "../../validations/verificationCodeSchema";
+import { verificationCodeSchema } from "../../validations/user/verificationCodeSchema";
 import prisma from "../../helpers/prismaClient";
 import z from "zod"
 import { api } from "../../routes/router";

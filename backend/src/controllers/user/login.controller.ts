@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import z from "zod"
-import { loginSchema } from "../../validations/loginSchema";
+import { loginSchema } from "../../validations/user/loginSchema";
 import prisma from "../../helpers/prismaClient";
 import jwt from "jsonwebtoken"
 import { config } from "../../config/config";

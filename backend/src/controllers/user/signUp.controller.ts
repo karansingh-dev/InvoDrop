@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { response } from "../../utils/response";
-import { signUpSchema } from "../../validations/signUpSchema";
+import { signUpSchema } from "../../validations/user/signUpSchema";
 import prisma from "../../helpers/prismaClient";
 import { sendVerificationEmail } from "../../utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";

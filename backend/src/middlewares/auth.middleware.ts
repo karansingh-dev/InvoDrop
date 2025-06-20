@@ -28,12 +28,21 @@ export const defaultMiddleware = async (
 
         const isJwtPayload = isJWTPayload(decodedToken);
 
-        console.log(isJWTPayload);
+        if (isJwtPayload) {
+            req.user.id = decodedToken.id;
+            req.user.email = decodedToken.email;
+            req.user.role = decodedToken.role;
+            next();
+        }
+        else {
+            response.error(res, "Invalid Token", 401);
+            return;
+        }
 
 
 
 
-        next();
+
     } catch (error) {
         console.log(error);
         response.error(res, "Invalid Token", 401);
