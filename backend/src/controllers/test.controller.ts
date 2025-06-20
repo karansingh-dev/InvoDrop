@@ -3,8 +3,6 @@ import { response } from "../utils/response";
 import { api } from "../routes/router";
 
 
-
-
 export const test = async(req:Request,res:Response)=>{
 
     response.ok(res,"successfull",200);
