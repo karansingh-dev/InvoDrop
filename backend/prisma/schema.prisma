@@ -82,6 +82,7 @@ model Client {
   companyName        String   @map("company_name") @db.VarChar(255)
   contactPersonName  String   @map("contact_person_name") @db.VarChar(100)
   phoneNumber        String   @map("phone_number") @db.VarChar(20)
+  status             Boolean  @map("status") 
   email              String   @unique @db.VarChar(255)
   streetAddress      String   @map("street_address") @db.VarChar(255)
   city               String   @db.VarChar(100)

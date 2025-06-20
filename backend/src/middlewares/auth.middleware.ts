@@ -16,7 +16,6 @@ export const defaultMiddleware = async (
     const authHeaders = req.header("Authorization");
     const token = authHeaders?.split(" ")[1];
 
-
     if (!token) {
         response.error(res, "Authorization Token is Required", 401);
         return;
@@ -26,12 +25,13 @@ export const defaultMiddleware = async (
 
         const decodedToken = jwt.verify(token, config.JWT_SECRET!);
 
+
         const isJwtPayload = isJWTPayload(decodedToken);
 
         if (isJwtPayload) {
-            req.user.id = decodedToken.id;
-            req.user.email = decodedToken.email;
-            req.user.role = decodedToken.role;
+            const { userId, email, role } = decodedToken;
+            req.user = { userId, email, role }
+           
             next();
         }
         else {

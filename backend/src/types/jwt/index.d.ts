@@ -1,10 +1,10 @@
 
-import 'jsonwebtoken';
+// import 'jsonwebtoken';
 
-declare module 'jsonwebtoken' {
-  export interface JwtPayload {
-    id: string;
-    email: string;
-    role: string;
-  }
-}
+// declare module 'jsonwebtoken' {
+//   export interface JwtPayload {
+//     userId: string;
+//     email: string;
+//     role: string;
+//   }
+// }
