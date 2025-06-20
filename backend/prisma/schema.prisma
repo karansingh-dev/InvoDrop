@@ -89,6 +89,9 @@ model Client {
   country            String   @db.VarChar(100)
   pinCode            String   @map("pin_code") @db.VarChar(10)
 
+  invoiceCount       Int      @map("invoice_count") @default(0)
+  totalBilledAmount  Decimal  @map("total_billed_amount") @db.Decimal(10,2) @default(0)
+
   createdAt          DateTime @map("created_at") @default(now())
   updatedAt          DateTime @map("updated_at") @default(now())
 

@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { response } from "../utils/response";
+import jwt, { JwtPayload } from "jsonwebtoken"
+import { config } from "../config/config";
 
+
+function isJWTPayload(value: JwtPayload | String): value is JwtPayload {
+    return (value as JwtPayload) !== undefined;
+}
 
 export const defaultMiddleware = async (
     req: Request,
@@ -18,12 +24,19 @@ export const defaultMiddleware = async (
 
     try {
 
+        const decodedToken = jwt.verify(token, config.JWT_SECRET!);
+
+        const isJwtPayload = isJWTPayload(decodedToken);
+
+        console.log(isJWTPayload);
+
+
 
 
         next();
     } catch (error) {
         console.log(error);
         response.error(res, "Invalid Token", 401);
-     next(error)
+        next(error)
     }
 };

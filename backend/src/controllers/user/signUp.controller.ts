@@ -90,7 +90,6 @@ export const signUp = async (req: Request, res: Response) => {
             return
         }
 
-
         response.ok(res, "User Registered Successfully", 201);
         return;
     } catch (error) {
