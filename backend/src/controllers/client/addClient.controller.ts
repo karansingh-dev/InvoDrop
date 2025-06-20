@@ -10,7 +10,7 @@ type client = z.infer<typeof addClientSchema>
 
 
 
-interface newUser extends client {
+interface newClient extends client {
     userId: string;
 }
 
@@ -23,19 +23,34 @@ export const addClient = async (req: Request, res: Response) => {
 
     if (requestValidation.success) {
 
-        const newUser: newUser = JSON.parse(JSON.stringify(client));
-        newUser.userId = user.userId;
-        
-         await prisma.client.create({
-            data:newUser
+        const clientExist = await prisma.client.findUnique({
+            where: {
+                email: client.email
+            }
         })
+        if (clientExist) {
+            response.error(res, "Client Already Exists With This Email", 409);
+            return;
+        }
+        else {
+            const newClient: newClient = JSON.parse(JSON.stringify(client));
 
-        response.ok(res,"Client Added Successfully",201);
-        
+            newClient.userId = user.userId;
+
+            await prisma.client.create({
+                data: newClient
+            })
+
+            response.ok(res, "Client Added Successfully", 201);
+
+
+        }
+
+
 
     }
-    else{
-        response.error(res,"Invalid Data Sent",400);
+    else {
+        response.error(res, "Invalid Data Sent", 400);
     }
 
 

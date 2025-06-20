@@ -1,7 +1,7 @@
 import { Request ,Response} from "express";
 import { response } from "../utils/response";
-import { api } from "../routes/router";
 
+import { api } from "../routes/router";
 
 export const test = async(req:Request,res:Response)=>{
 

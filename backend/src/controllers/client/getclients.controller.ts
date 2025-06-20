@@ -11,16 +11,34 @@ export const getClients = async (req: Request, res: Response) => {
 
     const clients = await prisma.client.findMany({
         where: {
-            email: user.email
+            userId: user.userId
+        }
+        ,select:{
+            companyName:true,
+            contactPersonName:true,
+            phoneNumber:true,
+            email:true,
+            streetAddress:true,
+            city:true,
+            state:true,
+            country:true,
+            invoiceCount:true,
+            totalBilledAmount:true,
+            status:true
         }
     });
-    console.log(typeof clients);
+
+
     if (clients) {
+           
+
         response.ok(res, "Fetched Clients Successfully", 200, clients);
+        return;
     }
-    else if (clients) {
+  
         response.error(res, "No Clients Exists", 404);
-    }
+        return;
+    
 }
 
 
