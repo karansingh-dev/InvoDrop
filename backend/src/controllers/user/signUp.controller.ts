@@ -42,7 +42,7 @@ export const signUp = async (req: Request, res: Response) => {
         if (userExist) {
 
             if (userExist.isVerified) {
-                response.error(res, "User Already Exist With This Email",409);
+                response.error(res, "User Already Exist With This Email", 409);
                 return;
             }
 
@@ -58,6 +58,13 @@ export const signUp = async (req: Request, res: Response) => {
                     verifyCodeExpiresAt
                 }
             })
+            const fullName = `${user.firstName} ${user.lastName}`;
+            const verificationResponse = await sendVerificationEmail(user.email, fullName, verifyCode);
+
+            if (!verificationResponse.success) {
+                response.error(res, verificationResponse.message, 400);
+                return
+            }
 
             response.ok(res, "User registered Successfully, Please verify your account", 200);
             return
@@ -86,20 +93,20 @@ export const signUp = async (req: Request, res: Response) => {
         const verificationResponse = await sendVerificationEmail(newUser.email, fullName, verifyCode);
 
         if (!verificationResponse.success) {
-            response.error(res, verificationResponse.message,400);
+            response.error(res, verificationResponse.message, 400);
             return
         }
 
-        response.ok(res, "User Registered Successfully", 201);
+        response.ok(res, "User Registered Successfully,Please Verify Your Account", 201);
         return;
     } catch (error) {
         console.log("Error Eegistering User", error);
-        response.error(res, "Internal Server Error",501);
+        response.error(res, "Internal Server Error", 501);
 
     }
 
 
 }
 
-api.post("/sign-up","noauth",signUp);
+api.post("/sign-up", "noauth", signUp);
 
