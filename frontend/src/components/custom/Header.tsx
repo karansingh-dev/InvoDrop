@@ -12,8 +12,7 @@ import { ChevronDown, Loader, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "@/utils/api/getUserData";
-import ShimmerEffect from "./shimmerEffect";
-import BasicLoader from "./BasicLoader";
+
 
 
 
