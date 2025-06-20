@@ -9,16 +9,14 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useQuery } from "@tanstack/react-query";
-import { fetchClients } from "@/utils/fetchClients";
+import { fetchClients } from "@/utils/api/fetchClients";
 import BoxLoader from "@/components/custom/BoxLoader";
 import ClientCard from "@/components/custom/ClientCard";
 import { Funnel, Plus } from "lucide-react";
 
 
 
-
-
-const Clients = () => {
+export const Clients = () => {
 
     const { data: client, isLoading } = useQuery({
         queryFn: async () => fetchClients(), queryKey: ["clients"]

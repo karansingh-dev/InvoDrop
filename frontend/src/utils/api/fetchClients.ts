@@ -11,6 +11,7 @@ export const fetchClients = async () => {
     if (result.success) {
         return result.data;
     }
+    return result.data;
 
 
 

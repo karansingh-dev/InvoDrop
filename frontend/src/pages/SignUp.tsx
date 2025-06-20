@@ -13,7 +13,7 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { signUpSchema } from "@/validations/signUpSchema";
 import z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { apiCall, type apiResponse } from "@/utils/apiCall";
+import { apiCall, type apiResponse } from "@/utils/api/apiCall";
 import { useState } from "react";
 import BasicLoader from "@/components/custom/BasicLoader";
 import { toast } from "sonner";

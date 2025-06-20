@@ -25,7 +25,7 @@ export const ClientCard = ({ client = [] }) => {
 
 
     return (
-        <div className="grid grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-3 gap-4 ">
 
 
             {
@@ -57,7 +57,7 @@ export const ClientCard = ({ client = [] }) => {
                                 <div className="flex gap-2">
                                     <Building className="w-4 h-4" />
                                     <div className="flex flex-col">
-                                        <p className="text-sm font-medium">{client.streetAddress},{client.city},{client.state},{client.country}</p>
+                                        <p className="text-sm font-medium">{client.streetAddress}, {client.city}, {client.state}, {client.country}</p>
                                         <p className="text-xs text-slate-500">Address</p>
                                     </div>
 
