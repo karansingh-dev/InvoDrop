@@ -11,6 +11,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import AddClient from './pages/AddClient';
 
 
 const queryClient = new QueryClient()
@@ -41,6 +42,7 @@ const App = () => {
 
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/clients" element={<Clients />} />
+            <Route path="/clients/add" element={<AddClient />} />
 
           </Route>
 

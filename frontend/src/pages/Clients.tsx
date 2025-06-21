@@ -13,10 +13,11 @@ import { fetchClients } from "@/utils/api/fetchClients";
 import BoxLoader from "@/components/custom/BoxLoader";
 import ClientCard from "@/components/custom/ClientCard";
 import { Funnel, Plus } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 
 
 export const Clients = () => {
+    let navigate =useNavigate();
 
     const { data: client, isLoading } = useQuery({
         queryFn: async () => fetchClients(), queryKey: ["clients"]
@@ -44,9 +45,11 @@ export const Clients = () => {
                                 Filter
                             </Button>
 
-                            <Button variant="outline" className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2">
+                            <Button variant="outline" onClick={()=>{
+                                 navigate("/clients/add")
+                            }} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2">
                                 <Plus className="w-4 h-4" />
-                                Add Client
+                                Add New Client
 
                             </Button>
                         </div>

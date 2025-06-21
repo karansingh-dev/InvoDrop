@@ -15,6 +15,7 @@ export const defaultMiddleware = async (
 ) => {
     const authHeaders = req.header("Authorization");
     const token = authHeaders?.split(" ")[1];
+   
  
     if (!token) {
         response.error(res, "Authorization Token is Required", 401);

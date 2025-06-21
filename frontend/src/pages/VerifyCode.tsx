@@ -15,7 +15,7 @@ import { apiCall, type apiResponse } from "@/utils/api/apiCall";
 import { useState } from "react";
 import BasicLoader from "@/components/custom/BasicLoader";
 import { toast } from "sonner";
-import { verificationCodeSchema } from "@/validations/verificationCodeSchema";
+import { verificationCodeSchema } from "@/validations/user/verificationCodeSchema";
 import { useNavigate, useParams } from "react-router-dom";
 
 

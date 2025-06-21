@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { apiCall, type apiResponse } from "@/utils/api/apiCall"
-import { loginSchema } from "@/validations/loginSchema"
+import { loginSchema } from "@/validations/user/loginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FileText } from "lucide-react"
 import { useState } from "react"

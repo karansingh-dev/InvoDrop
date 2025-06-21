@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useForm, type SubmitHandler } from "react-hook-form"
-import { signUpSchema } from "@/validations/signUpSchema";
+import { signUpSchema } from "@/validations/user/signUpSchema";
 import z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { apiCall, type apiResponse } from "@/utils/api/apiCall";
