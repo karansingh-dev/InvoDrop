@@ -106,7 +106,7 @@ model Client {
 model Invoice {
   id             String     @id @default(uuid()) @db.Uuid
   invoiceNumber  String     @map("invoice_number") @db.VarChar(50)
-  status         InvoiceStatus
+  status         InvoiceStatus? @default(pending)
   userId         String     @map("user_id") @db.Uuid
   clientId       String     @map("client_id") @db.Uuid
   subTotal       Decimal    @map("sub_total") @db.Decimal(10, 2)
