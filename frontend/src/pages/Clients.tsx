@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export const Clients = () => {
-    let navigate =useNavigate();
+    let navigate = useNavigate();
 
     const { data: client, isLoading } = useQuery({
         queryFn: async () => fetchClients(), queryKey: ["clients"]
@@ -45,8 +45,8 @@ export const Clients = () => {
                                 Filter
                             </Button>
 
-                            <Button variant="outline" onClick={()=>{
-                                 navigate("/clients/add")
+                            <Button variant="outline" onClick={() => {
+                                navigate("/clients/add")
                             }} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2">
                                 <Plus className="w-4 h-4" />
                                 Add New Client
@@ -56,12 +56,14 @@ export const Clients = () => {
                     </div>
 
                     <div>
-                        <Select>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Filter by status" className="bg-white" />
+                        <Select defaultValue="all">
+
+                            <SelectTrigger id="status" className="mt-1 bg-white w-[180px]">
+                                <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">All Statuses</SelectItem>
+
+                                <SelectItem value="all">All Status</SelectItem>
                                 <SelectItem value="active">Active</SelectItem>
                                 <SelectItem value="inactive">Inactive</SelectItem>
                             </SelectContent>

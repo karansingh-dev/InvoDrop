@@ -12,6 +12,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import AddClient from './pages/AddClient';
+import ManageRoutes from './utils/ManageRoutes';
 
 
 const queryClient = new QueryClient()
@@ -20,7 +21,7 @@ const queryClient = new QueryClient()
 const App = () => {
 
 
-    
+
 
   return (
     <>
@@ -33,7 +34,13 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/verify-code/:emailAddress" element={<VerifyCode />} />
-          <Route path="/login" element={<Login />} />
+
+          <Route element={<ManageRoutes />}>
+          
+            <Route path="/login" element={<Login />} />
+
+
+          </Route>
 
 
 
