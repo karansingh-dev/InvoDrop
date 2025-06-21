@@ -16,15 +16,35 @@ export const apiCall = async (path: string, method: methods, auth: auth, data?: 
 
     if (auth == "noauth") {
         try {
-            const response = await axios[method](`${baseUrl}${path}`, data, {
-                headers: {
-                    "Content-Type": "application/json",
 
-                }
-            })
-            const result = response.data;
 
-            return result;
+            if (data) {
+                const response = await axios[method](`${baseUrl}${path}`, data, {
+                    headers: {
+                        "Content-Type": "application/json",
+
+                    }
+                })
+                const result = response.data;
+
+                return result;
+
+            }
+            else {
+                const response = await axios[method](`${baseUrl}${path}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+
+                    }
+                })
+                const result = response.data;
+
+                return result
+
+            }
+
+
+
 
         } catch (error) {
 
@@ -42,16 +62,33 @@ export const apiCall = async (path: string, method: methods, auth: auth, data?: 
 
             const token = sessionStorage.getItem("token");
 
-            const response = await axios[method](`${baseUrl}${path}`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`
 
-                }
-            })
+            if (data) {
+                const response = await axios[method](`${baseUrl}${path}`, data, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
 
-            const result = response.data;
+                    }
+                })
 
-            return result;
+                const result = response.data;
+                return result;
+
+            }
+            else {
+                const response = await axios[method](`${baseUrl}${path}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+
+                    }
+                })
+
+                const result = response.data;
+                return result;
+
+
+            }
+
 
         } catch (error) {
 
