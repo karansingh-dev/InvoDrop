@@ -11,11 +11,39 @@ export const getInvoices = async (req: Request, res: Response) => {
     const invoices = await prisma.invoice.findMany({
         where: {
             userId: user.userId
+        },
+        select: {
+            invoiceNumber: true,
+            grandTotal: true,
+            issueDate: true,
+            dueDate: true,
+            status: true,
+            client: {
+                select: {
+                    companyName: true
+                }
+            }
+
         }
+        ,
     })
 
     if (invoices) {
-        response.ok(res, "Invoices Fetched Successfully", 200, invoices);
+
+        const returnData = invoices.map((invoice) => {
+            return {
+                invoiceNumber: invoice.invoiceNumber,
+                grandTotal: invoice.grandTotal,
+                issueDate: invoice.issueDate,
+                dueDate: invoice.dueDate,
+                status: invoice.status,
+                companyName: invoice.client.companyName
+            }
+        })
+
+        console.log(returnData)
+
+        response.ok(res, "Invoices Fetched Successfully", 200, returnData);
         return;
     }
     else {
@@ -23,4 +51,4 @@ export const getInvoices = async (req: Request, res: Response) => {
     }
 }
 
-api.get("/get-invoices","protected",getInvoices);
+api.get("/get-invoices", "protected", getInvoices);

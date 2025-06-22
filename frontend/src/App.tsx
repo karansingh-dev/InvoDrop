@@ -13,6 +13,7 @@ import {
 } from '@tanstack/react-query'
 import AddClient from './pages/AddClient';
 import ManageRoutes from './utils/ManageRoutes';
+import Invoices from './pages/Invoices';
 
 
 const queryClient = new QueryClient()
@@ -36,7 +37,7 @@ const App = () => {
           <Route path="/verify-code/:emailAddress" element={<VerifyCode />} />
 
           <Route element={<ManageRoutes />}>
-          
+
             <Route path="/login" element={<Login />} />
 
 
@@ -48,6 +49,7 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
 
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/invoices" element={<Invoices />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/clients/add" element={<AddClient />} />
 
