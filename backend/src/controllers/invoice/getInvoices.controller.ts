@@ -30,7 +30,7 @@ export const getInvoices = async (req: Request, res: Response) => {
 
     if (invoices) {
 
-        const returnData = invoices.map((invoice) => {
+        const Data = invoices.map((invoice) => {
             return {
                 invoiceNumber: invoice.invoiceNumber,
                 grandTotal: invoice.grandTotal,
@@ -41,9 +41,8 @@ export const getInvoices = async (req: Request, res: Response) => {
             }
         })
 
-        console.log(returnData)
 
-        response.ok(res, "Invoices Fetched Successfully", 200, returnData);
+        response.ok(res, "Invoices Fetched Successfully", 200, Data);
         return;
     }
     else {

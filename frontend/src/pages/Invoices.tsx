@@ -33,15 +33,13 @@ type invoiceDate = {
 
 const Invoices = () => {
 
-    const [currentInvoices, setCurrentInvoices] = useState<invoiceDate[]>();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [invoicePerPage, setinvoicePerPage] = useState<number>(8);
+    const invoicePerPage = 8;
 
     const lastInvoiceIndex = currentPage * invoicePerPage
     const firstInvoiceIndex = lastInvoiceIndex - invoicePerPage
 
-    const [totalPages, setTotalPages] = useState<number>(0);
 
     const { data: invoices, isLoading } = useQuery({
         queryFn: async () =>
@@ -49,25 +47,6 @@ const Invoices = () => {
 
         , queryKey: ["invoices"]
     })
-
-
-    if (isLoading) {
-
-    }
-    else {
-
-
-    }
-
-
-
-
-
-
-
-
-
-
 
 
     return <div className="bg-slate-50 min-h-screen flex">
@@ -168,7 +147,12 @@ const Invoices = () => {
                                                     <td className="py-4">
                                                         <div className="">
                                                             <Badge variant="outline" className={clsx(
-                                                                invoice.status == "pending", " rounded-lg bg-emerald-50 text-sm text-emerald-600 "
+
+                                                                {
+                                                                    "bg-emerald-50 text-emerald-600 rounded-md   border-emerald-200": invoice.status === "paid",
+                                                                    "bg-rose-50 text-rose-600 rounded-md  border-rose-200": invoice.status === "overDue",
+                                                                    "bg-amber-50 text-amber-600 rounded-md border-amber-200": invoice.status === "pending",
+                                                                }
                                                             )}>{invoice.status}</Badge>
 
                                                         </div>
