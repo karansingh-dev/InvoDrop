@@ -1,5 +1,3 @@
-import Header from "@/components/custom/Header";
-import SideBar from "@/components/custom/Sidebar";
 import { Button } from "@/components/ui/button";
 import {
     Select,
@@ -26,67 +24,54 @@ export const Clients = () => {
 
 
 
-    return (
-        <div className="bg-slate-50 min-h-screen flex">
-            {/*side navbar*/}
-            <SideBar />
-            <div className="flex flex-col w-full">
-                {/* header */}
-                <Header />
+    return <main className="flex flex-col gap-6 p-6">
 
-                {/* main section  */}
+        <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-slate-90">Clients</h1>
+            <div className="flex items-center gap-2">
+                <Button variant="outline" className="flex items-center">
+                    <Funnel className="h-4 w-4" />
+                    Filter
+                </Button>
 
-                <main className="flex flex-col gap-6 p-6">
+                <Button variant="outline" onClick={() => {
+                    navigate("/clients/add")
+                }} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2">
+                    <Plus className="w-4 h-4" />
+                    Add New Client
 
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold text-slate-90">Clients</h1>
-                        <div className="flex items-center gap-2">
-                            <Button variant="outline" className="flex items-center">
-                                <Funnel className="h-4 w-4" />
-                                Filter
-                            </Button>
-
-                            <Button variant="outline" onClick={() => {
-                                navigate("/clients/add")
-                            }} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2">
-                                <Plus className="w-4 h-4" />
-                                Add New Client
-
-                            </Button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <Select defaultValue="all">
-
-                            <SelectTrigger id="status" className="mt-1 bg-white w-[180px]">
-                                <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="active">Active</SelectItem>
-                                <SelectItem value="inactive">Inactive</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {/* clients  */}
-
-                    {isLoading || clients == undefined ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> :
-                        <ClientCard clients={clients} />
-                    }
-
-
-                </main>
-
-
+                </Button>
             </div>
-
-
-
         </div>
-    )
+
+        <div>
+            <Select defaultValue="all">
+
+                <SelectTrigger id="status" className="mt-1 bg-white w-[180px]">
+                    <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
+
+        {/* clients  */}
+
+        {isLoading || clients == undefined ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> :
+            <ClientCard clients={clients} />
+        }
+
+
+    </main>
+
+
+
+
+
 
 }
 

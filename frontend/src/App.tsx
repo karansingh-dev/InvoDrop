@@ -15,6 +15,8 @@ import AddClient from './pages/AddClient';
 import ManageRoutes from './utils/ManageRoutes';
 import Invoices from './pages/Invoices';
 import Pdf from './utils/Pdf';
+import SideBar from './components/custom/Sidebar';
+import Header from './components/custom/Header';
 
 
 const queryClient = new QueryClient()
@@ -29,41 +31,48 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <Toaster richColors theme='light' position='top-right' />
+        <div className="bg-slate-50 min-h-screen flex">
+          <SideBar />
+          <div className="flex flex-col w-full">
+            <Header />
 
-        <Routes>
+
+            <Routes>
 
         //Open Routes
 
-          <Route path="/pdf/download/:invoiceId" element={<Pdf />} />
-          <Route path="/verify-code/:emailAddress" element={<VerifyCode />} />
+              <Route path="/pdf/download/:invoiceId" element={<Pdf />} />
+              <Route path="/verify-code/:emailAddress" element={<VerifyCode />} />
 
 
-          <Route element={<ManageRoutes />}>
+              <Route element={<ManageRoutes />}>
 
-            <Route path="/" element={<Home />} />
-            
-            <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/" element={<Home />} />
 
-            <Route path="/login" element={<Login />} />
+                <Route path="/sign-up" element={<SignUp />} />
+
+                <Route path="/login" element={<Login />} />
 
 
-          </Route>
+              </Route>
 
 
 
         //Protected Routes
-          <Route element={<ProtectedRoutes />}>
+              <Route element={<ProtectedRoutes />}>
 
-            <Route path="/dashboard" element={<DashBoard />} />
-            <Route path="/invoices" element={<Invoices />} />
-            <Route path="/clients" element={<Clients />} />
-            <Route path="/clients/add" element={<AddClient />} />
+                <Route path="/dashboard" element={<DashBoard />} />
+                <Route path="/invoices" element={<Invoices />} />
+                <Route path="/clients" element={<Clients />} />
+                <Route path="/clients/add" element={<AddClient />} />
 
-          </Route>
+              </Route>
 
 
 
-        </Routes>
+            </Routes>
+          </div>
+        </div>
       </QueryClientProvider>
     </>
   );

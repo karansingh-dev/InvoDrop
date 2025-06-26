@@ -1,6 +1,4 @@
 import BoxLoader from "@/components/custom/BoxLoader";
-import Header from "@/components/custom/Header"
-import SideBar from "@/components/custom/Sidebar"
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,11 +39,7 @@ const Invoices = () => {
     })
 
 
-    return <div className="bg-slate-50 min-h-screen flex">
-        <SideBar />
-        <div className="flex flex-col w-full">
-            <Header />
-            <main className="flex flex-col gap-6 p-6">
+    return  <main className="flex flex-col gap-6 p-6">
 
                 <div className="flex justify-between">
                     <h1 className="text-2xl font-bold text-slate-900">Invoices</h1>
@@ -227,9 +221,7 @@ const Invoices = () => {
 
 
 
-        </div>
-
-    </div>
+     
 
 }
 
