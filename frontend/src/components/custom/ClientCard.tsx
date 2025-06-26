@@ -21,7 +21,7 @@ export type clientsDataType = {
 
 
 
-export const ClientCard = ({clients}:{clients:clientsDataType[]}) => {
+export const ClientCard = ({ clients }: { clients: clientsDataType[] }) => {
 
 
 
