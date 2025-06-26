@@ -6,12 +6,13 @@ import { apiCall } from "./apiCall";
 export const getUserData = async () => {
 
 
-    const result = await apiCall("/get-user-data", "get", "auth");
+    const result = await apiCall<{
+        firstName: string,
+        lastName: string,
+        email: string
+    }>("/get-user-data", "GET", "protected");
 
-    if (result.success) {
-        return result.data;
-    }
-    return;
+    return result.data;
 
 
 

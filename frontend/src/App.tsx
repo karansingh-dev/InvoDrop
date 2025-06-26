@@ -14,6 +14,7 @@ import {
 import AddClient from './pages/AddClient';
 import ManageRoutes from './utils/ManageRoutes';
 import Invoices from './pages/Invoices';
+import Pdf from './utils/Pdf';
 
 
 const queryClient = new QueryClient()
@@ -32,11 +33,16 @@ const App = () => {
         <Routes>
 
         //Open Routes
-          <Route path="/" element={<Home />} />
-          <Route path="/sign-up" element={<SignUp />} />
+
+          <Route path="/pdf/download/:invoiceId" element={<Pdf />} />
           <Route path="/verify-code/:emailAddress" element={<VerifyCode />} />
 
+
           <Route element={<ManageRoutes />}>
+
+            <Route path="/" element={<Home />} />
+            
+            <Route path="/sign-up" element={<SignUp />} />
 
             <Route path="/login" element={<Login />} />
 

@@ -16,10 +16,11 @@ import { Funnel, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
+
 export const Clients = () => {
     let navigate = useNavigate();
 
-    const { data: client, isLoading } = useQuery({
+    const { data: clients, isLoading } = useQuery({
         queryFn: async () => fetchClients(), queryKey: ["clients"]
     })
 
@@ -72,9 +73,10 @@ export const Clients = () => {
 
                     {/* clients  */}
 
-                    {isLoading ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> :
-                        <ClientCard client={client} />
+                    {isLoading || clients == undefined ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> :
+                        <ClientCard clients={clients} />
                     }
+
 
                 </main>
 

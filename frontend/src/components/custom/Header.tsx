@@ -40,7 +40,7 @@ const Header = () => {
                 />
             </div>
 
-            {isLoading ? <div className="flex justify-center items-center mr-10">
+            {isLoading || user == undefined ? <div className="flex justify-center items-center mr-10">
                 <Loader className="animate-spin w-6 h-6 text-gray-100" />
             </div> :
                 <DropdownMenu>

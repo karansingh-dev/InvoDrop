@@ -16,7 +16,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useState } from "react";
-import { apiCall, type apiResponse } from "@/utils/api/apiCall";
+import { apiCall } from "@/utils/api/apiCall";
 import { toast } from "sonner";
 
 
@@ -66,7 +66,9 @@ const AddClient = () => {
         else data.status = false;
 
         setLoading(true);
-        const result: apiResponse = await apiCall("/add-client", "post", "auth", data);
+        const result = await apiCall<null>("/add-client", "POST", "protected", data);
+
+
 
         if (result.success) {
             toast.success(result.message);

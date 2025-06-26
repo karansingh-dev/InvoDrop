@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { fetchInvoices } from "@/utils/api/fetchInvoice";
+import { fetchInvoices, type invoiceDataType } from "@/utils/api/fetchInvoice";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Download, Eye, Filter, MoreHorizontal, Plus, Trash } from "lucide-react";
@@ -21,14 +21,6 @@ import { useState } from "react";
 
 
 
-type invoiceDate = {
-    invoiceNumber: string,
-    grandTotal: string,
-    issueDate: string,
-    dueDate: string,
-    status: string,
-    companyName: string
-}
 
 
 const Invoices = () => {
@@ -96,7 +88,7 @@ const Invoices = () => {
 
 
                         <CardContent className=" mt-8 px-0" >
-                            {isLoading ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> :
+                            {isLoading || invoices == undefined ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> :
                                 <div className="space-y-6">
                                     <table className="w-full text-sm ">
                                         <thead>
@@ -111,9 +103,9 @@ const Invoices = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="">
-                                            {invoices.slice(firstInvoiceIndex, lastInvoiceIndex).map((invoice: invoiceDate) => {
+                                            {invoices.slice(firstInvoiceIndex, lastInvoiceIndex).map((invoice:invoiceDataType) => {
 
-                                                return <tr className="border-b border-slate-100 hover:bg-slate-50" key={invoice.invoiceNumber}>
+                                                return <tr className="border-b border-slate-100 hover:bg-slate-50" key={invoice.id}>
 
                                                     <td className="py-4 pl-4 ">
                                                         <div className="font-medium text-sm text-slate-900">{invoice.invoiceNumber}</div>
@@ -122,7 +114,7 @@ const Invoices = () => {
                                                         <div className="font-medium text-sm text-slate-900">{invoice.companyName}</div>
                                                     </td>
                                                     <td className="py-4">
-                                                        <div className="font-medium text-sm text-slate-900">{invoice.grandTotal}</div>
+                                                        <div className="font-medium text-sm text-slate-900">$ {invoice.grandTotal}</div>
                                                     </td>
                                                     <td className="py-4">
                                                         <div className="text-slate-500 text-sm">

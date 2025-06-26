@@ -1,20 +1,21 @@
 import { apiCall } from "./apiCall"
 
 
+export type invoiceDataType = {
+    id: string,
+    invoiceNumber: string,
+    grandTotal: string,
+    issueDate: string,
+    dueDate: string,
+    status: string,
+    companyName: string
+}
 
 
+export async function fetchInvoices() {
 
-export const fetchInvoices = async () => {
+const result = await apiCall<invoiceDataType[]>("/get-invoices", "GET", "protected");
 
-    const result = await apiCall("/get-invoices", "get", "auth");
-
-    if (result.success) {
-        return result.data;
-    }
     return result.data;
-
-
-
-
 
 }

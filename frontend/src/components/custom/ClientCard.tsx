@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import clsx from "clsx";
 
 
-export interface clients {
+export type clientsDataType = {
     companyName: string;
     contactPersonName: string;
     phoneNumber: string,
@@ -20,7 +20,8 @@ export interface clients {
 }
 
 
-export const ClientCard = ({ client = [] }) => {
+
+export const ClientCard = ({clients}:{clients:clientsDataType[]}) => {
 
 
 
@@ -29,7 +30,7 @@ export const ClientCard = ({ client = [] }) => {
 
 
             {
-                client.map((client: clients) => {
+                clients.map((client: clientsDataType) => {
                     return <Card className="rounded-md">
 
                         <div className="flex items-center -mt-6 justify-between border-b border-slate-200 bg-slate-100 p-4">

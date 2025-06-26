@@ -13,11 +13,14 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { signUpSchema } from "@/validations/user/signUpSchema";
 import z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { apiCall, type apiResponse } from "@/utils/api/apiCall";
 import { useState } from "react";
 import BasicLoader from "@/components/custom/BasicLoader";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { apiCall } from "@/utils/api/apiCall";
+
+
+
 
 const SignUp = () => {
     let navigate = useNavigate();
@@ -37,18 +40,29 @@ const SignUp = () => {
 
     const onSubmit: SubmitHandler<z.infer<typeof signUpSchema>> = async (data) => {
 
-        setLoading(true);
-        const result: apiResponse = await apiCall("/sign-up", "post", "noauth", data);
+        try {
+            setLoading(true);
+            const result = await apiCall<null>("/sign-up", "POST", "noauth", data);
 
-        if (result.success) {
-            toast.success(result.message);
+            if (result.success) {
+                toast.success(result.message);
+                navigate(`/verify-code/${data.email}`)
+            }
+            else {
+                toast.error(result.message);
+
+
+            }
+        } catch (error) {
+            console.error("api call failed");
+
+
+        } finally {
             setLoading(false);
-            navigate(`/verify-code/${data.email}`);
         }
-        else {
-            toast.error(result.message);
-            setLoading(false);
-        }
+
+
+
 
     }
 

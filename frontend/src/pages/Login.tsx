@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { apiCall, type apiResponse } from "@/utils/api/apiCall"
+import { apiCall } from "@/utils/api/apiCall"
 import { loginSchema } from "@/validations/user/loginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FileText } from "lucide-react"
@@ -12,7 +12,6 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import z from "zod"
-
 
 
 
@@ -34,22 +33,39 @@ const Login = () => {
     const onSubmit: SubmitHandler<z.infer<typeof loginSchema>> = async (data) => {
 
 
-        setLoading(true);
-        const result: apiResponse = await apiCall("/login", "post", "noauth", data);
 
-        if (result.success) {
-            if (typeof result.data == "string") {
+        try {
+            setLoading(true);
+            const result = await apiCall<string>("/login", "POST", "noauth", data);
+            console.log(result)
+
+
+
+            if (result.success) {
+
+
                 sessionStorage.setItem("token", result.data);
                 toast.success(result.message);
-                setLoading(false);
+
                 navigate(`/dashboard`);
             }
 
+
+            else {
+                toast.error(result.message);
+
+            }
+
+        } catch (error) {
+            console.error("api call failed", error);
+
+
         }
-        else {
-            toast.error(result.message);
-            setLoading(false);
+        finally {
+            setLoading(false)
         }
+
+
 
 
     }

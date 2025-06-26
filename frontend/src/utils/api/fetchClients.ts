@@ -1,20 +1,15 @@
-import { apiCall } from "./apiCall"
+import type { clientsDataType } from "@/components/custom/ClientCard";
+import { apiCall} from "./apiCall"
 
 
 
 
+export async function fetchClients() {
 
-export const fetchClients = async () => {
+    const result = await apiCall<clientsDataType[]>("/get-clients", "GET", "protected");
 
-    const result = await apiCall("/get-clients", "get", "auth");
-
-    if (result.success) {
-        return result.data;
-    }
     return result.data;
-
-
-
-
+    
+   
 
 }

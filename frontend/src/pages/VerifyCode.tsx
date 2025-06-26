@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { apiCall, type apiResponse } from "@/utils/api/apiCall";
+import { apiCall } from "@/utils/api/apiCall";
 import { useState } from "react";
 import BasicLoader from "@/components/custom/BasicLoader";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ const VerifyCode = () => {
 
         setLoading(true);
 
-        const result: apiResponse = await apiCall("/verify-code", "post", "noauth", data);
+        const result= await apiCall<null>("/verify-code", "POST", "noauth", data);
 
         if (result.success) {
             toast.success(result.message);
@@ -53,6 +53,7 @@ const VerifyCode = () => {
             toast.error(result.message);
             setLoading(false);
         }
+        setLoading(true);
 
     }
 
