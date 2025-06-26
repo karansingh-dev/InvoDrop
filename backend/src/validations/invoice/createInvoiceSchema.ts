@@ -14,7 +14,8 @@ export const createInvoiceSchema = z.object({
     issueDate: z.date(),
     dueDate: z.date(),
     currency: z.enum(["Rupees", "Dollar", "Euro", "Pound", "Yen"]),
-    invoiceItems: invoiceItemDetails
+    invoiceItems: invoiceItemDetails,
+    notes:z.string().max(150,"Must be at most 150 characters")
 })
 
 

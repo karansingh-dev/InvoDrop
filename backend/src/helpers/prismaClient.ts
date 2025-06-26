@@ -8,6 +8,7 @@ export async function dbConnection() {
     console.log("Connected to the database successfully.");
   } catch (error:any) {
     console.error("Failed to connect to the database:", error.message);
+    throw new Error(error.message)
  
   }
 }

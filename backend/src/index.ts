@@ -6,6 +6,7 @@ import { dbConnection } from "./helpers/prismaClient";
 import { router } from "./routes/router";
 import "./routes/routes"
 import { globalErrorHandler } from "./utils/globalErrorHandler";
+import "./utils/uploadData"
 
 const app = express();
 

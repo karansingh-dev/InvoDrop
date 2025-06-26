@@ -112,6 +112,7 @@ model Invoice {
   subTotal       Decimal    @map("sub_total") @db.Decimal(10, 2)
   taxPercent     Decimal    @map("tax_percent") @db.Decimal(5, 2)
   grandTotal     Decimal    @map("grand_total") @db.Decimal(10, 2)
+  notes          String     @db.VarChar(255)
 
   createdAt      DateTime   @map("created_at") @default(now())
   updatedAt      DateTime   @map("updated_at") @default(now())

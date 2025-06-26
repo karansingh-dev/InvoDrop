@@ -4,6 +4,7 @@ import { api } from "../../routes/router";
 import { response } from "../../utils/response";
 
 
+
 export const getInvoices = async (req: Request, res: Response) => {
 
     const user = req.user;
@@ -13,11 +14,13 @@ export const getInvoices = async (req: Request, res: Response) => {
             userId: user.userId
         },
         select: {
+            id: true,
             invoiceNumber: true,
             grandTotal: true,
             issueDate: true,
             dueDate: true,
             status: true,
+            currency: true,
             client: {
                 select: {
                     companyName: true
@@ -25,19 +28,21 @@ export const getInvoices = async (req: Request, res: Response) => {
             }
 
         }
-        ,
+
     })
 
     if (invoices) {
 
         const Data = invoices.map((invoice) => {
             return {
+                id: invoice.id,
                 invoiceNumber: invoice.invoiceNumber,
                 grandTotal: invoice.grandTotal,
                 issueDate: invoice.issueDate,
                 dueDate: invoice.dueDate,
                 status: invoice.status,
-                companyName: invoice.client.companyName
+                companyName: invoice.client.companyName,
+                currency: invoice.currency
             }
         })
 
