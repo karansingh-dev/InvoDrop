@@ -6,9 +6,6 @@ import { getOneInvoice } from "./api/getOneInvoice";
 
 
 
-
-
-
 const Pdf = () => {
     const { invoiceId } = useParams();
 
@@ -21,7 +18,6 @@ const Pdf = () => {
             return undefined;
         }, queryKey: ["clients"]
     })
-
 
 
 

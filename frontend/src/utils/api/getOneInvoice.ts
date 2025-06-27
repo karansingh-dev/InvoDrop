@@ -35,9 +35,6 @@ export type invoiceDataType = {
 }
 
 
-
-
-
 export const getOneInvoice = async (id: string) => {
 
     const result = await apiCall<invoiceDataType>(`/get-invoice/${id}`, "GET", "protected");
