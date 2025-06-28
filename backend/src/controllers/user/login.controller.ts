@@ -15,6 +15,7 @@ type loginData = z.infer<typeof loginSchema>
 export const login = async (req: Request, res: Response) => {
 
     const user: loginData = req.body;
+    user.email.toLowerCase();
 
     const requestValidation = loginSchema.safeParse(user);
 
@@ -28,8 +29,8 @@ export const login = async (req: Request, res: Response) => {
 
         if (userExist) {
 
-            const isPasswordCorrect = await bcrypt.compare(user.password,userExist.password);
-            
+            const isPasswordCorrect = await bcrypt.compare(user.password, userExist.password);
+
             const payload = { userId: userExist.id, email: userExist.email, role: userExist.role }
             if (isPasswordCorrect) {
                 const token = jwt.sign(payload, config.JWT_SECRET!);
@@ -57,4 +58,4 @@ export const login = async (req: Request, res: Response) => {
 }
 
 
-api.post("/login","noauth",login);
+api.post("/login", "noauth", login);

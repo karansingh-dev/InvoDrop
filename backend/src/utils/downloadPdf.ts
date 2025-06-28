@@ -1,5 +1,6 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer"
 import path from "path"
+
 
 
 type response = {
@@ -7,16 +8,16 @@ type response = {
     message: string
 }
 
-export const downloadPdf = async (): Promise<response> => {
+export const downloadPdf = async (invoiceId: string): Promise<response> => {
 
     try {
+
         const filePath = path.resolve(__dirname, "../../public//pdf/invoice.pdf")
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto('http://localhost:5173/pdf/download', {
+        await page.goto(`http://localhost:5173/pdf/download/${invoiceId}`, {
             waitUntil: 'networkidle2',
         });
-
 
         await page.pdf({
             path: filePath,
@@ -30,6 +31,7 @@ export const downloadPdf = async (): Promise<response> => {
         });
 
         await browser.close()
+        
         return {
             success: true,
             message: "pdf downloaded"
@@ -37,6 +39,7 @@ export const downloadPdf = async (): Promise<response> => {
 
 
     } catch (error) {
+
 
         console.log("error downloading pdf", error);
         return {

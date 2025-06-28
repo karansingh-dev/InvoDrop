@@ -19,6 +19,7 @@ interface newUser extends user {
 export const signUp = async (req: Request, res: Response) => {
     try {
         const user: user = req.body;
+         user.email.toLowerCase();
         const requestValidation = signUpSchema.safeParse(user);
 
         if (!requestValidation.success) {

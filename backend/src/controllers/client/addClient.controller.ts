@@ -9,7 +9,6 @@ import { customRequest } from "../../types/customRequest";
 type client = z.infer<typeof addClientSchema>
 
 
-
 interface newClient extends client {
     userId: string;
 }
@@ -43,10 +42,7 @@ export const addClient = async (req: Request, res: Response) => {
 
             response.ok(res, "Client Added Successfully", 201);
 
-
         }
-
-
 
     }
     else {

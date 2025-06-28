@@ -27,6 +27,7 @@ export const getOneInvoice = async (req: Request, res: Response) => {
                 status: true,
                 currency: true,
                 taxPercent: true,
+                notes:true,
                 client: {
                     select: {
                         email: true,
@@ -75,4 +76,4 @@ export const getOneInvoice = async (req: Request, res: Response) => {
     }
 }
 
-api.get("/get-invoice/:invoiceId", "protected", getOneInvoice);
+api.get("/get-invoice/:invoiceId", "noauth", getOneInvoice);

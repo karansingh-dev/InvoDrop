@@ -6,9 +6,9 @@ import z from "zod"
 import { createInvoiceSchema } from "../../validations/invoice/createInvoiceSchema";
 import { customRequest } from "../../types/customRequest";
 import { invoiceItemSchema } from "../../validations/invoice/invoiceItemSchema";
-import puppeteer from "puppeteer";
 import { downloadPdf } from "../../utils/downloadPdf";
-import { uploadData } from "../../utils/uploadData";
+import { uploadPdf } from "../../utils/uploadPdf";
+import { sendPdf } from "../../utils/sendPdf";
 
 
 type invoiceData = z.infer<typeof createInvoiceSchema>
@@ -103,31 +103,54 @@ export const createInvoice = async (req: Request, res: Response) => {
                 }
             })
 
+           console.log(newInvoice.id);
 
-
-            const isPdfDownloaded = await downloadPdf();
+            const isPdfDownloaded = await downloadPdf(newInvoice.id);
 
             if (isPdfDownloaded.success) {
 
-                const uploadPdf = await uploadData();
+                const isPdfUploaded = await uploadPdf();
 
-                if (uploadPdf.success) {
-                    
+                if (isPdfUploaded.success && isPdfUploaded.url) {
 
+                    const sentPdf = await sendPdf(invoiceData.clientEmail, isPdfUploaded.url);
 
-                    response.ok(res, "Invoice Created Successfully", 201);
-                    return;
+                    if (sentPdf.success) {
+                        response.ok(res, "Invoice Created Successfully", 201);
+                        return;
 
+                    }
+                    else {
+                        await prisma.invoice.delete({
+                            where: {
+                                id: newInvoice.id
+                            }
+                        })
+                        response.error(res, "Failed to create invoice", 400);
+                        return
+                    }
 
                 }
-
                 else {
-                    console.error("Failed to upload pdf");
+                    await prisma.invoice.delete({
+                        where: {
+                            id: newInvoice.id
+                        }
+                    })
+                    console.error("failed to Upload pdf");
                     response.error(res, "Failed to create invoice", 400);
+                    return
+
                 }
 
             }
             else {
+
+                await prisma.invoice.delete({
+                    where: {
+                        id: newInvoice.id
+                    }
+                })
                 console.error("failed to download pdf");
                 response.error(res, "Failed to create invoice", 400);
                 return

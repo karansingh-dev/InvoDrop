@@ -28,6 +28,8 @@ export async function sendVerificationEmail(
       to: [email],
       subject: "verification code",
       html,
+      
+      
     });
     return { message: "Verification email sent successfully", success: true };
   } catch (emailError: any) {
