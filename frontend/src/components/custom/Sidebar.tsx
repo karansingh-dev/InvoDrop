@@ -9,6 +9,11 @@ const SideBar = () => {
     const location = useLocation();
     const pathname = location.pathname;
 
+    const routes = ["/dashboard", "/clients", "/reports", "/invoices"]
+    const matched = routes.find((route) => route == pathname);
+
+    const token = sessionStorage.getItem("token");
+
     const mainLinks = [
         { key: 'Dashboard', name: 'Dashboard', to: '/dashboard', icon: House },
         { key: 'Invoices', name: 'Invoices', to: '/invoices', icon: FileText },
@@ -20,6 +25,12 @@ const SideBar = () => {
         { key: 'Settings', name: 'Settings', to: '/settings', icon: Settings },
 
     ]
+
+
+    if (!token || !matched) {
+        return <div></div>
+    }
+
 
     return <div className="w-64 bg-white flex flex-col border-r border-slate-200">
 

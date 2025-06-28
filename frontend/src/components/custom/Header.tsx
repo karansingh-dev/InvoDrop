@@ -9,7 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "../ui/button";
 import { ChevronDown, Loader, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "@/utils/api/getUserData";
 
@@ -19,11 +19,28 @@ import { getUserData } from "@/utils/api/getUserData";
 const Header = () => {
 
     let navigate = useNavigate();
+    const location = useLocation();
+    const pathname = location.pathname;
+   
+
+    const routes = ["/dashboard", "/clients", "/reports", "/invoices"]
+
+
+    const token = sessionStorage.getItem("token");
 
     const { data: user, isLoading } = useQuery({
         queryFn: async () => getUserData(), queryKey: ["user"]
     })
 
+
+    const matched = routes.find((route) => route == pathname);
+     
+   
+
+
+    if (!token || !matched) {
+        return <div></div>
+    }
 
 
 
@@ -40,10 +57,10 @@ const Header = () => {
                 />
             </div>
 
-            {isLoading || user == undefined ? <div className="flex justify-center items-center mr-10">
+            {isLoading ? <div className="flex justify-center items-center mr-10">
                 <Loader className="animate-spin w-6 h-6 text-gray-100" />
             </div> :
-                <DropdownMenu>
+                user == undefined ? <div className="flex justify-center items-center mr-10 text-rose-500">error</div> : <DropdownMenu>
                     <DropdownMenuTrigger className="flex items-center gap-2 border-none hover:bg-slate-100 rounded-sm" asChild>
                         <Button variant="ghost" className="border-none gap-2">
                             <Avatar className="h-6 w-6">

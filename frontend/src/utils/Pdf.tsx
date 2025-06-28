@@ -22,15 +22,26 @@ const Pdf = () => {
 
 
 
-    if (isLoading || invoice == undefined) {
+
+    if (isLoading) {
         return <div className="flex justify-center items-center">
             <BoxLoader />
         </div>
     }
 
+    else if (invoice == undefined) {
+        return <div className="flex justify-center item-center text-rose-500">
+            <span className="mt-50">
+            Error Loading Invoice details
+            </span>
+        </div>
+    }
 
 
- if(invoice.items)   return <div className="min-h-screen bg-white flex justify-center ">
+    else {
+        
+        
+        return <div className="min-h-screen bg-white flex justify-center ">
 
         <div className="p-8 w-4xl ">
             <div className="flex justify-between">
@@ -46,7 +57,7 @@ const Pdf = () => {
                     </h1>
                     <div>
                         <p className="text-gray-600 font-medium">
-                            {`${invoice.client.streetAddress}, ${invoice.client.city},${invoice.client.state}, ${invoice.client.country}, ${invoice.client.pincode} `}
+                            {`${invoice.client.streetAddress}, ${invoice.client.city},${invoice.client.state}, ${invoice.client.country}, ${invoice.client.pinCode} `}
 
                         </p>
                         <p className="text-gray-600 font-medium">
@@ -88,11 +99,11 @@ const Pdf = () => {
                 <div>
                     <h3 className="text-xl text-gray-800 font-bold">
                         {invoice.client.companyName}
-                        Sg Ecommerce
+                      
                     </h3>
                     <div>
                         <p className="text-gray-600 font-medium">
-                            {`${invoice.client.streetAddress}, ${invoice.client.city},${invoice?.client.state}, ${invoice?.client.country}, ${invoice?.client.pincode} `}
+                            {`${invoice.client.streetAddress}, ${invoice.client.city},${invoice?.client.state}, ${invoice?.client.country}, ${invoice?.client.pinCode} `}
                         </p>
                         <p className="text-gray-600 font-medium">
                             {invoice.client.email}
@@ -162,7 +173,7 @@ const Pdf = () => {
 
             <div className="border-t border-slate-200 py-6">
                 <h4 className="text-lg font-bold text-gray-700 mb-2">Notes</h4>
-                <p className="text-gray-600">Payment is due within 30 days. Please make checks payable to Acme Inc. or pay online at billing.acmeinc.com</p>
+                <p className="text-gray-600">{invoice.notes}</p>
             </div>
 
             {/* footer note */}
@@ -175,6 +186,7 @@ const Pdf = () => {
 
         </div>
     </div>
+    }
 
 }
 

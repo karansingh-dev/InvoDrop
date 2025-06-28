@@ -106,7 +106,7 @@ const AddClient = () => {
             <Button variant="outline" onClick={handleSubmit(onSubmit)} className=" bg-emerald-500 hover:bg-emerald-600 hover:text-white">
 
                 {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
-                    <div className="flex justify-center items-center text-white">
+                    <div className="flex justify-center items-center gap-2 text-white">
                         <Save className="h-4 w-4" />
                         <span className="text-md">Save Client</span>
                     </div>
@@ -315,7 +315,7 @@ const AddClient = () => {
 
                         <Button type="submit" variant="outline" className=" relative bottom-3 text-white bg-emerald-500 hover:bg-emerald-600 hover:text-white">
                             {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
-                                <div className="flex justify-center items-center text-white">
+                                <div className="flex justify-center gap-2 items-center text-white">
                                     <Save className="h-4 w-4" />
                                     <span className="text-md">Save Client</span>
                                 </div>

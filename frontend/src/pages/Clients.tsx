@@ -61,7 +61,7 @@ export const Clients = () => {
 
         {/* clients  */}
 
-        {isLoading ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> : clients == undefined ? <div className="flex mt-30 justify-center mt-40 text-rose-500">Error Occured while fetcing clients </div> : clients.length === 0 ? <div className="flex mt-30 justify-center mt-40 text-emerald-500">No Clients Exists</div> : <ClientCard clients={clients} />}
+        {isLoading ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> : clients == undefined ? <div className="flex mt-30 justify-center mt-40 text-rose-500">Error Occured while fetcing clients </div> : clients.length === 0 ? <div className="flex mt-30 justify-center mt-40 text-slate-500">No Clients Exists, Try adding a new client</div> : <ClientCard clients={clients} />}
 
 
     </main>

@@ -4,7 +4,7 @@ import { apiCall } from "./apiCall"
 export type invoiceDataType = {
     id: string;
     invoiceNumber: string;
-
+    notes:string
     subTotal: number;
     taxPercent: number[];
     grandTotal: number;
@@ -19,7 +19,7 @@ export type invoiceDataType = {
         city: string,
         state: string,
         country: string,
-        pincode: string,
+        pinCode: string,
         email: string
 
     }
