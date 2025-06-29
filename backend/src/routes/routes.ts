@@ -9,4 +9,4 @@ import "../controllers/user/getUser.controller"
 import "../controllers/invoice/createInvoice.controller"
 import "../controllers/invoice/getInvoices.controller"
 import "../controllers/invoice/getOneInvoice.controller"
-
+import "../controllers/invoice/InvoicePaid.controller"

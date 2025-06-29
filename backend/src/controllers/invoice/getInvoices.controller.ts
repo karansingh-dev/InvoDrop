@@ -13,6 +13,10 @@ export const getInvoices = async (req: Request, res: Response) => {
         where: {
             userId: user.userId
         },
+        orderBy:{
+            createdAt:"asc"
+
+        },
         select: {
             id: true,
             invoiceNumber: true,

@@ -41,7 +41,7 @@ export const defaultMiddleware = async (
         }
 
     } catch (error) {
-        console.log(error);
+        console.log(error,token);
         response.error(res, "Invalid Token", 401);
         next(error)
     }

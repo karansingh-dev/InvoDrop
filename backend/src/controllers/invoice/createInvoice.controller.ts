@@ -57,7 +57,14 @@ export const createInvoice = async (req: Request, res: Response) => {
 
         if (client) {
 
-            const invNumber = `INV-${client.invoiceCount + 1}`
+            const invoiceCount = await prisma.invoice.count({
+                where: {
+                    userId: user.userId,
+                },
+            });
+
+
+            const invNumber = `INV-${invoiceCount + 1}`
 
 
             const Invoice: newInvoice = {
@@ -103,7 +110,6 @@ export const createInvoice = async (req: Request, res: Response) => {
                 }
             })
 
-           console.log(newInvoice.id);
 
             const isPdfDownloaded = await downloadPdf(newInvoice.id);
 
