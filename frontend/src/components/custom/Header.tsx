@@ -9,7 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "../ui/button";
 import { ChevronDown, Loader, Search } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "@/utils/api/getUserData";
 
@@ -19,11 +19,8 @@ import { getUserData } from "@/utils/api/getUserData";
 const Header = () => {
 
     let navigate = useNavigate();
-    const location = useLocation();
-    const pathname = location.pathname;
-   
 
-    const routes = ["/dashboard", "/clients", "/reports", "/invoices"]
+
 
 
     const token = sessionStorage.getItem("token");
@@ -33,14 +30,7 @@ const Header = () => {
     })
 
 
-    const matched = routes.find((route) => route == pathname);
-     
-   
 
-
-    if (!token || !matched) {
-        return <div></div>
-    }
 
 
 

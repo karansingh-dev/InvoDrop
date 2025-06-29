@@ -12,6 +12,7 @@ export const getUserData = async () => {
         email: string
     }>("/get-user-data", "GET", "protected");
 
+
     return result.data;
 
 
