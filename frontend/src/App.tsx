@@ -16,6 +16,7 @@ import ManageRoutes from './utils/ManageRoutes';
 import Invoices from './pages/invoices/Invoices';
 import Pdf from './utils/Pdf';
 import { AddInvoice } from './pages/invoices/AddInvoice';
+import { ViewInvoice } from './pages/invoices/ViewInvoice';
 
 
 const queryClient = new QueryClient()
@@ -63,6 +64,7 @@ const App = () => {
 
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/invoices/create" element={<AddInvoice />} />
+            <Route path="/invoices/:invoiceId" element={<ViewInvoice />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/clients/add" element={<AddClient />} />

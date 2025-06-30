@@ -114,7 +114,7 @@ export const AddInvoice = () => {
         )
 
         setValue("subTotal", subTotal);
-
+        setValue("grandTotal", grandTotal);
 
         const invoiceItems: invoiceItem[] = Items.map((item) => {
             return {
@@ -129,6 +129,8 @@ export const AddInvoice = () => {
 
         })
         setValue("invoiceItems", invoiceItems);
+
+
 
 
 
@@ -377,7 +379,7 @@ export const AddInvoice = () => {
                             <CardTitle>
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl">Items Detail</h2>
-                                    <Button variant="outline" onClick={addItem} className="hover:bg-emerald-50 text-emerald-500 hover:text-emerald-500">
+                                    <Button variant="outline" type="button" onClick={addItem} className="hover:bg-emerald-50 text-emerald-500 hover:text-emerald-500">
                                         <Plus className="h-4 w-4 mr-2 text-emerald-500 " /> Add Item
                                     </Button>
 

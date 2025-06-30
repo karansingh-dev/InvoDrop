@@ -14,12 +14,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiCall } from "@/utils/api/apiCall";
 import { toast } from "sonner";
 import SideBar from "@/components/custom/Sidebar";
 import Header from "@/components/custom/Header";
 import { useNavigate } from "react-router-dom";
+
+
 
 
 type updateResponse = {
@@ -34,6 +36,19 @@ const Invoices = () => {
         const result = await apiCall<updateResponse>(`/update-status/${invoiceId}`, "POST", "protected");
 
         if (result.success) {
+
+
+            if (invoices) {
+                const updatedInvoices = invoices.map((inv) =>
+                    inv.id === invoiceId ? { ...inv, status: "paid" } : inv
+                );
+                setInvoices(updatedInvoices);
+
+            }
+
+
+
+
             toast.success(result.message);
         }
         else {
@@ -52,12 +67,20 @@ const Invoices = () => {
     const firstInvoiceIndex = lastInvoiceIndex - invoicePerPage
 
 
-    const { data: invoices, isLoading } = useQuery({
+    const { data: invoicesData, isLoading, isPending } = useQuery({
         queryFn: async () =>
             fetchInvoices()
 
         , queryKey: ["invoices"]
     })
+
+    const [invoices, setInvoices] = useState<invoiceDataType[] | undefined>(undefined);
+
+    useEffect(() => {
+        if (!isPending && invoicesData) {
+            setInvoices(invoicesData);
+        }
+    }, [isPending, invoicesData]);
 
 
     return <div className="bg-slate-50 min-h-screen flex">
@@ -75,7 +98,7 @@ const Invoices = () => {
                             <Filter className="w-4 h-4" />
                             <span>Filter</span>
                         </Button>
-                        <Button onClick={()=>{
+                        <Button onClick={() => {
                             navigate("/invoices/create")
                         }} className="bg-emerald-500 flex items-center hover:bg-emerald-600 text-white hover:text-white">
                             <Plus className="w-4 h-5" />
@@ -233,12 +256,6 @@ const Invoices = () => {
 
 
                                 </div>
-
-
-
-
-
-
 
 
                             </CardContent>
