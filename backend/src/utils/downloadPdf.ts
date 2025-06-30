@@ -13,7 +13,7 @@ export const downloadPdf = async (invoiceId: string): Promise<response> => {
     try {
 
         const filePath = path.resolve(__dirname, "../../public//pdf/invoice.pdf")
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'], });
         const page = await browser.newPage();
         await page.goto(`http://localhost:5173/pdf/download/${invoiceId}`, {
             waitUntil: 'networkidle2',
@@ -31,7 +31,7 @@ export const downloadPdf = async (invoiceId: string): Promise<response> => {
         });
 
         await browser.close()
-        
+
         return {
             success: true,
             message: "pdf downloaded"
