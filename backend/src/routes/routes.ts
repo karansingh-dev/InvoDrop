@@ -1,12 +1,25 @@
 //importing all the controller
+
+//user
 import "../controllers/user/signUp.controller"
 import "../controllers/user/verifyCode.controller"
 import "../controllers/user/login.controller"
+import "../controllers/user/getUser.controller"
+
+//for test
 import "../controllers/test.controller"
+
+//client
 import "../controllers/client/addClient.controller"
 import "../controllers/client/getclients.controller"
-import "../controllers/user/getUser.controller"
+import "../controllers/client/editClient.controller"
+import "../controllers/client/getOneClient.controller"
+import "../controllers/client/deleteClient.controller"
+
+//invoice
 import "../controllers/invoice/createInvoice.controller"
 import "../controllers/invoice/getInvoices.controller"
 import "../controllers/invoice/getOneInvoice.controller"
 import "../controllers/invoice/InvoicePaid.controller"
+import "../controllers/invoice/editInvoice.controller"
+import "../controllers/invoice/deleteInvoice.controller"

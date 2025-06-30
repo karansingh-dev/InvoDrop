@@ -8,7 +8,7 @@ import { customRequest } from "../../types/customRequest";
 export const getOneInvoice = async (req: Request, res: Response) => {
 
     const invoiceId = req.params.invoiceId;
-    const user: customRequest = req.user;
+
 
     if (invoiceId) {
 
