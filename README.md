@@ -18,7 +18,6 @@ InvoDrop is a powerful full-stack invoicing platform built with **React** and **
 **Frontend** (React):
 - React.js 
 - Shadcn/ Tailwind CSS 
-- Axios for API communication
 
 
 **Backend** (Express.js):
