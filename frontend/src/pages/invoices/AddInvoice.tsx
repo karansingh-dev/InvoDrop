@@ -22,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { Item } from "@radix-ui/react-dropdown-menu";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import type { invoiceItemSchema } from "@/validations/invoice/invoiceItemSchema";
+import { apiCall } from "@/utils/api/apiCall";
 
 
 type Item = {
@@ -33,9 +35,17 @@ type Item = {
     total: number,
 }
 
+type createInvoice = z.infer<typeof createInvoiceSchema>
+
+type Currency = "Rupees" | "Dollar" | "Euro" | "Pound" | "Yen"
+
+type invoiceItem = z.infer<typeof invoiceItemSchema>;
+
 export const AddInvoice = () => {
 
     let navigate = useNavigate();
+
+    const [loading, setLoading] = useState<boolean>(false);
 
 
     const { data: invoicDetails, isLoading } = useQuery({
@@ -47,24 +57,29 @@ export const AddInvoice = () => {
     ])
 
 
-    const { register, handleSubmit, getValues, setValue, watch } = useForm<z.infer<typeof createInvoiceSchema>>({
+    const { handleSubmit, getValues, setValue, watch } = useForm<z.infer<typeof createInvoiceSchema>>({
         resolver: zodResolver(createInvoiceSchema),
         defaultValues: {
             issueDate: new Date(),
             dueDate: new Date(),
             clientEmail: undefined,
-            subTotal: 0,
             taxPercent: 0,
             grandTotal: 0,
+            currency: "Rupees",
             notes: "Payment is due by the due date mentioned on this invoice."
 
         }
 
     })
 
-    const [subTotal, setSubTotal] = useState(Items.reduce((sum, item) => sum + item.total, 0));
-    const grandTotal = watch("grandTotal");
     const taxPercent = watch("taxPercent");
+
+    const subTotal = Items.reduce((sum, item) => sum + item.total, 0)
+    const taxAmount = subTotal * (taxPercent / 100);
+    const grandTotal = taxAmount + subTotal;
+
+
+
 
 
     const addItem = () => {
@@ -98,11 +113,24 @@ export const AddInvoice = () => {
             })
         )
 
-        let subtotal = Items.reduce((sum, item) => {
-            return sum + item.total
-        }, 0)
+        setValue("subTotal", subTotal);
 
-        setSubTotal(subtotal)
+
+        const invoiceItems: invoiceItem[] = Items.map((item) => {
+            return {
+                name: item.name,
+                description: item.description,
+                unitPrice: item.price,
+                quantity: item.quantity,
+                totalPrice: item.total
+            }
+
+
+
+        })
+        setValue("invoiceItems", invoiceItems);
+
+
 
     }
 
@@ -114,12 +142,29 @@ export const AddInvoice = () => {
 
     const [selectedClient, setSelectedClient] = useState<clientsDataType | undefined>(undefined)
 
-    const onSubmit: SubmitHandler<z.infer<typeof createInvoiceSchema>> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<z.infer<typeof createInvoiceSchema>> = async (data) => {
+
+        setLoading(true)
+        const res = await apiCall<createInvoice>("/create-invoice", "POST", "protected", data);
+
+        if (res.success) {
+            toast.success(res.message);
+            setLoading(false);
+            navigate("/invoices");
+
+
+        }
+        else {
+            toast.error(res.message);
+            setLoading(false);
+        }
+
+
     }
 
     const onClientSelect = (email: string) => {
         setSelectedClient(invoicDetails?.clients.find((client) => client.email == email));
+        setValue("clientEmail", email);
 
     }
     if (isLoading) return <div className="flex justify-center items-center gap-2"> <Loader2 className="animate-spin w-6 h-6 text-emerald-500 mt-30" /> <span className="mt-30 text-emerald-500">Loading...</span></div>;
@@ -145,15 +190,15 @@ export const AddInvoice = () => {
 
             </div>
 
-            <Button variant="outline" className=" bg-emerald-500 hover:bg-emerald-600 hover:text-white">
+            <Button variant="outline" onClick={handleSubmit(onSubmit)} disabled={loading} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white">
 
-                {/* {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> : */}
-                <div className="flex justify-center items-center gap-2 text-white">
-                    <Save className="h-4 w-4" />
-                    <span className="text-md">Save & Send</span>
-                </div>
+                {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
+                    <div className="flex justify-center items-center gap-2 text-white">
+                        <Save className="h-4 w-4" />
+                        <span className="text-md">Save & Send</span>
+                    </div>
 
-                {/* } */}
+                }
 
 
             </Button>
@@ -162,9 +207,10 @@ export const AddInvoice = () => {
 
         <main className="flex justify-center mt-5  w-full">
             <form onSubmit={handleSubmit(onSubmit)} className="w-300">
+
                 <div className="flex flex-col gap-6">
                     {/* client and Invoice details  */}
-                    <div className="flex gap-10 h-70">
+                    <div className="flex gap-10 h-80">
 
                         <Card className="w-150 rounded-md ">
                             <CardHeader>
@@ -292,6 +338,33 @@ export const AddInvoice = () => {
 
                                 </div>
 
+
+                                <div>
+                                    <Label htmlFor="currency">
+                                        Select Currency
+                                    </Label>
+                                    <Select defaultValue="select" onValueChange={(currency: Currency) => {
+                                        setValue("currency", currency);
+
+
+                                    }}>
+                                        <SelectTrigger id="currency" className="mt-2 bg-white w-full">
+                                            <SelectValue placeholder="Select Currency" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+
+                                            <SelectItem value="select">Select Currency</SelectItem>
+                                            <SelectItem value="Rupees">Rupees</SelectItem>
+                                            <SelectItem value="Dollar">Dollar</SelectItem>
+                                            <SelectItem value="Euro">Euro</SelectItem>
+                                            <SelectItem value="Pound">Pound</SelectItem>
+                                            <SelectItem value="Yen">Yen</SelectItem>
+
+
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
                             </CardContent>
                         </Card>
 
@@ -354,7 +427,7 @@ export const AddInvoice = () => {
 
                                                 type="number"
                                                 value={item.quantity}
-                                                onChange={(e) => updateItems(item.id, "quantity", e.target.value)}
+                                                onChange={(e) => updateItems(item.id, "quantity", e.target.valueAsNumber)}
 
 
                                             />
@@ -365,7 +438,7 @@ export const AddInvoice = () => {
 
                                                 type="number"
                                                 value={item.price}
-                                                onChange={(e) => updateItems(item.id, "price", e.target.value)}
+                                                onChange={(e) => updateItems(item.id, "price", e.target.valueAsNumber)}
 
 
                                             />
@@ -412,18 +485,20 @@ export const AddInvoice = () => {
                                         <span className="text-md text-slate-500">Tax :</span>
                                         <Input
                                             className="w-20 h-6 rounded-sm"
-                                            {...register("taxPercent")}
+                                            onChange={(e) => {
+                                                setValue("taxPercent", e.target.valueAsNumber);
+                                            }}
                                             type="number"
                                             value={taxPercent}
                                             min="0"
                                             step="0.1"
                                         />
                                     </div>
-                                    <span className="font-medium">{taxPercent}</span>
+                                    <span className="font-medium">{taxAmount.toFixed(2)}</span>
                                 </div>
                                 <div className="flex w-64 justify-between items-center mt-4 py-2 border-t border-slate-200 ">
                                     <span className="text-md text-slate-500">Grandtotal:</span>
-                                    <span className="font-medium">${grandTotal}</span>
+                                    <span className="font-medium">${grandTotal.toFixed(2)}</span>
                                 </div>
                             </div>
 
@@ -434,7 +509,7 @@ export const AddInvoice = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle>
-                                <h2 className="text-lg">Notes & Terms</h2>
+                                <h2 className="text-lg">Notes</h2>
                             </CardTitle>
                         </CardHeader>
 
@@ -442,11 +517,14 @@ export const AddInvoice = () => {
                             <div>
                                 <Label htmlFor="notes">Notes (visible to client)</Label>
                                 <Textarea
-                                
+
                                     id="notes"
                                     placeholder="Enter any notes for the client..."
                                     value={getValues("notes")}
-                                    
+                                    onChange={(e) => {
+                                        setValue("notes", e.target.value);
+                                    }}
+
                                     className="min-h-[100px] bg-white mt-2"
                                 />
                             </div>
