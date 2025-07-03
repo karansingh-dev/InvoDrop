@@ -17,6 +17,7 @@ import Invoices from './pages/invoices/Invoices';
 import Pdf from './utils/Pdf';
 import { AddInvoice } from './pages/invoices/AddInvoice';
 import { ViewInvoice } from './pages/invoices/ViewInvoice';
+import EditClient from './pages/clients/EditClient';
 
 
 const queryClient = new QueryClient()
@@ -67,6 +68,8 @@ const App = () => {
             <Route path="/invoices/:invoiceId" element={<ViewInvoice />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/clients" element={<Clients />} />
+            
+            <Route path="/clients/edit-client/:clientId" element={<EditClient />} />
             <Route path="/clients/add" element={<AddClient />} />
 
           </Route>

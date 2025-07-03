@@ -14,8 +14,9 @@ export type invoiceDataType = {
 
 export async function fetchInvoices() {
 
-const result = await apiCall<invoiceDataType[]>("/get-invoices", "GET", "protected");
+    const result = await apiCall<invoiceDataType[]>("/get-invoices", "GET", "protected");
 
+    if (result.data === undefined) throw new Error("error fetching invoices")
     return result.data;
 
 }

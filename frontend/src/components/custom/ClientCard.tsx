@@ -3,9 +3,14 @@ import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import clsx from "clsx";
+import {  type Dispatch, type SetStateAction } from "react";
+import { apiCall } from "@/utils/api/apiCall";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 
 export type clientsDataType = {
+    id: string
     companyName: string;
     contactPersonName: string;
     phoneNumber: string,
@@ -21,7 +26,33 @@ export type clientsDataType = {
 
 
 
-export const ClientCard = ({ clients }: { clients: clientsDataType[] }) => {
+export const ClientCard = ({
+    clients,
+    setClients
+}: {
+    clients: clientsDataType[];
+    setClients: Dispatch<SetStateAction<clientsDataType[] | undefined>>
+}) => {
+
+    let navigate = useNavigate();
+    const deleteClient = async (clientId: string) => {
+
+        const result = await apiCall<null>(`/delete-client/${clientId}`, "DELETE", "protected");
+
+        if (result.success) {
+            const updatedClients = clients.filter(client => client.id !== clientId);
+            setClients(updatedClients);
+
+            toast.success(result.message);
+
+
+        }
+        else {
+            toast.error(result.message)
+        }
+
+    }
+
 
 
 
@@ -31,7 +62,7 @@ export const ClientCard = ({ clients }: { clients: clientsDataType[] }) => {
 
             {
                 clients.map((client: clientsDataType) => {
-                    return <Card className="rounded-md">
+                    return <Card className="rounded-md" key={client.id}>
 
                         <div className="flex items-center -mt-6 justify-between border-b border-slate-200 bg-slate-100 p-4">
                             <h3 className="tracking-tight font-semibold text-lg">{client.companyName}</h3>
@@ -74,7 +105,7 @@ export const ClientCard = ({ clients }: { clients: clientsDataType[] }) => {
 
                             </div>
 
-                            <div className="mt-2 border-t border-slate-200 ">
+                            <div className="mt-2 border-t border-slate-200  ">
                                 <div className="flex items-center justify-between mt-2 ">
                                     <div className="flex flex-col">
                                         <p className="text-sm font-medium">{client.invoiceCount} Invoices</p>
@@ -86,9 +117,16 @@ export const ClientCard = ({ clients }: { clients: clientsDataType[] }) => {
                                         <DropdownMenuContent className="font-medium">
 
 
-                                            <DropdownMenuItem className="gap-3"><Edit className="w-4 h-4" />  Edit</DropdownMenuItem>
+                                            <DropdownMenuItem  onClick={() => {
+                                                navigate(`/clients/edit-client/${client.id}`)
+                                                
+                                            }} className="gap-3"><Edit className="w-4 h-4" />  Edit</DropdownMenuItem>
                                             <DropdownMenuItem> <FileText className="h-4 w-4" />  View Invoices</DropdownMenuItem>
-                                            <DropdownMenuItem>  <Trash className="w-4 h-4 text-rose-500" /> Delete </DropdownMenuItem>
+
+
+                                            <DropdownMenuItem onClick={() => {
+                                                deleteClient(client.id)
+                                            }}>  <Trash className="w-4 h-4 text-rose-500" /> Delete </DropdownMenuItem>
 
                                         </DropdownMenuContent>
                                     </DropdownMenu>

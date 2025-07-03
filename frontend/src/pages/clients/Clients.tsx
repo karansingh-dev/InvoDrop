@@ -9,21 +9,33 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { fetchClients } from "@/utils/api/fetchClients";
 import BoxLoader from "@/components/custom/BoxLoader";
-import ClientCard from "@/components/custom/ClientCard";
+import ClientCard, { type clientsDataType } from "@/components/custom/ClientCard";
 import { Funnel, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "@/components/custom/Sidebar";
 import Header from "@/components/custom/Header";
+import { useEffect, useState } from "react";
 
 
 
 export const Clients = () => {
     let navigate = useNavigate();
 
-    const { data: clients, isLoading } = useQuery({
+    const { data: client, isLoading, isPending } = useQuery({
         queryFn: async () => fetchClients(), queryKey: ["clients"]
     })
 
+    const [clients, setClients] = useState<clientsDataType[]>();
+
+
+
+    useEffect(() => {
+
+        if (!isPending && client) {
+            setClients(client);
+        }
+
+    }, [isPending, client])
 
 
     return <div className="bg-slate-50 min-h-screen flex">
@@ -69,7 +81,7 @@ export const Clients = () => {
 
                 {/* clients  */}
 
-                {isLoading ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> : clients == undefined ? <div className="flex mt-30 justify-center mt-40 text-rose-500">Error Occured while fetcing clients </div> : clients.length === 0 ? <div className="flex mt-30 justify-center mt-40 text-slate-500">No Clients Exists, Try adding a new client</div> : <ClientCard clients={clients} />}
+                {isLoading ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> : !clients ? <div className="flex mt-30 justify-center mt-40"> <BoxLoader /></div> : clients.length === 0 ? <div className="flex mt-30 justify-center mt-40 text-slate-500">No Clients Exists, Try adding a new client</div> : <ClientCard clients={clients} setClients={setClients} />}
 
 
             </main>

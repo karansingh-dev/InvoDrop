@@ -22,8 +22,6 @@ import Header from "@/components/custom/Header";
 import { useNavigate } from "react-router-dom";
 
 
-
-
 type updateResponse = {
     success: boolean,
     message: string
@@ -74,13 +72,15 @@ const Invoices = () => {
         , queryKey: ["invoices"]
     })
 
-    const [invoices, setInvoices] = useState<invoiceDataType[] | undefined>(undefined);
+    const [invoices, setInvoices] = useState<invoiceDataType[]>();
 
     useEffect(() => {
         if (!isPending && invoicesData) {
             setInvoices(invoicesData);
         }
     }, [isPending, invoicesData]);
+
+
 
 
     return <div className="bg-slate-50 min-h-screen flex">
@@ -107,7 +107,7 @@ const Invoices = () => {
                     </div>
                 </div>
 
-                {isLoading ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> : invoices == undefined ? <div className="flex mt-30 justify-center mt-40 text-rose-500">Error fetching invoices</div> : invoices.length == 0 ? <div className="flex mt-30 justify-center mt-40 text-slate-500">No invoices exists, try Creating new invoice</div> :
+                {isLoading ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> : !invoices ? <div className="flex mt-30 justify-center mt-40"><BoxLoader /> </div> : invoices.length == 0 ? <div className="flex mt-30 justify-center mt-40 text-slate-500">No invoices exists, try Creating new invoice</div> :
 
                     <Card className="rounded-md">
                         <CardHeader>
