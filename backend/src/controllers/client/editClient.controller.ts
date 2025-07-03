@@ -13,17 +13,16 @@ type clientDataType = z.infer<typeof addClientSchema>
 const editClient = async (req: Request, res: Response) => {
 
     const client: clientDataType = req.body;
-
-    const user = req.user;
+    const clientId = req.params.clientId;
+    
 
     const requestValidation = addClientSchema.safeParse(client);
 
-    if (requestValidation.success) {
+    if (requestValidation.success && clientId) {
 
         const updatedClient = await prisma.client.update({
             where: {
-                email: client.email,
-                userId: user.userId
+                id: clientId
 
             },
             data: client
@@ -47,4 +46,4 @@ const editClient = async (req: Request, res: Response) => {
 
 }
 
-api.put("/edit-client", "protected", editClient);
+api.put("/edit-client/:clientId", "protected", editClient);

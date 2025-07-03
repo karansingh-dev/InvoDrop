@@ -8,12 +8,14 @@ import { api } from "../../routes/router";
 const deleteClient = async (req: Request, res: Response) => {
 
     const clientId = req.params.clientId;
+    const user = req.user;
 
     if (clientId) {
 
         const client = await prisma.client.findUnique({
             where: {
-                id: clientId
+                id: clientId,
+                userId:user.userId
             }
         })
 

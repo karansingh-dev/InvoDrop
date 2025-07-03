@@ -22,9 +22,11 @@ export const addClient = async (req: Request, res: Response) => {
 
     if (requestValidation.success) {
 
-        const clientExist = await prisma.client.findUnique({
+        const clientExist = await prisma.client.findFirst({
             where: {
-                email: client.email
+                email: client.email,
+                userId: user.userId
+
             }
         })
         if (clientExist) {
