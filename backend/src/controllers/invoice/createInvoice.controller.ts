@@ -11,17 +11,17 @@ import { uploadPdf } from "../../utils/uploadPdf";
 import { sendPdf } from "../../utils/sendPdf";
 
 
-type invoiceData = z.infer<typeof createInvoiceSchema>
+export type invoiceData = z.infer<typeof createInvoiceSchema>
 
-type currencyType = "Rupees" | "Dollar" | "Euro" | "Pound" | "Yen"
+export type currencyType = "Rupees" | "Dollar" | "Euro" | "Pound" | "Yen"
 
-type itemType = z.infer<typeof invoiceItemSchema>
+export type itemType = z.infer<typeof invoiceItemSchema>
 
-interface items extends itemType {
+export interface items extends itemType {
     invoiceId: string
 }
 
-interface newInvoice {
+export interface newInvoice {
     invoiceNumber: string;
     userId: string
     clientId: string
@@ -49,9 +49,10 @@ export const createInvoice = async (req: Request, res: Response) => {
 
 
     if (requestValidation.success) {
-        const client = await prisma.client.findUnique({
+        const client = await prisma.client.findFirst({
             where: {
-                email: invoiceData.clientEmail
+                email: invoiceData.clientEmail,
+                userId:user.userId
             }
         })
 
@@ -102,7 +103,7 @@ export const createInvoice = async (req: Request, res: Response) => {
 
             await prisma.client.update({
                 where: {
-                    email: invoiceData.clientEmail
+                   id:client.id
                 },
                 data: {
                     invoiceCount: { increment: 1 },
