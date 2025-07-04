@@ -16,7 +16,7 @@ import ManageRoutes from './utils/ManageRoutes';
 import Invoices from './pages/invoices/Invoices';
 import Pdf from './utils/Pdf';
 import { AddInvoice } from './pages/invoices/AddInvoice';
-import { ViewInvoice } from './pages/invoices/ViewInvoice';
+import ViewInvoice from './pages/invoices/ViewInvoice';
 import EditClient from './pages/clients/EditClient';
 import { EditInvoice } from './pages/invoices/EditInvoice';
 
@@ -25,9 +25,6 @@ const queryClient = new QueryClient()
 
 
 const App = () => {
-
-
-
 
 
 

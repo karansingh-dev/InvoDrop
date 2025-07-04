@@ -185,7 +185,7 @@ const Invoices = () => {
                                                     </td>
                                                     <td className="py-4">
                                                         <div className="">
-                                                            <Badge variant="outline" className={clsx(
+                                                            <Badge className={clsx(
 
                                                                 {
                                                                     "bg-emerald-50 text-emerald-600 rounded-md   border-emerald-200": invoice.status === "paid",
@@ -211,7 +211,9 @@ const Invoices = () => {
                                                                 <DropdownMenuItem className="text-emerald-500 hover:bg-emerald-500" onClick={() => {
                                                                     updateStatus(invoice.id)
                                                                 }}> <Check className="w-4 h-4 text-emerald-500 hover:text-emerald-500" /> Paid</DropdownMenuItem>
-                                                                <DropdownMenuItem> <Eye className="w-4 h-4" /> View</DropdownMenuItem>
+                                                                <DropdownMenuItem onClick={()=>{
+                                                                     navigate(`/invoices/${invoice.id}`)
+                                                                }}> <Eye className="w-4 h-4" /> View</DropdownMenuItem>
                                                                 <DropdownMenuItem onClick={()=>{
                                                                     navigate(`/invoices/edit-invoice/${invoice.id}`)
                                                                 }} > <Edit className="w-4 h-4" /> Edit</DropdownMenuItem>

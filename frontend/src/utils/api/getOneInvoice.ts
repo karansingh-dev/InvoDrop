@@ -6,10 +6,11 @@ export type invoiceDataType = {
     invoiceNumber: string;
     notes:string
     subTotal: number;
-    taxPercent: number[];
+    taxPercent: number;
     grandTotal: number;
     issueDate: Date;
     dueDate: Date;
+    status: "paid" | "pending" | "overDue"
     currency: "Rupees" | "Dollar" | "Euro" | "Pound" | "Yen";
     client: {
         companyName: string,

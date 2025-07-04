@@ -20,11 +20,6 @@ const Header = () => {
 
     let navigate = useNavigate();
 
-
-
-
-    const token = sessionStorage.getItem("token");
-
     const { data: user, isLoading } = useQuery({
         queryFn: async () => getUserData(), queryKey: ["user"]
     })
