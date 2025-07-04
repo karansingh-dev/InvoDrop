@@ -1,7 +1,7 @@
 import { apiCall } from "./apiCall"
 
 
-type oneClientDataType = {
+export type oneClientDataType = {
     id: string
     companyName: string;
     contactPersonName: string;

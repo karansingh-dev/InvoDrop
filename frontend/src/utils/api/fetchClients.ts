@@ -10,6 +10,7 @@ export async function fetchClients() {
 
 if(result.data === undefined) throw new Error("Failed to fetch clients");
 
+
     return result.data;
 
 

@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { fetchInvoices, type invoiceDataType } from "@/utils/api/fetchInvoice";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { Check, Download, Eye, Filter, MoreHorizontal, Plus, Trash } from "lucide-react";
+import { Check, Download, Edit, Eye, Filter, MoreHorizontal, Plus, Trash } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -212,6 +212,9 @@ const Invoices = () => {
                                                                     updateStatus(invoice.id)
                                                                 }}> <Check className="w-4 h-4 text-emerald-500 hover:text-emerald-500" /> Paid</DropdownMenuItem>
                                                                 <DropdownMenuItem> <Eye className="w-4 h-4" /> View</DropdownMenuItem>
+                                                                <DropdownMenuItem onClick={()=>{
+                                                                    navigate(`/invoices/edit-invoice/${invoice.id}`)
+                                                                }} > <Edit className="w-4 h-4" /> Edit</DropdownMenuItem>
                                                                 <DropdownMenuItem><Download className="w-4 h-4" /> Download</DropdownMenuItem>
                                                                 <DropdownMenuSeparator />
                                                                 <DropdownMenuItem className="text-rose-500 hover:text-rose-500"><Trash className="w-4 h-4 text-rose-500 hover:text-rose-500" /> Delete</DropdownMenuItem>
