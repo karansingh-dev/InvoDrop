@@ -16,10 +16,7 @@ export async function sendVerificationEmail(
   fullName: string,
   verifyCode: string
 ): Promise<ApiResponse> {
-  const templatePath = path.resolve(
-    __dirname,
-    "../../views/emailTemplate.ejs"
-  );
+  const templatePath = path.resolve(__dirname, "../../views/emailTemplate.ejs");
   const template = fs.readFileSync(templatePath, "utf-8");
   const html = ejs.render(template, { fullName, verifyCode });
   try {
@@ -28,8 +25,6 @@ export async function sendVerificationEmail(
       to: [email],
       subject: "verification code",
       html,
-      
-      
     });
     return { message: "Verification email sent successfully", success: true };
   } catch (emailError: any) {

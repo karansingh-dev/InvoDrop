@@ -1,5 +1,5 @@
 export interface customRequest {
-    userId: string;
-    email: string;
-    role: string;
+  userId: string;
+  email: string;
+  role: string;
 }

@@ -4,31 +4,23 @@ import bodyParser from "body-parser";
 import { config } from "./config/config";
 import { dbConnection } from "./helpers/prismaClient";
 import { router } from "./routes/router";
-import "./routes/routes"
+import "./routes/routes";
 import { globalErrorHandler } from "./utils/globalErrorHandler";
-import "./utils/uploadPdf"
+import "./utils/uploadPdf";
 
 const app = express();
 
-
 async function startServer() {
-    app.use(cors());
-    app.use(bodyParser.json());
-    app.use(globalErrorHandler)
-    app.use("/invodrop", router);
+  app.use(cors());
+  app.use(bodyParser.json());
+  app.use(globalErrorHandler);
+  app.use("/invodrop", router);
 
-    await dbConnection();
+  await dbConnection();
 
-    app.listen(config.PORT, () => {
-        console.log(`Server running on port ${config.PORT}`);
-    })
+  app.listen(config.PORT, () => {
+    console.log(`Server running on port ${config.PORT}`);
+  });
 }
 
 startServer();
-
-
-
-
-
-
-

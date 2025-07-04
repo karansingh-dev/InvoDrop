@@ -1,15 +1,15 @@
 import { NextFunction } from "express";
 import { Request, Response } from "express";
 
-
-
-export const wrapAsync = async (req: Request, res: Response, next: NextFunction, controller: (req: Request, res: Response) => Promise<void>) => {
-    try {
-        await controller(req, res);
-
-    } catch (error) {
-        next(error)
-
-    }
-
-}
+export const wrapAsync = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  controller: (req: Request, res: Response) => Promise<void>
+) => {
+  try {
+    await controller(req, res);
+  } catch (error) {
+    next(error);
+  }
+};

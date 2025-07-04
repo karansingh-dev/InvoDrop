@@ -1,15 +1,11 @@
-import 'dotenv/config'
-
+import "dotenv/config";
 
 export const config = {
   PORT: process.env.PORT_NUMBER || 5000,
-  JWT_SECRET:process.env.JWT_SECRET ,
-  RESEND_API_KEY:process.env.RESEND_API_KEY,
-
-  
-
+  JWT_SECRET: process.env.JWT_SECRET,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  CLOUDINARY_URL: process.env.CLOUDINARY_URL,
 };
-
 
 for (const [key, value] of Object.entries(config)) {
   if (!value) {
@@ -19,6 +15,3 @@ for (const [key, value] of Object.entries(config)) {
     console.log(`✅ ${key} is set`);
   }
 }
-
-
-

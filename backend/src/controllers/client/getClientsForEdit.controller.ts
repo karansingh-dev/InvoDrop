@@ -17,13 +17,13 @@ type clientRes = {
   pinCode: string;
 };
 
-export const getOneClient = async (req: Request, res: Response) => {
-  const clientId = req.params.clientId;
+export const getClientsForEdit = async (req: Request, res: Response) => {
+  const user = req.user
 
-  if (clientId) {
-    const client = await prisma.client.findUnique({
+  if (user) {
+    const client = await prisma.client.findMany({
       where: {
-        id: clientId,
+        userId:user.userId
       },
       select: {
         id: true,
@@ -41,7 +41,7 @@ export const getOneClient = async (req: Request, res: Response) => {
     });
 
     if (client) {
-      response.ok<clientRes>(res, "Fetched Client Successfully", 200, client);
+      response.ok<clientRes[]>(res, "Fetched Client Successfully", 200, client);
       return;
     } else {
       response.error(res, "Failed To Fetch Client Details", 400);
@@ -52,4 +52,4 @@ export const getOneClient = async (req: Request, res: Response) => {
   }
 };
 
-api.get("/get-one-client/:clientId", "protected", getOneClient);
+api.get("/get-clients-for-edit", "protected", getClientsForEdit);
