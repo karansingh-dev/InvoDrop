@@ -55,6 +55,7 @@ export const getOneInvoice = async (req: Request, res: Response) => {
         currency: true,
         taxPercent: true,
         notes: true,
+        
         client: {
           select: {
             id: true,
