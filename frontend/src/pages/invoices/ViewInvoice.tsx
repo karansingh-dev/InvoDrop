@@ -15,6 +15,7 @@ import {
   Download,
   Edit,
   FileText,
+ 
   LocationEdit,
   Mail,
   Phone,
@@ -31,9 +32,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { apiCall } from "@/utils/api/apiCall";
+import { toast } from "sonner";
 
 const ViewInvoice = () => {
   let navigate = useNavigate();
+
+  const [update, setUpdating] = useState<boolean>(false);
 
   const { invoiceId } = useParams();
 
@@ -47,6 +52,40 @@ const ViewInvoice = () => {
     },
     queryKey: ["clients"],
   });
+
+  const sendPdfToClient = async (invoiceId: string) => {
+    setUpdating(true);
+    const response = await apiCall<null>(
+      `/send-pdf/${invoiceId}`,
+      "POST",
+      "protected"
+    );
+
+    if (response.success) {
+      setUpdating(false);
+      toast.success(response.message);
+    } else {
+      setUpdating(false);
+      toast.error(response.message);
+    }
+  };
+
+  const duplicateInvoice = async (invoiceId: string) => {
+    setUpdating(true);
+    const response = await apiCall<null>(
+      `/duplicate-invoice/${invoiceId}`,
+      "POST",
+      "protected"
+    );
+
+    if (response.success) {
+      setUpdating(false);
+      toast.success(response.message);
+    } else {
+      setUpdating(false);
+      toast.error(response.message);
+    }
+  };
 
   const [taxAmount, setTaxMonut] = useState<number>(0);
 
@@ -63,6 +102,49 @@ const ViewInvoice = () => {
     }
   }, [invoice]);
 
+  const deleteInvoice = async (invoiceId: string) => {
+    setUpdating(true);
+    const response = await apiCall<null>(
+      `/delete-invoice/${invoiceId}`,
+      "DELETE",
+      "protected"
+    );
+    if (response.success) {
+      setUpdating(false);
+      toast.success(response.message);
+      navigate('/invoices')
+    } else {
+      setUpdating(false);
+      toast.error(response.message);
+    }
+  };
+
+  const downloadPdf = async (invoiceId: string) => {
+    setUpdating(true);
+
+    const response = await apiCall<string>(
+      `/download-pdf/${invoiceId}`,
+      "GET",
+      "protected"
+    );
+
+    if (response.success && invoice) {
+      setUpdating(false);
+
+      const link = document.createElement("a");
+      link.href = response.data;
+      link.setAttribute("download", invoice.invoiceNumber);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast.success(response.message);
+    } else {
+      setUpdating(false);
+      toast.error(response.message);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center">
@@ -73,9 +155,30 @@ const ViewInvoice = () => {
     );
   }
 
-  if (invoice)
+  // if (update) {
+  //   return (
+  //     <div className="flex justify-center items-center gap-2">
+  //       {" "}
+  //       <Loader2 className="animate-spin w-6 h-6 text-emerald-500 mt-30" />{" "}
+  //       <span className="mt-30 text-emerald-500">Loading...</span>
+  //     </div>
+  //   );
+  // }
+
+  if (invoice && invoiceId)
     return (
       <div className="bg-slate-50 min-h-screen flex">
+        {update && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 10,
+              backgroundColor: "rgba(255,255,255,0.5)",
+              backdropFilter: "blur(2px)",
+            }}
+          />
+        )}
         <SideBar />
         <div className="flex flex-col w-full">
           <Header />
@@ -119,12 +222,23 @@ const ViewInvoice = () => {
               </div>
 
               <div className="flex gap-3">
-                <Button variant="outline" className="flex items-center">
+                <Button
+                  variant="outline"
+                  className="flex items-center"
+                  onClick={() => {
+                    downloadPdf(invoiceId);
+                  }}
+                >
                   {" "}
                   <Download className="h-4 w-4" />
                   <span> Download Pdf</span>
                 </Button>
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    sendPdfToClient(invoiceId);
+                  }}
+                >
                   <Send className="h-4 w-4" /> <span>Send Pdf</span>
                 </Button>
 
@@ -145,12 +259,18 @@ const ViewInvoice = () => {
                     >
                       <Edit /> Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        duplicateInvoice(invoiceId);
+                      }}
+                    >
                       <Copy /> Duplicate
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>{
+                      deleteInvoice(invoiceId);
+                    }}>
                       <Trash className="h-4 w-4 text-rose-500" />
                       Delete
                     </DropdownMenuItem>
@@ -170,7 +290,8 @@ const ViewInvoice = () => {
                         <FileText className="h-6 w-6 text-white" />
                       </div>
                       <h2 className="text-2xl font-bold text-slate-900">
-                        {invoice.client.companyName}
+                        {!!invoice.client.companyName &&
+                          invoice.client.companyName}
                       </h2>
                     </div>
                     <div className="text-sm text-slate-600 space-y-1">
@@ -306,14 +427,29 @@ const ViewInvoice = () => {
                       <Button
                         variant="outline"
                         className="text-white bg-black hover:text-white hover:bg-slate-800 rounded-md"
+                        onClick={() => {
+                          sendPdfToClient(invoiceId);
+                        }}
                       >
                         <Send className="w-4 h-4" /> Send To Client
                       </Button>
-                      <Button variant="outline" className="rounded-md">
+                      <Button
+                        variant="outline"
+                        className="rounded-md"
+                        onClick={() => {
+                          downloadPdf(invoiceId);
+                        }}
+                      >
                         {" "}
                         <Download className="h-4 w-4" /> Download Pdf
                       </Button>
-                      <Button variant="outline" className="rounded-md">
+                      <Button
+                        variant="outline"
+                        className="rounded-md"
+                        onClick={() => {
+                          duplicateInvoice(invoiceId);
+                        }}
+                      >
                         <Copy /> Duplicate
                       </Button>
                       <Button
