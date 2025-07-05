@@ -10,7 +10,7 @@ InvoDrop is a powerful full-stack invoicing platform built with **React** and **
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/invodrop.git
+git clone https://github.com/karansinghcodes/InvoDrop.git
 cd InvoDrop
 ```
 
