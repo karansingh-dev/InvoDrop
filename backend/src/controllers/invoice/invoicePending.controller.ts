@@ -1,9 +1,12 @@
+
+
+
 import { Request, Response } from "express";
 import { response } from "../../utils/response";
 import prisma from "../../helpers/prismaClient";
 import { api } from "../../routes/router";
 
-const updateStutusToPaid = async (req: Request, res: Response) => {
+const updateStutusToPending = async (req: Request, res: Response) => {
   const invoiceId = req.params.invoiceId;
 
   if (invoiceId) {
@@ -12,7 +15,7 @@ const updateStutusToPaid = async (req: Request, res: Response) => {
         id: invoiceId,
       },
       data: {
-        status: "paid",
+        status: "pending",
       },
     });
 
@@ -24,4 +27,4 @@ const updateStutusToPaid = async (req: Request, res: Response) => {
   }
 };
 
-api.post("/update-status-paid/:invoiceId", "protected", updateStutusToPaid);
+api.post("/update-status-pending/:invoiceId", "protected", updateStutusToPending);

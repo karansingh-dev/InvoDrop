@@ -24,3 +24,10 @@ import "../controllers/invoice/getOneInvoice.controller";
 import "../controllers/invoice/InvoicePaid.controller";
 import "../controllers/invoice/editInvoice.controller";
 import "../controllers/invoice/deleteInvoice.controller";
+import "../controllers/invoice/invoicePending.controller"
+
+//others
+import "../controllers/others/downloadPdf"
+import "../controllers/others/sendPdfToClient"
+import "../controllers/others/duplicateInvoice"
+

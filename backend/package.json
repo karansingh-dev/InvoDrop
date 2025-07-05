@@ -12,6 +12,7 @@
     "prisma": "^6.9.0",
     "puppeteer": "^24.11.1",
     "resend": "^4.6.0",
+    "ts-node-dev": "^2.0.0",
     "zod": "^3.25.64"
   },
   "devDependencies": {
@@ -21,7 +22,8 @@
     "@types/jsonwebtoken": "^9.0.10"
   },
   "scripts": {
-    "start": " node --watch dist/index.js",
-    "tsc": "tsc --watch"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   }
 }

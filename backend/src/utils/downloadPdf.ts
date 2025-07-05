@@ -24,6 +24,8 @@ export const downloadPdf = async (invoiceId: string): Promise<response> => {
         right: 1.0,
         left: 1.0,
       },
+      format:"A4"
+      
     });
 
     await browser.close();
