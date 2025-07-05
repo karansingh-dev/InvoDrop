@@ -2,54 +2,18 @@
 
 InvoDrop is a powerful full-stack invoicing platform built with **React** and **Express.js**, designed to help freelancers, small businesses, and entrepreneurs easily create, send, manage, and track invoices with built-in client management and business analytics.
 
----
 
-## 🚀 Features
 
-- ✅ Create and send professional invoices  
-- 📥 Automatically email invoices to clients  
-- 👥 Manage client information  
-- 📊 Track payments and sales history  
-- 📈 Get real-time analytics on revenue, unpaid invoices, and customer trends  
-- 🔒 Secure login system (JWT-based authentication)  
-- 📅 View invoice status: Paid, Unpaid, Overdue  
-- 🧠 Smart dashboard with charts & filters  
 
----
+## 🧰 Quick Setup
 
-## 🛠️ Tech Stack
+### 1. Clone the Repository
 
-### Frontend (React + Vite)
-
-- React 19
-- Vite
-- TypeScript
-- Tailwind CSS / Shadcn UI
-- React Query, Zod, Lucide, Radix UI
-
-### Backend (Node.js + Express)
-
-- Express.js
-- TypeScript
-- PostgreSQL (via Prisma ORM)
-- JWT Authentication
-- Resend (for sending emails)
-- Cloudinary (for image hosting)
-
----
-
-## 📁 Project Structure
-
-```
-my-project/
-├── backend/       # Express + Prisma + API
-├── frontend/      # React + Vite
-├── .gitignore
-├── package.json   # Root (to run both apps together)
-└── README.md
+```bash
+git clone https://github.com/yourusername/invodrop.git
+cd InvoDrop
 ```
 
----
 
 ## ⚙️ Environment Setup
 
@@ -67,17 +31,6 @@ RESEND_API_KEY=
 CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@my_cloud_name
 ```
 
----
-
-## 🧰 Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/invodrop.git
-cd InvoDrop
-```
-
 ### 2. Install All Dependencies
 
 ```bash
@@ -90,7 +43,6 @@ This installs dependencies for both:
 - `/backend`
 - `/frontend`
 
----
 
 ## 🚀 Running the Project
 
@@ -122,7 +74,49 @@ npm start
 - Backend: `node backend/dist/index.js`
 - Frontend: `vite preview` (serves production build)
 
----
+
+## 🚀 Features
+
+- ✅ Create and send professional invoices  
+- 📥 Automatically email invoices to clients  
+- 👥 Manage client information  
+- 📊 Track payments and sales history  
+- 📈 Get real-time analytics on revenue, unpaid invoices, and customer trends  
+- 🔒 Secure login system (JWT-based authentication)  
+- 📅 View invoice status: Paid, Unpaid, Overdue  
+- 🧠 Smart dashboard with charts & filters  
+
+
+## 🛠️ Tech Stack
+
+### Frontend (React + Vite)
+
+- React 19
+- Vite
+- TypeScript
+- Tailwind CSS / Shadcn UI
+- React Query, Zod, Lucide, Radix UI
+
+### Backend (Node.js + Express)
+
+- Express.js
+- TypeScript
+- PostgreSQL (via Prisma ORM)
+- JWT Authentication
+- Resend (for sending emails)
+- Cloudinary (for image hosting)
+
+
+## 📁 Project Structure
+
+```
+my-project/
+├── backend/       # Express + Prisma + API
+├── frontend/      # React + Vite
+├── .gitignore
+├── package.json   # Root (to run both apps together)
+└── README.md
+```
 
 ## 📜 Root-Level Script Reference
 
