@@ -75,7 +75,7 @@ CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@my_cloud_name
 
 ```bash
 git clone https://github.com/yourusername/invodrop.git
-cd invodrop
+cd InvoDrop
 ```
 
 ### 2. Install All Dependencies
