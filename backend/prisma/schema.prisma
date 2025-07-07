@@ -17,7 +17,7 @@ enum Role {
 enum InvoiceStatus {
   pending
   paid
-  overdue
+  overDue
 }
 
 enum Currency {
@@ -161,3 +161,5 @@ model InviteCode {
 
   @@map("invite_codes")
 }
+
+

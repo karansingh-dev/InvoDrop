@@ -30,4 +30,4 @@ import "../controllers/invoice/invoicePending.controller"
 import "../controllers/others/downloadPdf"
 import "../controllers/others/sendPdfToClient"
 import "../controllers/others/duplicateInvoice"
-
+import "../controllers/others/dashBoardData"

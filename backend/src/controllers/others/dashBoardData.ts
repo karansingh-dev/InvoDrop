@@ -14,8 +14,38 @@ const dashBoardData = async (req: Request, res: Response) => {
       updatedAt: "desc",
     },
     take: 5,
+    select: {
+      id: true,
+      invoiceNumber: true,
+      grandTotal: true,
+      issueDate: true,
+      dueDate: true,
+      status: true,
+      currency: true,
+      client: {
+        select: {
+          companyName: true,
+        },
+      },
+      
+    },
   });
 
+
+  
+  const invoices = recentInvoices.map((invoice)=>{
+    return {
+      id:invoice.id,
+      invoiceNumber:invoice.invoiceNumber,
+      grandTotal:invoice.grandTotal,
+      issueDate:invoice.issueDate,
+      dueDate:invoice.dueDate,
+      status:invoice.status,
+      curreny:invoice.currency,
+      companyName:invoice.client.companyName
+
+    }
+  })
   const totalRevenue = await prisma.invoice.aggregate({
     where: {
       userId: user.userId,
@@ -46,16 +76,18 @@ const dashBoardData = async (req: Request, res: Response) => {
     },
   });
 
+  const revenue = totalRevenue._sum.grandTotal;
+  const pendingAmount = pendingInvoicesAmount._sum.grandTotal;
   const dashBoardData = {
-    recentInvoices,
-    totalRevenue,
+    recentInvoices:invoices,
+    totalRevenue:revenue,
     clientsCount,
     invoicesCount,
+    pendingInvoicesAmount:pendingAmount
   };
 
   response.ok(res, "Succussfully Fetched DashBoard Data", 200, dashBoardData);
   return;
 };
 
-
-api.get("/get-dashboard-data","protected",dashBoardData);
+api.get("/get-dashboard-data", "protected", dashBoardData);

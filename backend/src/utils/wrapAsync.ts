@@ -9,6 +9,8 @@ export const wrapAsync = async (
 ) => {
   try {
     await controller(req, res);
+    
+
   } catch (error) {
     next(error);
   }

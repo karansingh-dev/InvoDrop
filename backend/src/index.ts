@@ -7,6 +7,7 @@ import { router } from "./routes/router";
 import "./routes/routes";
 import { globalErrorHandler } from "./utils/globalErrorHandler";
 import "./utils/uploadPdf";
+import { startOverDueJob } from "./helpers/cronJobs/overDue";
 
 const app = express();
 
@@ -15,6 +16,9 @@ async function startServer() {
   app.use(bodyParser.json());
   app.use(globalErrorHandler);
   app.use("/invodrop", router);
+
+  //Background task to update status of invoices to overdue, Runs every midnight
+  startOverDueJob();
 
   await dbConnection();
 
