@@ -20,7 +20,6 @@ async function updateToOverDue() {
   console.log(`Updated ${invoicesToUpdate.length} invoices to overDue`);
 }
 
- 
 export function startOverDueJob() {
   cron.schedule("0 0 0 * * *", updateToOverDue); // Runs daily at midnight
 }
