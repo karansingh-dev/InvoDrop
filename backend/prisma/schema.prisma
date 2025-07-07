@@ -47,6 +47,8 @@ model User {
   clients              Client[]
   invoices             Invoice[]
   company              Company?
+  recentActivities RecentActivity[] 
+
 
    // Invite Code Relations
    
@@ -162,4 +164,28 @@ model InviteCode {
   @@map("invite_codes")
 }
 
+enum ActivityAction {
+  created
+  paid
+  added
+}
+
+enum ActivityEntityType {
+  invoice
+  client
+}
+
+model RecentActivity {
+  id          String              @id @default(uuid()) @db.Uuid
+  entityType  ActivityEntityType  @map("entity_type")
+  entityId    String              @map("entity_id") @db.Uuid
+  action      ActivityAction
+  description String?
+  createdAt   DateTime           @map("created_at") @default(now())
+
+  userId      String              @map("user_id") @db.Uuid
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+   @@map("recent_activity")
+}
 
