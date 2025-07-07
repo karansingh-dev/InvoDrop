@@ -5,8 +5,8 @@ export type invoiceDataType = {
     id: string,
     invoiceNumber: string,
     grandTotal: string,
-    issueDate: string,
-    dueDate: string,
+    issueDate: Date,
+    dueDate: Date,
     status: string,
     companyName: string
 }

@@ -19,6 +19,7 @@ import { AddInvoice } from './pages/invoices/AddInvoice';
 import ViewInvoice from './pages/invoices/ViewInvoice';
 import EditClient from './pages/clients/EditClient';
 import { EditInvoice } from './pages/invoices/EditInvoice';
+import { Reports } from './pages/Reports/Reports';
 
 
 const queryClient = new QueryClient()
@@ -61,6 +62,7 @@ const App = () => {
           {/* //Protected Routes */}
           <Route element={<ProtectedRoutes />}>
 
+
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/invoices/create" element={<AddInvoice />} />
 
@@ -68,9 +70,11 @@ const App = () => {
             <Route path="/invoices/edit-invoice/:invoiceId" element={<EditInvoice />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/clients" element={<Clients />} />
+            <Route path="/reports" element={<Reports />} />
             
             <Route path="/clients/edit-client/:clientId" element={<EditClient />} />
             <Route path="/clients/add" element={<AddClient />} />
+            
 
           </Route>
 

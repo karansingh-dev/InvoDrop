@@ -36,7 +36,7 @@ import SideBar from "@/components/custom/Sidebar";
 import Header from "@/components/custom/Header";
 import { useNavigate } from "react-router-dom";
 
-type updateResponse = {
+export type updateResponse = {
   success: boolean;
   message: string;
 };
