@@ -136,7 +136,7 @@ const SignUp = () => {
                                     {...register("email")}
                                     id="email"
                                     type="email"
-                                    placeholder="shilendra@example.com"
+                                    placeholder="example@example.com"
                                     className="h-11 border-slate-200 placeholder:text-slate-700 focus-visible:ring-emerald-500"
 
                                     required

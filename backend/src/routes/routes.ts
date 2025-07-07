@@ -6,8 +6,6 @@ import "../controllers/user/verifyCode.controller";
 import "../controllers/user/login.controller";
 import "../controllers/user/getUser.controller";
 
-//for test
-import "../controllers/test.controller";
 
 //client
 import "../controllers/client/addClient.controller";
