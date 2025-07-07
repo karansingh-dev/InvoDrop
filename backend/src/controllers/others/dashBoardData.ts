@@ -75,6 +75,21 @@ const dashBoardData = async (req: Request, res: Response) => {
       userId: user.userId,
     },
   });
+  const recentActivities = await prisma.recentActivity.findMany({
+    where:{
+      userId:user.userId
+    },
+    select:{
+      description:true,
+      createdAt:true
+    },
+    orderBy:{
+      createdAt:"desc"
+    },
+    take:5
+    
+  });
+
 
   const revenue = totalRevenue._sum.grandTotal;
   const pendingAmount = pendingInvoicesAmount._sum.grandTotal;
@@ -83,7 +98,8 @@ const dashBoardData = async (req: Request, res: Response) => {
     totalRevenue:revenue,
     clientsCount,
     invoicesCount,
-    pendingInvoicesAmount:pendingAmount
+    pendingInvoicesAmount:pendingAmount,
+    recentActivities:recentActivities
   };
 
   response.ok(res, "Succussfully Fetched DashBoard Data", 200, dashBoardData);
