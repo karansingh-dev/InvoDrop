@@ -4,20 +4,16 @@ import { signUpSchema } from "../../validations/user/signUpSchema";
 import prisma from "../../helpers/prismaClient";
 import { sendVerificationEmail } from "../../utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
-import z from "zod";
 import { api } from "../../routes/router";
-
-type user = z.infer<typeof signUpSchema>;
-
-interface newUser extends user {
-  verifyCode: string;
-  verifyCodeExpiresAt: Date;
-}
+import { NewUserDataType, UserSignUpDataType } from "../../types/user";
 
 export const signUp = async (req: Request, res: Response) => {
   try {
-    const user: user = req.body;
-    user.email.toLowerCase();
+    const user: UserSignUpDataType = req.body;
+
+    //lower Casing the email before registering them to avoid any conflict
+    user.email = user.email.toLowerCase();
+
     const requestValidation = signUpSchema.safeParse(user);
 
     if (!requestValidation.success) {
@@ -25,17 +21,34 @@ export const signUp = async (req: Request, res: Response) => {
       return;
     }
 
-    const userExist = await prisma.user.findUnique({
-      where: {
-        email: user.email,
-      },
-    });
+    let userExist;
+
+    try {
+      userExist = await prisma.user.findUnique({
+        where: {
+          email: user.email,
+        },
+      });
+    } catch (error: any) {
+      console.error("DB: failed to check if user Exists : ", error.message);
+
+      throw new Error(error.message);
+    }
+
     const verifyCode = Math.floor(Math.random() * 1000000).toString();
 
     const verifyCodeExpiresAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
 
     //user of Non-null assertion operator
-    const hashedPassword = await bcrypt.hash(user.password, 10);
+    let hashedPassword;
+
+    try {
+      hashedPassword = await bcrypt.hash(user.password, 10);
+    } catch (error: any) {
+      console.error("Failed to hashPassword", error.message);
+
+      throw new Error("bcrypt error");
+    }
 
     if (userExist) {
       if (userExist.isVerified) {
@@ -43,23 +56,37 @@ export const signUp = async (req: Request, res: Response) => {
         return;
       }
 
+      try {
+        await prisma.user.update({
+          where: {
+            email: user.email,
+          },
+          data: {
+            password: hashedPassword,
+            verifyCode,
+            verifyCodeExpiresAt,
+          },
+        });
+      } catch (error: any) {
+        console.error("DB: Failed to Update User Details", error.message);
+        throw new Error("Database Error");
+      }
+
       //handle when user is registered but not verified
-      await prisma.user.update({
-        where: {
-          email: user.email,
-        },
-        data: {
-          password: hashedPassword,
-          verifyCode,
-          verifyCodeExpiresAt,
-        },
-      });
+
       const fullName = `${user.firstName} ${user.lastName}`;
-      const verificationResponse = await sendVerificationEmail(
-        user.email,
-        fullName,
-        verifyCode
-      );
+
+      let verificationResponse;
+      try {
+        verificationResponse = await sendVerificationEmail(
+          user.email,
+          fullName,
+          verifyCode
+        );
+      } catch (error: any) {
+        console.log("Email: Failed to send Verification Email", error.message);
+        throw new Error(error.message);
+      }
 
       if (!verificationResponse.success) {
         response.error(res, verificationResponse.message, 400);
@@ -68,15 +95,15 @@ export const signUp = async (req: Request, res: Response) => {
 
       response.ok(
         res,
-        "User registered Successfully, Please verify your account",
-        200
+        "User Registered Successfully, Please Verify Your Account",
+        201
       );
       return;
     }
 
     //handles when user not exist
 
-    const newUser: newUser = {
+    const newUser: NewUserDataType = {
       firstName: user.firstName,
       lastName: user.lastName,
       password: hashedPassword,
@@ -84,17 +111,30 @@ export const signUp = async (req: Request, res: Response) => {
       verifyCode,
       verifyCodeExpiresAt,
     };
-    await prisma.user.create({
-      data: newUser,
-    });
+
+    try {
+      await prisma.user.create({
+        data: newUser,
+      });
+    } catch (error: any) {
+      console.error("DB: Failed to add New User", error.message);
+      throw new Error(error.message);
+    }
 
     const fullName = `${newUser.firstName} ${newUser.lastName}`;
 
-    const verificationResponse = await sendVerificationEmail(
-      newUser.email,
-      fullName,
-      verifyCode
-    );
+    let verificationResponse;
+
+    try {
+      verificationResponse = await sendVerificationEmail(
+        newUser.email,
+        fullName,
+        verifyCode
+      );
+    } catch (error: any) {
+      console.log("Email: Failed to send Verification Email", error.message);
+      throw new Error(error.message);
+    }
 
     if (!verificationResponse.success) {
       response.error(res, verificationResponse.message, 400);
@@ -107,9 +147,10 @@ export const signUp = async (req: Request, res: Response) => {
       201
     );
     return;
-  } catch (error) {
-    console.log("Error Eegistering User", error);
-    response.error(res, "Internal Server Error", 501);
+  } catch (error: any) {
+    console.log("having error");
+    console.log("Error Eegistering User", error.message);
+    throw new Error(error.message);
   }
 };
 

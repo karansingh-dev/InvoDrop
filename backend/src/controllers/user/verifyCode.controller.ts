@@ -2,14 +2,16 @@ import { response } from "../../utils/response";
 import { Request, Response } from "express";
 import { verificationCodeSchema } from "../../validations/user/verificationCodeSchema";
 import prisma from "../../helpers/prismaClient";
-import z from "zod";
 import { api } from "../../routes/router";
-
-type data = z.infer<typeof verificationCodeSchema>;
+import { UserVerificationDataType } from "../../types/user";
 
 export const verifyCode = async (req: Request, res: Response) => {
   try {
-    const data: data = req.body;
+    const data: UserVerificationDataType = req.body;
+
+    //lower casing the email for any conflict
+
+    data.email = data.email.toLowerCase();
 
     const requestValidation = verificationCodeSchema.safeParse(data);
 
@@ -18,11 +20,17 @@ export const verifyCode = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await prisma.user.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
+    let user;
+    try {
+      user = await prisma.user.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
+    } catch (error: any) {
+      console.error("DB: Error Getting User", error.message);
+      throw new Error(error.message);
+    }
 
     if (!user) {
       response.error(
@@ -34,6 +42,7 @@ export const verifyCode = async (req: Request, res: Response) => {
     }
 
     const isCodeValid = user.verifyCode === data.verifyCode;
+
     if (!isCodeValid) {
       response.error(res, "Incorrect Verification Code", 400);
       return;
@@ -46,21 +55,28 @@ export const verifyCode = async (req: Request, res: Response) => {
       return;
     }
 
-    await prisma.user.update({
-      where: {
-        email: data.email,
-      },
-      data: {
-        isVerified: true,
-      },
-    });
+    try {
+      await prisma.user.update({
+        where: {
+          email: data.email,
+        },
+        data: {
+          isVerified: true,
+        },
+      });
+    } catch (error: any) {
+      console.error(
+        "DB: failed to Updated User Verified Status",
+        error.message
+      );
+      throw new Error(error.message);
+    }
 
     response.ok(res, "User Verified Successfully", 200);
     return;
-  } catch (error) {
-    console.log("Error Verifying User", error);
-    response.error(res, "Internal Server Error", 501);
-    return;
+  } catch (error: any) {
+    console.log("Error Verifying User", error.message);
+    throw new Error(error.message);
   }
 };
 
