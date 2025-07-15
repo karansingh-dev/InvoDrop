@@ -22,13 +22,14 @@ export const UserProvider = (props: LayoutProps) => {
   const [token, setTokenState] = useState<string | null>(
     localStorage.getItem("token")
   );
-  const [isLoading, setIsLoading] = useState<boolean>(!!token); // Only loading if we have a token
+  const [isLoading, setIsLoading] = useState<boolean>(!!token); 
+  
   const [user, setUser] = useState<UserDetailsType | null>(null);
 
   const setToken = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setTokenState(newToken);
-    setIsLoading(true); // Set loading when token is set
+    setIsLoading(true);
   };
 
   const logOut = () => {
@@ -36,7 +37,7 @@ export const UserProvider = (props: LayoutProps) => {
     setUser(null);
     setTokenState(null);
     setIsLoading(false);
-    toast.success("Successfully Logged Out")
+    toast.success("Successfully Logged Out");
   };
 
   const {
