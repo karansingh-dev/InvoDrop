@@ -86,7 +86,7 @@ const AddClient = () => {
 
 
 
-    return <div className="bg-slate-50 min-h-screen flex flex-col">
+    return <div className=" min-h-screen flex flex-col">
 
 
         {/* header section  */}
@@ -103,7 +103,7 @@ const AddClient = () => {
 
             </div>
 
-            <Button variant="outline" onClick={handleSubmit(onSubmit)} className=" bg-emerald-500 hover:bg-emerald-600 hover:text-white">
+            <Button variant="outline" onClick={handleSubmit(onSubmit)} className=" bg-blue-500 hover:bg-blue-600 hover:text-white">
 
                 {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
                     <div className="flex justify-center items-center gap-2 text-white">
@@ -301,7 +301,7 @@ const AddClient = () => {
 
                     </CardContent>
 
-                    <CardFooter className="bg-slate-100 border-t border-slate-200 flex h-16 justify-between items-center">
+                    <CardFooter className="bg-slate-100 border-t border-gray-200 flex h-16 justify-between items-center">
 
 
                         <Button variant="outline" disabled={loading} className="relative bottom-3" onClick={() => {
@@ -313,7 +313,7 @@ const AddClient = () => {
 
 
 
-                        <Button type="submit" variant="outline" className=" relative bottom-3 text-white bg-emerald-500 hover:bg-emerald-600 hover:text-white">
+                        <Button type="submit" variant="outline" className=" relative bottom-3 text-white bg-blue-500 hover:bg-blue-600 hover:text-white">
                             {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
                                 <div className="flex justify-center gap-2 items-center text-white">
                                     <Save className="h-4 w-4" />

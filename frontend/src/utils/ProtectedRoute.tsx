@@ -1,13 +1,22 @@
-
-import { Outlet, Navigate } from 'react-router-dom';
+import LoadingScreen from "@/components/custom/Loaders/LoadingScreen";
+import { useUser } from "@/Context/userContext";
+import { Outlet, Navigate } from "react-router-dom";
 
 const ProtectedRoutes = () => {
+  const { user, isLoading } = useUser();
 
-    const token = sessionStorage.getItem("token");
+  if (isLoading) return <LoadingScreen />;
 
-    return token ? <Outlet /> : <Navigate to="/login" /> // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-}
+  if (!user.isCompanyAdded && location.pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" replace />;
+  }
+ 
+
+  return <Outlet />;
+};
 
 export default ProtectedRoutes;
-

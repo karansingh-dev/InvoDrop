@@ -1,21 +1,29 @@
-import z from "zod";
+import { z } from "zod";
 
 export const signUpSchema = z.object({
   firstName: z
     .string()
-    .min(1, "First name must be at least 1 character")
-    .max(50, "First name must at most 50 characters"),
+    .trim()
+    .nonempty({ message: "First name is required" })
+    .max(50, { message: "First name must be at most 50 characters" }),
+
   lastName: z
     .string()
-    .min(1, "last name must be at least 1 character")
-    .max(50, "last name must at most 50 characters"),
-  email: z.string().email("Must be a valid email"),
+    .trim()
+    .nonempty({ message: "Last name is required" })
+    .max(50, { message: "Last name must be at most 50 characters" }),
+
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Please enter a valid email address" }),
+
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(18, "Password must be at most 18 characters")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&#+=^_-]{3,}$/,
-      "Password must contain at least 1 uppercase and 1 lowercase chracter"
-    ),
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(18, { message: "Password must not exceed 18 characters" })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/, {
+      message:
+        "Password must include at least one uppercase letter, one lowercase letter, and one number",
+    }),
 });

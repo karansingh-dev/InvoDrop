@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiCall } from "@/utils/api/apiCall";
-import BasicLoader from "@/components/custom/BasicLoader";
+import BasicLoader from "@/components/custom/Loaders/BasicLoader";
 import { toast } from "sonner";
 import { verificationCodeSchema } from "@/validations/user/verificationCodeSchema";
 import { useNavigate, useParams } from "react-router-dom";
@@ -64,7 +64,7 @@ const VerifyCode = () => {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen bg-slate-50 flex flex-col items-center gap-8 justify-center">
+    <div className=" min-h-screen  flex flex-col items-center gap-8 justify-center">
       {/* //Verification Code card  */}
 
       <Card className="w-120 shadow-xl border-none ">
@@ -93,7 +93,7 @@ const VerifyCode = () => {
                   id="verifyCode"
                   type="text"
                   {...register("verifyCode")}
-                  className="h-11 border-slate-200 focus-visible:ring-emerald-500 placeholder:text-slate-700"
+                  className="h-11 border-gray-200 focus-visible:ring-blue-500 placeholder:text-slate-700"
                   placeholder="Enter the 6 digit verify code"
                   required
                 />
@@ -106,7 +106,7 @@ const VerifyCode = () => {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full bg-blue-600 hover:bg-blue-700"
               >
                 {isPending ? <BasicLoader /> : <p>Verify Code</p>}
               </Button>

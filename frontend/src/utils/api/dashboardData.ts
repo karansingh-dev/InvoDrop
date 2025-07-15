@@ -22,7 +22,7 @@ type dashboardData = {
 
 export const getDashBoardData = async () => {
   const response = await apiCall<dashboardData>(
-    "/get-dashboard-data",
+    "/get-dashboard-data/30",
     "GET",
     "protected"
   );

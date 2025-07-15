@@ -28,5 +28,4 @@ const createDownloadLink = async (req: Request, res: Response) => {
   }
 };
 
-
-api.get("/download-pdf/:invoiceId","protected",createDownloadLink);
+api.get("/download-pdf/:invoiceId", "protected", createDownloadLink);

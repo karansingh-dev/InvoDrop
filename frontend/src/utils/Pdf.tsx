@@ -1,6 +1,6 @@
 import { FileText } from "lucide-react";
 import { useParams } from "react-router-dom";
-import BoxLoader from "@/components/custom/BoxLoader";
+import BoxLoader from "@/components/custom/Loaders/BoxLoader";
 import { useQuery } from "@tanstack/react-query";
 import { getOneInvoice } from "./api/getOneInvoice";
 
@@ -47,7 +47,7 @@ const Pdf = () => {
             <div className="flex justify-between">
 
                 <div className="flex flex-col gap-2">
-                    <div className="flex justify-center items-center bg-emerald-600 p-2 rounded-md w-20">
+                    <div className="flex justify-center items-center bg-blue-600 p-2 rounded-md w-20">
                         <FileText className="w-16 h-16 text-white" />
 
                     </div>
@@ -73,7 +73,7 @@ const Pdf = () => {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <h1 className="text-4xl font-bold text-emerald-600 uppercase text-right ">Invoice</h1>
+                    <h1 className="text-4xl font-bold text-blue-600 uppercase text-right ">Invoice</h1>
                     <div className="text-right">
                         <div>
                             <span className="text-gray-600 font-semibold">Invoice Number: </span> <span className="text-gray-600 font-normal">{invoice?.invoiceNumber}</span>
@@ -123,7 +123,7 @@ const Pdf = () => {
                 <table className="w-full">
 
                     <thead>
-                        <tr className="bg-emerald-100  ">
+                        <tr className="bg-blue-100  ">
                             <th className="py-3 text-left pl-4">Name</th>
                             <th className="py-3 text-left">Description</th>
                             <th className="py-3 text-left">Quantity</th>
@@ -134,7 +134,7 @@ const Pdf = () => {
 
                     <tbody>
                         {invoice.items.map((item) => {
-                            return <tr className="border-b border-slate-200">
+                            return <tr className="border-b border-gray-200">
                                 <td className="py-4 text-left pl-4">{item.name}</td>
                                 <td className="py-4 text-left">{item.description}</td>
                                 <td className="py-4 text-left">{item.quantity}</td>
@@ -150,19 +150,19 @@ const Pdf = () => {
             {/* //amount  */}
             <div className="flex justify-end mt-6 ">
                 <div className="space-y-2">
-                    <div className="py-2 w-73 flex justify-between border-b border-slate-200 px-1">
+                    <div className="py-2 w-73 flex justify-between border-b border-gray-200 px-1">
                         <span className="font-semibold text-gray-700">Subtotal:</span>
                         <span className="text-gray-800">$1530</span>
 
                     </div>
-                    <div className="py-2 w-73 flex justify-between border-b border-slate-200 px-1">
+                    <div className="py-2 w-73 flex justify-between border-b border-gray-200 px-1">
                         <span className="font-semibold text-gray-700">Tax(10%):</span>
                         <span className="text-gray-800">$153</span>
 
                     </div>
-                    <div className="py-2 w-73 flex justify-between border-b border-slate-200 px-1">
+                    <div className="py-2 w-73 flex justify-between border-b border-gray-200 px-1">
                         <span className="font-bold text-gray-700">Total Due:</span>
-                        <span className=" text-2xl font-bold text-emerald-600">$1683</span>
+                        <span className=" text-2xl font-bold text-blue-600">$1683</span>
 
                     </div>
                 </div>
@@ -171,13 +171,13 @@ const Pdf = () => {
 
             {/* notes section */}
 
-            <div className="border-t border-slate-200 py-6">
+            <div className="border-t border-gray-200 py-6">
                 <h4 className="text-lg font-bold text-gray-700 mb-2">Notes</h4>
                 <p className="text-gray-600">{invoice.notes}</p>
             </div>
 
             {/* footer note */}
-            <div className="text-center border-t border-slate-200 pt-6">
+            <div className="text-center border-t border-gray-200 pt-6">
                 <p className="text-gray-600">Thanks for your business</p>
 
             </div>

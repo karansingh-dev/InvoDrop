@@ -126,7 +126,7 @@ export function Settings() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen flex">
+    <div className=" min-h-screen flex">
       <SideBar />
       <div className="flex flex-col w-full">
         <Header />
@@ -232,7 +232,7 @@ export function Settings() {
                       <div>
                         <Button
                           variant="outline"
-                          className="text-white bg-emerald-600 hover:text-white hover:bg-emerald-700"
+                          className="text-white bg-blue-600 hover:text-white hover:bg-blue-700"
                           type="submit"
                           disabled={updatingUserDetails}
                         >
@@ -309,7 +309,7 @@ export function Settings() {
                     </div>
                     <Button
                       variant="outline"
-                      className="text-white bg-emerald-600 hover:text-white hover:bg-emerald-700"
+                      className="text-white bg-blue-600 hover:text-white hover:bg-blue-700"
                       type="submit"
                       disabled={updatingUserPassword}
                     >

@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,9 +14,9 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { signUpSchema } from "@/validations/user/signUpSchema";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import BasicLoader from "@/components/custom/BasicLoader";
+import BasicLoader from "@/components/custom/Loaders/BasicLoader";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiCall } from "@/utils/api/apiCall";
 import { useMutation } from "@tanstack/react-query";
 import type { UserSignupFormData } from "@/types/user";
@@ -66,9 +67,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen bg-slate-50 flex flex-col items-center gap-8 justify-center">
+    <div className=" min-h-screen  flex flex-col items-center gap-8 justify-center">
       <div className="flex items-center gap-2 ">
-        <div className="bg-emerald-500 rounded-md p-2 flex items-center jusify-center">
+        <div className="bg-blue-500 rounded-md p-2 flex items-center jusify-center">
           <FileText className="h-8 w-8 text-white" />
         </div>
         <h1 className="text-2xl text-slate-900 font-bold">InvoDrop</h1>
@@ -76,7 +77,7 @@ const SignUp = () => {
 
       {/* //signup card  */}
 
-      <Card className="w-120 shadow-xl border-none">
+      <Card className="w-120 shadow-xl ">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-center text-slate-900">
             Welcome{" "}
@@ -99,9 +100,9 @@ const SignUp = () => {
                   <Input
                     {...register("firstName")}
                     id="firstName"
-                    type="firstName"
+                    type="text"
                     placeholder="First Name"
-                    className="h-11 border-slate-200 placeholder:text-slate-700  focus-visible:ring-emerald-500"
+                    className="h-11 border-gray-200 placeholder:text-slate-700  focus-visible:ring-blue-500"
                     required
                   />
                   {errors.firstName && (
@@ -120,9 +121,9 @@ const SignUp = () => {
                   <Input
                     {...register("lastName")}
                     id="lastName"
-                    type="lastName"
+                    type="text"
                     placeholder="Last Name"
-                    className="h-11 border-slate-200 placeholder:text-slate-700 focus-visible:ring-emerald-500"
+                    className="h-11 border-gray-200 placeholder:text-slate-700 focus-visible:ring-blue-500"
                     required
                   />
                   {errors.lastName && (
@@ -145,7 +146,7 @@ const SignUp = () => {
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  className="h-11 border-slate-200 placeholder:text-slate-700 focus-visible:ring-emerald-500"
+                  className="h-11 border-gray-200 placeholder:text-slate-700 focus-visible:ring-blue-500"
                   required
                 />
                 {errors.email && (
@@ -167,7 +168,7 @@ const SignUp = () => {
                   id="password"
                   type="password"
                   {...register("password")}
-                  className="h-11 border-slate-200 focus-visible:ring-emerald-500 placeholder:text-slate-700"
+                  className="h-11 border-gray-200 focus-visible:ring-blue-500 placeholder:text-slate-700"
                   placeholder="Enter your password"
                   required
                 />
@@ -180,19 +181,30 @@ const SignUp = () => {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full bg-blue-600 hover:bg-blue-700"
               >
                 {isPending ? <BasicLoader /> : <p>Sign Up</p>}
               </Button>
             </div>
           </form>
         </CardContent>
+        <CardFooter>
+          <p className="text-slate-500 text-sm">
+            Already have an Account ?{" "}
+            <Link
+              to="/login"
+              className="text-sm text-blue-900 font-medium underline"
+            >
+              Log In
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
       <p className="text-slate-700 text-sm">
         By signing up, you agree to our{" "}
         <a
           href="term-of-service"
-          className="text-emerald-600 hover:text-emerald-700"
+          className="text-blue-600 hover:text-blue-700"
         >
           {" "}
           Terms of Service
@@ -200,7 +212,7 @@ const SignUp = () => {
         and{" "}
         <a
           href="/privacy-policy"
-          className="text-emerald-600 hover:text-emerald-700"
+          className="text-blue-600 hover:text-blue-700"
         >
           {" "}
           Privacy Policy

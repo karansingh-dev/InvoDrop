@@ -176,7 +176,7 @@ const DashBoard = () => {
 
   if (Invoices && dashBoardData?.data)
     return (
-      <div className="bg-slate-50 min-h-screen flex">
+      <div className=" min-h-screen flex">
         <SideBar />
         <div className="flex flex-col w-full">
           <Header />
@@ -207,7 +207,7 @@ const DashBoard = () => {
                   onClick={() => {
                     navigate("/invoices/create");
                   }}
-                  className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2"
+                  className="bg-blue-500 hover:bg-blue-600 hover:text-white flex text-white items-center justify-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   New Invoice
@@ -261,7 +261,7 @@ const DashBoard = () => {
                   <div className="space-y-6">
                     <table className="w-full text-sm ">
                       <thead>
-                        <tr className="border-b border-slate-200 text-left text-slate-500">
+                        <tr className="border-b border-gray-200 text-left text-slate-500">
                           <th className="pb-3 pl-4 font-medium">Invoice</th>
                           <th className="pb-3 font-medium">Client</th>
                           <th className="pb-3 font-medium">Amount</th>
@@ -275,7 +275,7 @@ const DashBoard = () => {
                         {Invoices.map((invoice: invoiceDataType) => {
                           return (
                             <tr
-                              className="border-b border-slate-100 hover:bg-slate-50"
+                              className="border-b border-slate-100 hover:"
                               key={invoice.id}
                             >
                               <td className="py-4 pl-4 ">
@@ -315,7 +315,7 @@ const DashBoard = () => {
                                 <div className="">
                                   <Badge
                                     className={clsx({
-                                      "bg-emerald-50 text-emerald-600 rounded-md   border-emerald-200":
+                                      "bg-blue-50 text-blue-600 rounded-md   border-blue-200":
                                         invoice.status === "paid",
                                       "bg-rose-50 text-rose-600 rounded-md  border-rose-200":
                                         invoice.status === "overDue",
@@ -337,13 +337,13 @@ const DashBoard = () => {
                                   <DropdownMenuContent>
                                     {invoice.status == "pending" ? (
                                       <DropdownMenuItem
-                                        className="text-emerald-500 hover:bg-emerald-500"
+                                        className="text-blue-500 hover:bg-blue-500"
                                         onClick={() => {
                                           updateStatus(invoice.id, "paid");
                                         }}
                                       >
                                         {" "}
-                                        <Check className="w-4 h-4 text-emerald-500 hover:text-emerald-500" />{" "}
+                                        <Check className="w-4 h-4 text-blue-500 hover:text-blue-500" />{" "}
                                         Paid
                                       </DropdownMenuItem>
                                     ) : (
@@ -407,7 +407,7 @@ const DashBoard = () => {
                 <CardContent className="flex flex-col gap-3 mt-6">
                   <Button
                     variant="outline"
-                    className="text-white  bg-emerald-500 hover:bg-emerald-600 hover:text-white  rounded-sm"
+                    className="text-white  bg-blue-500 hover:bg-blue-600 hover:text-white  rounded-sm"
                     onClick={() => {
                       navigate("/invoices/create");
                     }}
@@ -445,10 +445,13 @@ const DashBoard = () => {
                     return (
                       <div className=" flex justify-between items-center  rounded-md hover:bg-slate-100 border-1 borde-slate-200 h-15 p-4 text-sm font-medium text-slate-900">
                         <div className="flex gap-4 items-center">
-                          <div className="bg-emerald-100 p-2 rounded-full">
-                            <FileText className="h-4 w-4 text-emerald-500" />
+                          <div className="bg-blue-100 p-2 rounded-full">
+                            <FileText className="h-4 w-4 text-blue-500" />
                           </div>
-                          <span className="font-semibold"> {activity.description}</span>
+                          <span className="font-semibold">
+                            {" "}
+                            {activity.description}
+                          </span>
                         </div>
                         <span>
                           {" "}

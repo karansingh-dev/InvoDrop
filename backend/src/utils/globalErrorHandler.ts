@@ -7,7 +7,8 @@ export const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  // console.error(error.stack);
+  console.error(error.stack);
+
   console.log("Internal Server Error", error.message);
   response.error(res, "Internal Server Error", 501);
 };

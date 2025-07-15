@@ -1,13 +1,18 @@
-import z from "zod";
+import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.string().email("Must be a valid email"),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Please enter a valid email address" }),
+
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(18, "Password must be at most 18 characters")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&#+=^_-]{3,}$/,
-      "Password must contain at least 1 uppercase and 1 lowercase chracter"
-    ),
+    .trim()
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(18, { message: "Password must not exceed 18 characters" })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/, {
+      message:
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+    }),
 });

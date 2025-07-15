@@ -4,9 +4,8 @@ import bodyParser from "body-parser";
 import { config } from "./config/config";
 import { dbConnection } from "./helpers/prismaClient";
 import { router } from "./routes/router";
-import "./routes/routes";
+import "./routes/allRoutes";
 import { globalErrorHandler } from "./utils/globalErrorHandler";
-import "./utils/uploadPdf";
 import { startOverDueJob } from "./helpers/cronJobs/overDue";
 
 const app = express();

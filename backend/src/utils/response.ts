@@ -1,7 +1,7 @@
 import { Response } from "express";
 
 export const response = {
-  ok: <type>(
+  ok: <type = null>(
     res: Response,
     message: string,
     statusCode: number,

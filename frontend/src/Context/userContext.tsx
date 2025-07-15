@@ -2,6 +2,7 @@ import type { UserDetailsType } from "@/types/user";
 import { getUserData } from "@/utils/api/user/getUserData";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ type UserContextType = {
   setToken: (token: string) => void;
   logOut: () => void;
   isLoading: boolean;
+  setUser: (user: UserDetailsType | null) => void;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -34,6 +36,7 @@ export const UserProvider = (props: LayoutProps) => {
     setUser(null);
     setTokenState(null);
     setIsLoading(false);
+    toast.success("Successfully Logged Out")
   };
 
   const {
@@ -85,6 +88,7 @@ export const UserProvider = (props: LayoutProps) => {
     isLoading,
     setToken,
     logOut,
+    setUser,
   };
 
   return (

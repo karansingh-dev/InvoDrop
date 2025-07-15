@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClients } from "@/utils/api/fetchClients";
-import BoxLoader from "@/components/custom/BoxLoader";
+import BoxLoader from "@/components/custom/Loaders/BoxLoader";
 import ClientCard, {
   type clientsDataType,
 } from "@/components/custom/ClientCard";
@@ -39,7 +39,7 @@ export const Clients = () => {
   }, [isPending, client]);
 
   return (
-    <div className="bg-slate-50 min-h-screen flex">
+    <div className=" min-h-screen flex">
       <SideBar />
       <div className="flex flex-col w-full">
         <Header />
@@ -58,7 +58,7 @@ export const Clients = () => {
                 onClick={() => {
                   navigate("/clients/add");
                 }}
-                className="bg-emerald-500 hover:bg-emerald-600 hover:text-white flex text-white items-center justify-center gap-2"
+                className="bg-blue-500 hover:bg-blue-600 hover:text-white flex text-white items-center justify-center gap-2"
               >
                 <Plus className="w-4 h-4" />
                 Add New Client

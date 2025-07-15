@@ -47,6 +47,7 @@ model User {
   clients              Client[]
   invoices             Invoice[]
   company              Company?
+  invoiceSetting       InvoiceSetting?
   recentActivities RecentActivity[] 
 
 
@@ -63,6 +64,9 @@ model Company {
   id             String   @id @default(uuid()) @db.Uuid
   userId         String   @unique @map("user_id") @db.Uuid
   name           String   @db.VarChar(255)
+  taxId          String?  @map("tax_id") @unique @db.VarChar(255)
+  logoUrl        String   @map("logo_url")  @db.VarChar(255) 
+  phoneNumber        String   @map("phone_number") @db.VarChar(20)
   streetAddress  String   @map("street_address") @db.VarChar(255)
   city           String   @db.VarChar(100)
   state          String   @db.VarChar(100)
@@ -113,8 +117,9 @@ model Invoice {
   clientId       String     @map("client_id") @db.Uuid
   subTotal       Decimal    @map("sub_total") @db.Decimal(10, 2)
   taxPercent     Decimal    @map("tax_percent") @db.Decimal(5, 2)
-  grandTotal     Decimal    @map("grand_total") @db.Decimal(10, 2)
-  notes          String     @db.VarChar(255)
+  grandTotal     Decimal    @map("grand_total") @db.Decimal(10, 2) 
+  termsAndConditions    String @map("terms_and_conditions")    @db.VarChar(255)
+  defaultNote          String   @map("default_note")  @db.VarChar(255)
 
   createdAt      DateTime   @map("created_at") @default(now())
   updatedAt      DateTime   @map("updated_at") @default(now())
@@ -149,6 +154,7 @@ model Item {
   @@map("items")
 }
 
+
 model InviteCode {
   id         String   @id @default(uuid()) @db.Uuid
   code       String   @unique @db.VarChar(20)
@@ -163,6 +169,24 @@ model InviteCode {
 
   @@map("invite_codes")
 }
+
+
+model InvoiceSetting {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId         String    @unique  @map("user_id") @db.Uuid 
+  invoiceNumberFormat String @map("invoice_number_format") @db.VarChar(255)
+  termsAndConditions    String @map("terms_and_conditions")    @db.VarChar(255)
+  defaultNote          String   @map("default_note")  @db.VarChar(255)
+
+
+
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_setting")
+
+}
+
+
 
 enum ActivityAction {
   created

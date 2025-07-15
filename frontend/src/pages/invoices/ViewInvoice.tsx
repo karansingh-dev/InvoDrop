@@ -1,4 +1,4 @@
-import BoxLoader from "@/components/custom/BoxLoader";
+import BoxLoader from "@/components/custom/Loaders/BoxLoader";
 import Header from "@/components/custom/Header";
 import SideBar from "@/components/custom/Sidebar";
 import { Button } from "@/components/ui/button";
@@ -159,15 +159,15 @@ const ViewInvoice = () => {
   //   return (
   //     <div className="flex justify-center items-center gap-2">
   //       {" "}
-  //       <Loader2 className="animate-spin w-6 h-6 text-emerald-500 mt-30" />{" "}
-  //       <span className="mt-30 text-emerald-500">Loading...</span>
+  //       <Loader2 className="animate-spin w-6 h-6 text-blue-500 mt-30" />{" "}
+  //       <span className="mt-30 text-blue-500">Loading...</span>
   //     </div>
   //   );
   // }
 
   if (invoice && invoiceId)
     return (
-      <div className="bg-slate-50 min-h-screen flex">
+      <div className=" min-h-screen flex">
         {update && (
           <div
             style={{
@@ -203,7 +203,7 @@ const ViewInvoice = () => {
                     <Badge
                       variant="outline"
                       className={clsx({
-                        "bg-emerald-50 text-emerald-600 rounded-md   border-emerald-200":
+                        "bg-blue-50 text-blue-600 rounded-md   border-blue-200":
                           invoice.status === "paid",
                         "bg-rose-50 text-rose-600 rounded-md  border-rose-200":
                           invoice.status === "overDue",
@@ -286,7 +286,7 @@ const ViewInvoice = () => {
                 <div className="flex justify-between items-start mb-8">
                   <div>
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="rounded-md bg-emerald-500 p-2">
+                      <div className="rounded-md bg-blue-500 p-2">
                         <FileText className="h-6 w-6 text-white" />
                       </div>
                       <h2 className="text-2xl font-bold text-slate-900">
@@ -349,8 +349,8 @@ const ViewInvoice = () => {
                 {/* items detail  */}
 
                 <div className="mb-8">
-                  <div className="border border-slate-200 rounded-lg overflow-hidden">
-                    <div className="bg-slate-50 px-4 py-3 border-b border-slate-200">
+                  <div className="border border-gray-200 rounded-lg overflow-hidden">
+                    <div className=" px-4 py-3 border-b border-gray-200">
                       <div className="grid grid-cols-12 gap-4 text-sm font-medium text-slate-700">
                         <div className="col-span-6">Description</div>
                         <div className="col-span-2 text-center">Qty</div>

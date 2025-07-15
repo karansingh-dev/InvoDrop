@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const BoxLoader = () => {
   return (
@@ -13,11 +13,11 @@ const BoxLoader = () => {
       </div>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   .loader {
-    --color: #a5a5b0;
+    --color: rgba(27, 71, 215, 1);
     --size: 70px;
     width: var(--size);
     height: var(--size);
@@ -67,6 +67,7 @@ const StyledWrapper = styled.div`
       opacity: 1;
       transform: scale(1);
     }
-  }`;
+  }
+`;
 
 export default BoxLoader;

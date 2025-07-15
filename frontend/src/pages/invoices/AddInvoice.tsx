@@ -147,7 +147,7 @@ export const AddInvoice = () => {
     const onSubmit: SubmitHandler<z.infer<typeof createInvoiceSchema>> = async (data) => {
 
         setLoading(true)
-        const res = await apiCall<createInvoice>("/create-invoice", "POST", "protected", data);
+        const res = await apiCall<null,createInvoice>("/create-invoice", "POST", "protected", data);
 
         if (res.success) {
             toast.success(res.message);
@@ -169,13 +169,13 @@ export const AddInvoice = () => {
         setValue("clientEmail", email);
 
     }
-    if (isLoading) return <div className="flex justify-center items-center gap-2"> <Loader2 className="animate-spin w-6 h-6 text-emerald-500 mt-30" /> <span className="mt-30 text-emerald-500">Loading...</span></div>;
+    if (isLoading) return <div className="flex justify-center items-center gap-2"> <Loader2 className="animate-spin w-6 h-6 text-blue-500 mt-30" /> <span className="mt-30 text-blue-500">Loading...</span></div>;
 
 
 
 
 
-    return <div className="bg-slate-50 min-h-screen w-full flex flex-col">
+    return <div className=" min-h-screen w-full flex flex-col">
 
 
         {/* header section  */}
@@ -192,7 +192,7 @@ export const AddInvoice = () => {
 
             </div>
 
-            <Button variant="outline" onClick={handleSubmit(onSubmit)} disabled={loading} className="bg-emerald-500 hover:bg-emerald-600 hover:text-white">
+            <Button variant="outline" onClick={handleSubmit(onSubmit)} disabled={loading} className="bg-blue-500 hover:bg-blue-600 hover:text-white">
 
                 {loading ? <Loader2 className="animate-spin w-12 h-12 text-white" /> :
                     <div className="flex justify-center items-center gap-2 text-white">
@@ -242,7 +242,7 @@ export const AddInvoice = () => {
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                {selectedClient ? <div className=" mt-4 border-1 border-slate-200 p-3 rounded-lg">
+                                {selectedClient ? <div className=" mt-4 border-1 border-gray-200 p-3 rounded-lg">
 
                                     <p className="text-sm font-medium">{selectedClient.companyName}</p>
                                     <p className="text-sm text-slate-500 mt-1">{selectedClient.email}</p>
@@ -379,8 +379,8 @@ export const AddInvoice = () => {
                             <CardTitle>
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl">Items Detail</h2>
-                                    <Button variant="outline" type="button" onClick={addItem} className="hover:bg-emerald-50 text-emerald-500 hover:text-emerald-500">
-                                        <Plus className="h-4 w-4 mr-2 text-emerald-500 " /> Add Item
+                                    <Button variant="outline" type="button" onClick={addItem} className="hover:bg-blue-50 text-blue-500 hover:text-blue-500">
+                                        <Plus className="h-4 w-4 mr-2 text-blue-500 " /> Add Item
                                     </Button>
 
                                 </div>
@@ -449,7 +449,7 @@ export const AddInvoice = () => {
                                         <div>
                                             <Input
                                                 readOnly
-                                                className="bg-slate-50"
+                                                className=""
                                                 type="number"
                                                 value={item.total}
 
@@ -475,7 +475,7 @@ export const AddInvoice = () => {
 
 
                         </CardContent>
-                        <CardFooter className="px-0 flex justify-end border-t border-slate-200">
+                        <CardFooter className="px-0 flex justify-end border-t border-gray-200">
 
                             <div className=" pr-10 flex flex-col">
                                 <div className="flex w-64 justify-between items-center ">
@@ -498,7 +498,7 @@ export const AddInvoice = () => {
                                     </div>
                                     <span className="font-medium">{taxAmount.toFixed(2)}</span>
                                 </div>
-                                <div className="flex w-64 justify-between items-center mt-4 py-2 border-t border-slate-200 ">
+                                <div className="flex w-64 justify-between items-center mt-4 py-2 border-t border-gray-200 ">
                                     <span className="text-md text-slate-500">Grandtotal:</span>
                                     <span className="font-medium">${grandTotal.toFixed(2)}</span>
                                 </div>

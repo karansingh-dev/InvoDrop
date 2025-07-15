@@ -203,7 +203,7 @@ export const EditInvoice = () => {
     data
   ) => {
     setLoading(true);
-    const res = await apiCall<createInvoice>(
+    const res = await apiCall<null,createInvoice>(
       `/edit-invoice/${invoiceId}`,
       "PUT",
       "protected",
@@ -229,14 +229,14 @@ export const EditInvoice = () => {
     return (
       <div className="flex justify-center items-center gap-2">
         {" "}
-        <Loader2 className="animate-spin w-6 h-6 text-emerald-500 mt-30" />{" "}
-        <span className="mt-30 text-emerald-500">Loading...</span>
+        <Loader2 className="animate-spin w-6 h-6 text-blue-500 mt-30" />{" "}
+        <span className="mt-30 text-blue-500">Loading...</span>
       </div>
     );
 
   if (invoice && clients && selectedClient)
     return (
-      <div className="bg-slate-50 min-h-screen w-full flex flex-col">
+      <div className=" min-h-screen w-full flex flex-col">
         {/* header section  */}
         <header className="flex items-center justify-between px-6 h-14 bg-white sticky top-0">
           <div className="flex gap-4 items-center">
@@ -256,7 +256,7 @@ export const EditInvoice = () => {
             variant="outline"
             onClick={handleSubmit(onSubmit, onError)}
             disabled={loading}
-            className="bg-emerald-500 hover:bg-emerald-600 hover:text-white"
+            className="bg-blue-500 hover:bg-blue-600 hover:text-white"
           >
             {loading ? (
               <Loader2 className="animate-spin w-12 h-12 text-white" />
@@ -323,7 +323,7 @@ export const EditInvoice = () => {
                       </Select>
                     </div>
                     {!!selectedClient ? (
-                      <div className=" mt-4 border-1 border-slate-200 p-3 rounded-lg">
+                      <div className=" mt-4 border-1 border-gray-200 p-3 rounded-lg">
                         <p className="text-sm font-medium">
                           {selectedClient.companyName}
                         </p>
@@ -474,9 +474,9 @@ export const EditInvoice = () => {
                         variant="outline"
                         type="button"
                         onClick={addItem}
-                        className="hover:bg-emerald-50 text-emerald-500 hover:text-emerald-500"
+                        className="hover:bg-blue-50 text-blue-500 hover:text-blue-500"
                       >
-                        <Plus className="h-4 w-4 mr-2 text-emerald-500 " /> Add
+                        <Plus className="h-4 w-4 mr-2 text-blue-500 " /> Add
                         Item
                       </Button>
                     </div>
@@ -554,7 +554,7 @@ export const EditInvoice = () => {
                           <div>
                             <Input
                               readOnly
-                              className="bg-slate-50"
+                              className=""
                               type="number"
                               value={item.total}
                             />
@@ -577,7 +577,7 @@ export const EditInvoice = () => {
                     })}
                   </div>
                 </CardContent>
-                <CardFooter className="px-0 flex justify-end border-t border-slate-200">
+                <CardFooter className="px-0 flex justify-end border-t border-gray-200">
                   <div className=" pr-10 flex flex-col">
                     <div className="flex w-64 justify-between items-center ">
                       <span className="text-md text-slate-500">Subtotal:</span>
@@ -603,7 +603,7 @@ export const EditInvoice = () => {
                         {taxAmount.toFixed(2)}
                       </span>
                     </div>
-                    <div className="flex w-64 justify-between items-center mt-4 py-2 border-t border-slate-200 ">
+                    <div className="flex w-64 justify-between items-center mt-4 py-2 border-t border-gray-200 ">
                       <span className="text-md text-slate-500">
                         Grandtotal:
                       </span>

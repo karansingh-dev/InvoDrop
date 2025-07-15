@@ -64,9 +64,9 @@ export const ClientCard = ({
                 clients.map((client: clientsDataType) => {
                     return <Card className="rounded-md" key={client.id}>
 
-                        <div className="flex items-center -mt-6 justify-between border-b border-slate-200 bg-slate-100 p-4">
+                        <div className="flex items-center -mt-6 justify-between border-b border-gray-200 bg-slate-100 p-4">
                             <h3 className="tracking-tight font-semibold text-lg">{client.companyName}</h3>
-                            <Badge variant={client.status ? "outline" : "secondary"} className={clsx(client.status ? "bg-emerald-50 text-emerald-600 border-emerald-600" : "bg-slate-200 text-slate-500")} >{client.status ? <p>Active</p> : <p>Inactive</p>}</Badge>
+                            <Badge variant={client.status ? "outline" : "secondary"} className={clsx(client.status ? "bg-blue-50 text-blue-600 border-blue-600" : "bg-slate-200 text-slate-500")} >{client.status ? <p>Active</p> : <p>Inactive</p>}</Badge>
                         </div>
                         <CardContent className="">
                             <div className="space-y-4 ">
@@ -105,7 +105,7 @@ export const ClientCard = ({
 
                             </div>
 
-                            <div className="mt-2 border-t border-slate-200  ">
+                            <div className="mt-2 border-t border-gray-200  ">
                                 <div className="flex items-center justify-between mt-2 ">
                                     <div className="flex flex-col">
                                         <p className="text-sm font-medium">{client.invoiceCount} Invoices</p>

@@ -1,4 +1,4 @@
-import BoxLoader from "@/components/custom/BoxLoader";
+import BoxLoader from "@/components/custom/Loaders/BoxLoader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -149,7 +149,7 @@ const Invoices = () => {
   }, [isPending, invoicesData]);
 
   return (
-    <div className="bg-slate-50 min-h-screen flex">
+    <div className=" min-h-screen flex">
       <SideBar />
       <div className="flex flex-col w-full">
         <Header />
@@ -166,7 +166,7 @@ const Invoices = () => {
                 onClick={() => {
                   navigate("/invoices/create");
                 }}
-                className="bg-emerald-500 flex items-center hover:bg-emerald-600 text-white hover:text-white"
+                className="bg-blue-500 flex items-center hover:bg-blue-600 text-white hover:text-white"
               >
                 <Plus className="w-4 h-5" />
                 <span>New Invoice</span>
@@ -219,7 +219,7 @@ const Invoices = () => {
                   <div className="space-y-6">
                     <table className="w-full text-sm ">
                       <thead>
-                        <tr className="border-b border-slate-200 text-left text-slate-500">
+                        <tr className="border-b border-gray-200 text-left text-slate-500">
                           <th className="pb-3 pl-4 font-medium">Invoice</th>
                           <th className="pb-3 font-medium">Client</th>
                           <th className="pb-3 font-medium">Amount</th>
@@ -235,7 +235,7 @@ const Invoices = () => {
                           .map((invoice: invoiceDataType) => {
                             return (
                               <tr
-                                className="border-b border-slate-100 hover:bg-slate-50"
+                                className="border-b border-slate-100 hover:"
                                 key={invoice.id}
                               >
                                 <td className="py-4 pl-4 ">
@@ -275,7 +275,7 @@ const Invoices = () => {
                                   <div className="">
                                     <Badge
                                       className={clsx({
-                                        "bg-emerald-50 text-emerald-600 rounded-md   border-emerald-200":
+                                        "bg-blue-50 text-blue-600 rounded-md   border-blue-200":
                                           invoice.status === "paid",
                                         "bg-rose-50 text-rose-600 rounded-md  border-rose-200":
                                           invoice.status === "overDue",
@@ -297,13 +297,13 @@ const Invoices = () => {
                                     <DropdownMenuContent>
                                       {invoice.status == "pending" ? (
                                         <DropdownMenuItem
-                                          className="text-emerald-500 hover:bg-emerald-500"
+                                          className="text-blue-500 hover:bg-blue-500"
                                           onClick={() => {
                                             updateStatus(invoice.id, "paid");
                                           }}
                                         >
                                           {" "}
-                                          <Check className="w-4 h-4 text-emerald-500 hover:text-emerald-500" />{" "}
+                                          <Check className="w-4 h-4 text-blue-500 hover:text-blue-500" />{" "}
                                           Paid
                                         </DropdownMenuItem>
                                       ) : (
