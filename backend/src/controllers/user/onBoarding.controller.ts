@@ -15,7 +15,6 @@ export const userOnBoarding = async (req: Request, res: Response) => {
 
     if (!requestValidation) {
       return response.error(res, "Invalid Data Sent", 400);
-  
     }
 
     const company = {
@@ -42,9 +41,7 @@ export const userOnBoarding = async (req: Request, res: Response) => {
 
     const invoiceSettings = {
       userId: user.userId,
-
       invoiceNumberFormat: onBoardingData.invoiceNumberFormat,
-
       termsAndConditions: onBoardingData.termsAndConditions,
       defaultNote: onBoardingData.defaultNote,
     };
@@ -59,7 +56,6 @@ export const userOnBoarding = async (req: Request, res: Response) => {
     }
 
     return response.ok(res, "User OnBoarded Succesfully", 201);
-   
   } catch (error) {
     console.error("Error OnBoarding User");
     throw error;

@@ -18,13 +18,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { onboardingSchema } from "@/validations/user/onBoardingSchema";
 import { apiCall } from "@/utils/api/apiCall";
 import BasicLoader2 from "../Loaders/BasicLoader2";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, X } from "lucide-react";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import BasicLoader from "../Loaders/BasicLoader";
 import { useUser } from "@/Context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const OnBoardingCarousel = () => {
+  const navigate = useNavigate();
+
   const { user, setUser } = useUser();
   const [step, setStep] = useState(0);
 
@@ -113,6 +116,16 @@ const OnBoardingCarousel = () => {
       className="min-h-screen flex justify-center items-center 
    px-4"
     >
+      <Button
+      className="absolute top-4 left-4"
+        variant="ghost"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <X className="w-10 h-10 text-rose-500 " />
+      </Button>
+
       <Card
         className="w-full max-w-xl shadow-md  
     "

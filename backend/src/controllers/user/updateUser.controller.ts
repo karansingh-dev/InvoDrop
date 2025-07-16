@@ -14,7 +14,6 @@ const updateUserDetails = async (req: Request, res: Response) => {
 
     if (!requestValidation.success) {
       return response.error(res, "Invalid Data Sent", 400);
-      
     }
 
     try {
@@ -34,7 +33,6 @@ const updateUserDetails = async (req: Request, res: Response) => {
     }
 
     return response.ok(res, "Successfully Updated User Details", 200);
-    
   } catch (error: any) {
     console.error("Error Updating User Details", error.message);
     throw error;
