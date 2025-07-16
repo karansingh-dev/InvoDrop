@@ -315,7 +315,7 @@ export default function AddClient() {
                     <div className="">
                       <Label
                         htmlFor="pinCode"
-                        className="text-sm font-medium text-slate-700"
+                        className="text-sm fon3t-medium text-slate-700"
                       >
                         Pin Code<span className="text-rose-500">*</span>
                       </Label>

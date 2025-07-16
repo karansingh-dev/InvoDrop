@@ -23,14 +23,11 @@ const deleteClient = async (req: Request, res: Response) => {
       });
 
       return response.ok(res, "Client Deleted Successfully", 200);
-      
     } else {
       return response.error(res, "No Client Exists With This Id", 400);
-      
     }
   } else {
     return response.error(res, "Invalid Parameters Sent", 400);
-    
   }
 };
 

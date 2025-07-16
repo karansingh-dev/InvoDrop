@@ -2,25 +2,15 @@ import { Request, Response } from "express";
 import { response } from "../../utils/response";
 import { api } from "../../routes/router";
 import prisma from "../../helpers/prismaClient";
-
-type clientRes = {
-  id: string;
-  companyName: string;
-  contactPersonName: string;
-  phoneNumber: string;
-  status: boolean;
-  email: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  country: string;
-  pinCode: string;
-};
-
+import logger from "../../utils/pino/logger";
+import { isUUID } from "../../validations/isUUID";
 export const getOneClient = async (req: Request, res: Response) => {
-  const clientId = req.params.clientId;
+  try {
+    const { clientId } = req.params;
 
-  if (clientId) {
+    if (!clientId || !isUUID(clientId))
+      return response.error(res, "Invalid Client Id", 404);
+
     const client = await prisma.client.findUnique({
       where: {
         id: clientId,
@@ -40,16 +30,20 @@ export const getOneClient = async (req: Request, res: Response) => {
       },
     });
 
-    if (client) {
-      return response.ok<clientRes>(res, "Fetched Client Successfully", 200, client);
-      
-    } else {
-      return response.error(res, "Failed To Fetch Client Details", 400);
-      
-    }
-  } else {
-    return response.error(res, "Invalid Parameters Sent", 400);
+    if (!client) return response.error(res, "No Client Found", 404);
+
+    return response.ok(res, "Client Fetched Successfully", 200, client);
+  } catch (error) {
+    logger.error(
+      {
+        error,
+        route: "/get-client",
+        user: req.user.userId,
+      },
+      "Failed to get client from DB"
+    );
+    throw error;
   }
 };
 
-api.get("/get-one-client/:clientId", "protected", getOneClient);
+api.get("/get-client/:clientId", "protected", getOneClient);
