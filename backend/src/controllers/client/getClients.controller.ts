@@ -37,6 +37,7 @@ export const getClients = async (req: Request, res: Response) => {
 
     return response.ok(res, "Fetched Clients Successfully", 200, clients);
   } catch (error: any) {
+    2;
     logger.error(
       { err: error, route: "/get-clients", userId: req.user.userId },
       "Failed to get clients from DB"

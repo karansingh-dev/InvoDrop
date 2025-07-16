@@ -12,7 +12,7 @@ import "../controllers/user/uploadLogo.controller"
 
 //client
 import "../controllers/client/addClient.controller";
-import "../controllers/client/getclients.controller";
+import "../controllers/client/getClients.controller";
 import "../controllers/client/editClient.controller";
 import "../controllers/client/getOneClient.controller";
 import "../controllers/client/deleteClient.controller";

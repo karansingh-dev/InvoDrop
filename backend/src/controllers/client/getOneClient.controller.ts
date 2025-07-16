@@ -16,7 +16,7 @@ export const getOneClient = async (req: Request, res: Response) => {
         id: clientId,
       },
       select: {
-        id: true,
+        
         companyName: true,
         contactPersonName: true,
         phoneNumber: true,

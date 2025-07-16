@@ -2,32 +2,38 @@ import { Request, Response } from "express";
 import prisma from "../../helpers/prismaClient";
 import { response } from "../../utils/response";
 import { api } from "../../routes/router";
+import logger from "../../utils/pino/logger";
+import { isUUID } from "../../validations/isUUID";
 
 const deleteClient = async (req: Request, res: Response) => {
-  const clientId = req.params.clientId;
-  const user = req.user;
+  try {
+    const { clientId } = req.params;
 
-  if (clientId) {
-    const client = await prisma.client.findUnique({
+    if (!clientId || !isUUID(clientId))
+      return response.error(res, "Invalid Client Id", 400);
+
+    const clientExist = await prisma.client.findUnique({
       where: {
         id: clientId,
-        userId: user.userId,
       },
     });
 
-    if (client) {
-      await prisma.client.delete({
-        where: {
-          id: clientId,
-        },
-      });
+    if (!clientExist)
+      return response.error(res, "No Client found With This id", 404);
 
-      return response.ok(res, "Client Deleted Successfully", 200);
-    } else {
-      return response.error(res, "No Client Exists With This Id", 400);
-    }
-  } else {
-    return response.error(res, "Invalid Parameters Sent", 400);
+    await prisma.client.delete({
+      where: {
+        id: clientId,
+      },
+    });
+
+    return response.ok(res, "Successfully Deleted Client", 200);
+  } catch (error: any) {
+    logger.error(
+      { error: error.message, route: "delete-client", userId: req.user.userId },
+      "Failed to Delete Client"
+    );
+    throw error;
   }
 };
 

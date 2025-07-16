@@ -8,7 +8,7 @@ export default async function getOneClient(clientId: string) {
       "GET",
       "protected"
     );
-    if(response.success) return response.data;
+    if (response.success) return response.data;
     return undefined;
   } catch (error) {
     console.log("error getting Client");

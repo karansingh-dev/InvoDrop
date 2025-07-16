@@ -7,36 +7,37 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
-import { fetchClients } from "@/utils/api/fetchClients";
-import BoxLoader from "@/components/custom/Loaders/BoxLoader";
-import ClientCard, {
-  type clientsDataType,
-} from "@/components/custom/ClientCard";
+import ClientCard from "@/components/custom/ClientCard";
 import { Funnel, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "@/components/custom/Sidebar";
 import Header from "@/components/custom/Header";
 import { useEffect, useState } from "react";
+import { type ClientsDataType } from "@/types/client";
+import getClients from "@/utils/api/client/getClients";
+import BoxLoader from "@/components/custom/Loaders/BoxLoader";
 
 export const Clients = () => {
   let navigate = useNavigate();
 
   const {
-    data: client,
-    isLoading,
+    data: clientsData,
+
     isPending,
+    isFetched,
+    isError,
   } = useQuery({
-    queryFn: async () => fetchClients(),
+    queryFn: async () => getClients(),
     queryKey: ["clients"],
   });
 
-  const [clients, setClients] = useState<clientsDataType[]>();
+  const [clients, setClients] = useState<ClientsDataType[] | undefined>();
 
   useEffect(() => {
-    if (!isPending && client) {
-      setClients(client);
+    if (isFetched && clientsData) {
+      setClients(clientsData);
     }
-  }, [isPending, client]);
+  }, [isFetched, clientsData]);
 
   return (
     <div className=" min-h-screen flex">
@@ -46,15 +47,20 @@ export const Clients = () => {
 
         <main className="flex flex-col gap-6 p-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-slate-90">Clients</h1>
+            <h1 className="text-3xl font-bold ">Clients</h1>
             <div className="flex items-center gap-2">
-              <Button variant="outline" className="flex items-center">
+              <Button
+                variant="outline"
+                className="flex items-center"
+                disabled={isPending}
+              >
                 <Funnel className="h-4 w-4" />
                 Filter
               </Button>
 
               <Button
                 variant="outline"
+                disabled={isPending}
                 onClick={() => {
                   navigate("/clients/add");
                 }}
@@ -67,7 +73,7 @@ export const Clients = () => {
           </div>
 
           <div>
-            <Select defaultValue="all">
+            <Select defaultValue="all" disabled={isPending}>
               <SelectTrigger id="status" className="mt-1 bg-white w-[180px]">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -80,23 +86,20 @@ export const Clients = () => {
           </div>
 
           {/* clients  */}
-
-          {isLoading ? (
-            <div className="flex mt-30 justify-center mt-40">
-              {" "}
+          {isError ? (
+            <div className="text-red-500 text-center mt-40">
+              Failed to load clients. Please reload again
+            </div>
+          ) : isPending ? (
+            <div className="flex justify-center mt-40">
               <BoxLoader />
             </div>
-          ) : !clients ? (
-            <div className="flex mt-30 justify-center mt-40">
-              {" "}
-              <BoxLoader />
-            </div>
-          ) : clients.length === 0 ? (
-            <div className="flex mt-30 justify-center mt-40 text-slate-500">
-              No Clients Exists, Try adding a new client
+          ) : !clients || clients.length === 0 ? (
+            <div className=" text-center mt-40">
+              No clients found. Try adding a new client.
             </div>
           ) : (
-            <ClientCard clients={clients} setClients={setClients} />
+            <ClientCard clients={clients!} setClients={setClients} />
           )}
         </main>
       </div>
