@@ -19,11 +19,11 @@ const updateStutusToPending = async (req: Request, res: Response) => {
       },
     });
 
-    response.ok(res, "Status Updated Successfully", 200);
-    return;
+    return response.ok(res, "Status Updated Successfully", 200);
+    
   } else {
-    response.error(res, "Invalid Parameter", 400);
-    return;
+    return response.error(res, "Invalid Parameter", 400);
+    
   }
 };
 

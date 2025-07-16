@@ -14,8 +14,8 @@ export const userOnBoarding = async (req: Request, res: Response) => {
     const requestValidation = onboardingSchema.safeParse(onBoardingData);
 
     if (!requestValidation) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
+  
     }
 
     const company = {
@@ -58,8 +58,8 @@ export const userOnBoarding = async (req: Request, res: Response) => {
       throw error;
     }
 
-    response.ok(res, "User OnBoarded Succesfully", 201);
-    return;
+    return response.ok(res, "User OnBoarded Succesfully", 201);
+   
   } catch (error) {
     console.error("Error OnBoarding User");
     throw error;

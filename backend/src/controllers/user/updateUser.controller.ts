@@ -13,8 +13,8 @@ const updateUserDetails = async (req: Request, res: Response) => {
     const requestValidation = updateUserSchema.safeParse(userDetails);
 
     if (!requestValidation.success) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
+      
     }
 
     try {
@@ -33,8 +33,8 @@ const updateUserDetails = async (req: Request, res: Response) => {
       throw error;
     }
 
-    response.ok(res, "Successfully Updated User Details", 200);
-    return;
+    return response.ok(res, "Successfully Updated User Details", 200);
+    
   } catch (error: any) {
     console.error("Error Updating User Details", error.message);
     throw error;

@@ -26,8 +26,8 @@ export const addClient = async (req: Request, res: Response) => {
       },
     });
     if (clientExist) {
-      response.error(res, "Client Already Exists With This Email", 409);
-      return;
+      return response.error(res, "Client Already Exists With This Email", 409);
+      
     } else {
       const newClient: newClient = JSON.parse(JSON.stringify(client));
 
@@ -37,10 +37,10 @@ export const addClient = async (req: Request, res: Response) => {
         data: newClient,
       });
 
-      response.ok(res, "Client Added Successfully", 201);
+      return response.ok(res, "Client Added Successfully", 201);
     }
   } else {
-    response.error(res, "Invalid Data Sent", 400);
+    return response.error(res, "Invalid Data Sent", 400);
   }
 };
 

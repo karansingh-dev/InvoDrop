@@ -11,20 +11,20 @@ const createDownloadLink = async (req: Request, res: Response) => {
     const isPdfDownloaded = await downloadPdf(invoiceId);
 
     if (!isPdfDownloaded.success) {
-      response.error(res, "Failed To Download Pdf", 400);
-      return;
+      return response.error(res, "Failed To Download Pdf", 400);
+      
     }
 
     const isUploaded = await uploadPdf();
 
     if (!isUploaded.success) {
-      response.error(res, "Failed To Download Pdf", 400);
-      return;
+      return response.error(res, "Failed To Download Pdf", 400);
+      
     }
 
-    response.ok(res, "Successfully Downloaded Pdf", 200, isUploaded.url);
+    return response.ok(res, "Successfully Downloaded Pdf", 200, isUploaded.url);
   } else {
-    response.error(res, "Invalid Parameters Sent", 400);
+    return response.error(res, "Invalid Parameters Sent", 400);
   }
 };
 

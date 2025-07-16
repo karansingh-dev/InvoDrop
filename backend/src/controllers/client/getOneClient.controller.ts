@@ -41,14 +41,14 @@ export const getOneClient = async (req: Request, res: Response) => {
     });
 
     if (client) {
-      response.ok<clientRes>(res, "Fetched Client Successfully", 200, client);
-      return;
+      return response.ok<clientRes>(res, "Fetched Client Successfully", 200, client);
+      
     } else {
-      response.error(res, "Failed To Fetch Client Details", 400);
-      return;
+      return response.error(res, "Failed To Fetch Client Details", 400);
+      
     }
   } else {
-    response.error(res, "Invalid Parameters Sent", 400);
+    return response.error(res, "Invalid Parameters Sent", 400);
   }
 };
 

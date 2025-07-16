@@ -30,15 +30,15 @@ export const deleteInvoice = async (req: Request, res: Response) => {
         },
       });
 
-      response.ok(res, "Invoice Deleted Successfully", 200);
-      return;
+      return response.ok(res, "Invoice Deleted Successfully", 200);
+      
     } else {
-      response.error(res, "No Invoice Exists With This Id", 404);
-      return;
+      return response.error(res, "No Invoice Exists With This Id", 404);
+      
     }
   } else {
-    response.error(res, "Invalid Parameters Sent", 400);
-    return;
+    return response.error(res, "Invalid Parameters Sent", 400);
+    
   }
 };
 

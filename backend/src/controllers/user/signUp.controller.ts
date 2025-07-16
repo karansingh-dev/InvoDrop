@@ -17,8 +17,8 @@ export const signUp = async (req: Request, res: Response) => {
     const requestValidation = signUpSchema.safeParse(user);
 
     if (!requestValidation.success) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
+      
     }
 
     let userExist;
@@ -52,8 +52,7 @@ export const signUp = async (req: Request, res: Response) => {
 
     if (userExist) {
       if (userExist.isVerified) {
-        response.error(res, "User Already Exist With This Email", 409);
-        return;
+        return response.error(res, "User Already Exist With This Email", 409);
       }
 
       try {
@@ -89,16 +88,16 @@ export const signUp = async (req: Request, res: Response) => {
       }
 
       if (!verificationResponse.success) {
-        response.error(res, verificationResponse.message, 400);
-        return;
+        return response.error(res, verificationResponse.message, 400);
+        
       }
 
-      response.ok(
+      return response.ok(
         res,
         "User Registered Successfully, Please Verify Your Account",
         201
       );
-      return;
+      
     }
 
     //handles when user not exist
@@ -137,16 +136,16 @@ export const signUp = async (req: Request, res: Response) => {
     }
 
     if (!verificationResponse.success) {
-      response.error(res, verificationResponse.message, 400);
-      return;
+      return response.error(res, verificationResponse.message, 400);
+      
     }
 
-    response.ok(
+    return response.ok(
       res,
       "User Registered Successfully,Please Verify Your Account",
       201
     );
-    return;
+    
   } catch (error: any) {
     console.log("having error");
     console.log("Error Eegistering User", error.message);

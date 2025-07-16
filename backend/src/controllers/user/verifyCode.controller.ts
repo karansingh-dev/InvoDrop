@@ -16,8 +16,7 @@ export const verifyCode = async (req: Request, res: Response) => {
     const requestValidation = verificationCodeSchema.safeParse(data);
 
     if (!requestValidation.success) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
     }
 
     let user;
@@ -33,26 +32,23 @@ export const verifyCode = async (req: Request, res: Response) => {
     }
 
     if (!user) {
-      response.error(
+      return response.error(
         res,
         "Incorrect Email, No User Exists With This Email",
         404
       );
-      return;
     }
 
     const isCodeValid = user.verifyCode === data.verifyCode;
 
     if (!isCodeValid) {
-      response.error(res, "Incorrect Verification Code", 400);
-      return;
+      return response.error(res, "Incorrect Verification Code", 400);
     }
 
     const isCodeExpired = user.verifyCodeExpiresAt < new Date(Date.now());
 
     if (isCodeExpired) {
-      response.error(res, "Verification Code Expired", 400);
-      return;
+      return response.error(res, "Verification Code Expired", 400);
     }
 
     try {
@@ -72,8 +68,7 @@ export const verifyCode = async (req: Request, res: Response) => {
       throw new Error(error.message);
     }
 
-    response.ok(res, "User Verified Successfully", 200);
-    return;
+    return response.ok(res, "User Verified Successfully", 200);
   } catch (error: any) {
     console.log("Error Verifying User", error.message);
     throw new Error(error.message);

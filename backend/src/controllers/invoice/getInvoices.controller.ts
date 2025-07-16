@@ -43,10 +43,10 @@ export const getInvoices = async (req: Request, res: Response) => {
       };
     });
 
-    response.ok(res, "Invoices Fetched Successfully", 200, Data);
-    return;
+    return response.ok(res, "Invoices Fetched Successfully", 200, Data);
+    
   } else {
-    response.error(res, "No Invoices Found", 404);
+    return response.error(res, "No Invoices Found", 404);
   }
 };
 

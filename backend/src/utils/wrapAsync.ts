@@ -5,11 +5,11 @@ export const wrapAsync = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  controller: (req: Request, res: Response) => Promise<void>
+  controller: (req: Request, res: Response) => Promise<Response>
 ) => {
   try {
     await controller(req, res);
-  } catch (error:any) {
+  } catch (error: any) {
     next(error.message);
   }
 };

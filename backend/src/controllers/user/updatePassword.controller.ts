@@ -12,12 +12,10 @@ const updatePassword = async (req: Request, res: Response) => {
 
     const user = req.user;
 
-    console.log(updatedPassword);
     const requestValidation = passwordSchema.safeParse(updatedPassword);
 
     if (!requestValidation.success) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
     }
 
     const bothPasswordsCorrect =
@@ -36,12 +34,10 @@ const updatePassword = async (req: Request, res: Response) => {
     }
 
     if (!bothPasswordsCorrect) {
-      response.error(res, "Confirm Password Do Not Match", 400);
-      return;
+      return response.error(res, "Confirm Password Do Not Match", 400);
     }
     if (!userData) {
-      response.error(res, "No User Exists", 404);
-      return;
+      return response.error(res, "No User Exists", 404);
     }
     let passwordsMatch;
 
@@ -56,8 +52,7 @@ const updatePassword = async (req: Request, res: Response) => {
     }
 
     if (!passwordsMatch) {
-      response.error(res, "Wrong Current Password", 400);
-      return;
+      return response.error(res, "Wrong Current Password", 400);
     }
 
     let hashedPassword;
@@ -84,8 +79,7 @@ const updatePassword = async (req: Request, res: Response) => {
       throw error;
     }
 
-    response.ok(res, "Password Updated Successfully", 200);
-    return;
+    return response.ok(res, "Password Updated Successfully", 200);
   } catch (error) {
     console.error("Failed to Update user Password");
     throw error;

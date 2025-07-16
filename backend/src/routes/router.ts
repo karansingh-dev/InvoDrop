@@ -10,7 +10,7 @@ type authType = "noauth" | "protected";
 function get(
   route: string,
   auth: authType,
-  controller: (req: Request, res: Response) => Promise<void>
+  controller: (req: Request, res: Response) =>Promise<Response>
 ) {
   if (auth == "noauth") {
     return router.get(
@@ -32,7 +32,7 @@ function get(
 function post(
   route: string,
   auth: authType,
-  controller: (req: Request, res: Response) => Promise<void>
+  controller: (req: Request, res: Response) => Promise<Response>
 ) {
   if (auth == "noauth") {
     return router.post(
@@ -54,7 +54,7 @@ function post(
 function put(
   route: string,
   auth: authType,
-  controller: (req: Request, res: Response) => Promise<void>
+  controller: (req: Request, res: Response) => Promise<Response>
 ) {
   if (auth == "noauth") {
     return router.put(
@@ -76,7 +76,7 @@ function put(
 function del(
   route: string,
   auth: authType,
-  controller: (req: Request, res: Response) => Promise<void>
+  controller: (req: Request, res: Response) => Promise<Response>
 ) {
   if (auth == "noauth") {
     return router.delete(

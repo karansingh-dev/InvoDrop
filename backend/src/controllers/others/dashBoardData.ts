@@ -23,52 +23,6 @@ const dashBoardData = async (req: Request, res: Response) => {
     },
   });
 
-  // let difference = 0;
-
-  // if (getUser) {
-  //   difference = differenceInDays(getUser.createdAt);
-  // }
-
-  // switch (days) {
-  //   case 30:
-  //     // if (difference >= 30) {
-  //     const oneMonthAgo = new Date();
-  //     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  //     const till = new Date();
-  //     till.setDate(till.getDate() - 1);
-
-  //     const oldtotalRevenue = await prisma.invoice.aggregate({
-  //       where: {
-  //         userId: user.userId,
-  //         createdAt: {
-  //           gt: oneMonthAgo,
-  //           lt: till,
-  //         },
-  //       },
-  //       _sum: {
-  //         grandTotal: true,
-  //       },
-  //     });
-
-  //     const newtotalRevenue = await prisma.invoice.aggregate({
-  //       where: {
-  //         userId: user.userId,
-  //         createdAt: {
-  //           gt: till,
-  //         },
-  //       },
-  //       _sum: {
-  //         grandTotal: true,
-  //       },
-  //     });
-
-  //     console.log(oldtotalRevenue._sum.grandTotal);
-  //     console.log(newtotalRevenue._sum.grandTotal);
-
-  //   // }
-  // }
-
   const recentInvoices = await prisma.invoice.findMany({
     where: {
       userId: user.userId,
@@ -93,18 +47,29 @@ const dashBoardData = async (req: Request, res: Response) => {
     },
   });
 
-  const invoices = recentInvoices.map((invoice) => {
-    return {
-      id: invoice.id,
-      invoiceNumber: invoice.invoiceNumber,
-      grandTotal: invoice.grandTotal,
-      issueDate: invoice.issueDate,
-      dueDate: invoice.dueDate,
-      status: invoice.status,
-      curreny: invoice.currency,
-      companyName: invoice.client.companyName,
-    };
-  });
+  const invoices = recentInvoices.map(
+    (invoice: {
+      id: any;
+      invoiceNumber: any;
+      grandTotal: any;
+      issueDate: any;
+      dueDate: any;
+      status: any;
+      currency: any;
+      client: { companyName: any };
+    }) => {
+      return {
+        id: invoice.id,
+        invoiceNumber: invoice.invoiceNumber,
+        grandTotal: invoice.grandTotal,
+        issueDate: invoice.issueDate,
+        dueDate: invoice.dueDate,
+        status: invoice.status,
+        curreny: invoice.currency,
+        companyName: invoice.client.companyName,
+      };
+    }
+  );
   const totalRevenue = await prisma.invoice.aggregate({
     where: {
       userId: user.userId,
@@ -159,8 +124,12 @@ const dashBoardData = async (req: Request, res: Response) => {
     recentActivities: recentActivities,
   };
 
-  response.ok(res, "Succussfully Fetched DashBoard Data", 200, dashBoardData);
-  return;
+  return response.ok(
+    res,
+    "Succussfully Fetched DashBoard Data",
+    200,
+    dashBoardData
+  );
 };
 
 api.get("/get-dashboard-data/:days", "protected", dashBoardData);

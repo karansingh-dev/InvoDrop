@@ -46,8 +46,8 @@ export const duplicateInvoice = async (req: Request, res: Response) => {
     });
 
     if (!invoiceData) {
-      response.error(res, "No Invoice Exists With This Id", 400);
-      return;
+      return response.error(res, "No Invoice Exists With This Id", 400);
+      
     }
 
     const invoiceItems = await prisma.item.findMany({
@@ -57,8 +57,8 @@ export const duplicateInvoice = async (req: Request, res: Response) => {
     });
 
     if (!invoiceItems) {
-      response.error(res, "Failed To Duplicate Invoice", 400);
-      return;
+      return response.error(res, "Failed To Duplicate Invoice", 400);
+      
     }
     const invoiceCount = await prisma.invoice.count({
       where: {
@@ -119,16 +119,16 @@ export const duplicateInvoice = async (req: Request, res: Response) => {
         const sentPdf = await sendPdf(client.email, isPdfUploaded.url);
 
         if (sentPdf.success) {
-          response.ok(res, "Invoice Duplicated Successfully", 201);
-          return;
+          return response.ok(res, "Invoice Duplicated Successfully", 201);
+          
         } else {
           await prisma.invoice.delete({
             where: {
               id: duplicateInvoice.id,
             },
           });
-          response.error(res, "Failed To Duplicate Invoice", 400);
-          return;
+          return response.error(res, "Failed To Duplicate Invoice", 400);
+          
         }
       } else {
         await prisma.invoice.delete({
@@ -137,8 +137,8 @@ export const duplicateInvoice = async (req: Request, res: Response) => {
           },
         });
         console.error("failed to Upload pdf");
-        response.error(res, "Failed To Duplicate Invoice", 400);
-        return;
+        return response.error(res, "Failed To Duplicate Invoice", 400);
+        
       }
     } else {
       await prisma.invoice.delete({
@@ -147,12 +147,12 @@ export const duplicateInvoice = async (req: Request, res: Response) => {
         },
       });
       console.error("failed to download pdf");
-      response.error(res, "Failed To Duplicate Invoice", 400);
-      return;
+      return response.error(res, "Failed To Duplicate Invoice", 400);
+      
     }
   } else {
-    response.error(res, "No Invoice Exists With This Id", 404);
-    return;
+    return response.error(res, "No Invoice Exists With This Id", 404);
+    
   }
 };
 

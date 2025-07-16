@@ -15,14 +15,14 @@ export const uploadLogo = async (req: Request, res: Response) => {
     const logo = req.file;
 
     if (!logo) {
-      response.error(res, "No File Sent", 400);
-      return;
+      return response.error(res, "No File Sent", 400);
+      
     }
 
     try {
       const logoUrl = await uploadToCloudinary(logo.buffer, logo.originalname);
-      response.ok(res, "Logo Successfully Uploaded", 201, logoUrl);
-      return;
+      return response.ok(res, "Logo Successfully Uploaded", 201, logoUrl);
+      
     } catch (error) {
       console.error("Cloudinary upload error:", error);
       throw error;

@@ -18,8 +18,8 @@ export const login = async (req: Request, res: Response) => {
     const requestValidation = loginSchema.safeParse(user);
 
     if (!requestValidation.success) {
-      response.error(res, "Invalid Data Sent", 400);
-      return;
+      return response.error(res, "Invalid Data Sent", 400);
+   
     }
 
     let userExist;
@@ -36,12 +36,12 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (!userExist) {
-      response.error(
+      return response.error(
         res,
         "Incorrect Email, No User Exists With This Email",
         404
       );
-      return;
+   
     }
 
     let isPasswordCorrect;
@@ -57,8 +57,8 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (!isPasswordCorrect) {
-      response.error(res, "Incorrect Password", 401);
-      return;
+      return response.error(res, "Incorrect Password", 401);
+  
     }
 
     const payload = {
@@ -70,8 +70,8 @@ export const login = async (req: Request, res: Response) => {
     //generating token
     const token = jwt.sign(payload, config.JWT_SECRET!);
 
-    response.ok(res, "Login Successfull", 200, token);
-    return;
+    return response.ok(res, "Login Successfull", 200, token);
+ 
   } catch (error: any) {
     console.error("Error Loging In the User", error.message);
     throw new Error(error.message);

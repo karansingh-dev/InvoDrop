@@ -22,14 +22,14 @@ const editClient = async (req: Request, res: Response) => {
     });
 
     if (updatedClient) {
-      response.ok(res, "Client Successfully Updated", 200);
-      return;
+      return response.ok(res, "Client Successfully Updated", 200);
+      
     } else {
-      response.error(res, "Failed To Update Client", 400);
-      return;
+      return response.error(res, "Failed To Update Client", 400);
+      
     }
   } else {
-    response.error(res, "Invalid Data Sent", 400);
+    return response.error(res, "Invalid Data Sent", 400);
   }
 };
 

@@ -111,16 +111,16 @@ const editInvoice = async (req: Request, res: Response) => {
             );
 
             if (sentPdf.success) {
-              response.ok(res, "Invoice Updated Successfully", 200);
-              return;
+              return response.ok(res, "Invoice Updated Successfully", 200);
+              
             } else {
               await prisma.invoice.delete({
                 where: {
                   id: invoiceId,
                 },
               });
-              response.error(res, "Failed To Update Invoice", 400);
-              return;
+              return response.error(res, "Failed To Update Invoice", 400);
+              
             }
           } else {
             await prisma.invoice.delete({
@@ -129,8 +129,8 @@ const editInvoice = async (req: Request, res: Response) => {
               },
             });
             console.error("Failed To Upload Pdf");
-            response.error(res, "Failed To Update Invoice", 400);
-            return;
+            return response.error(res, "Failed To Update Invoice", 400);
+            
           }
         } else {
           await prisma.invoice.delete({
@@ -139,20 +139,20 @@ const editInvoice = async (req: Request, res: Response) => {
             },
           });
           console.error("failed to download pdf");
-          response.error(res, "Failed To Update Invoice", 400);
-          return;
+          return response.error(res, "Failed To Update Invoice", 400);
+          
         }
       } else {
-        response.error(res, "No Client Exists With This Email", 404);
-        return;
+        return response.error(res, "No Client Exists With This Email", 404);
+        
       }
     } else {
-      response.error(res, "No Invoice Exists With This Id", 404);
-      return;
+      return response.error(res, "No Invoice Exists With This Id", 404);
+      
     }
   } else {
-    response.error(res, "Invalid Data Sent", 400);
-    return;
+    return response.error(res, "Invalid Data Sent", 400);
+    
   }
 };
 

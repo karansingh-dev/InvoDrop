@@ -31,12 +31,12 @@ export const getClients = async (req: Request, res: Response) => {
   });
 
   if (clients) {
-    response.ok(res, "Fetched Clients Successfully", 200, clients);
-    return;
+    return response.ok(res, "Fetched Clients Successfully", 200, clients);
+    
   }
 
-  response.error(res, "No Clients Exists", 404);
-  return;
+  return response.error(res, "No Clients Exists", 404);
+  
 };
 
 api.get("/get-clients", "protected", getClients);

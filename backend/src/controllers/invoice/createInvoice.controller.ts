@@ -114,16 +114,16 @@ export const createInvoice = async (req: Request, res: Response) => {
           );
 
           if (sentPdf.success) {
-            response.ok(res, "Invoice Created Successfully", 201);
-            return;
+            return response.ok(res, "Invoice Created Successfully", 201);
+            
           } else {
             await prisma.invoice.delete({
               where: {
                 id: newInvoice.id,
               },
             });
-            response.error(res, "Failed to create invoice", 400);
-            return;
+            return response.error(res, "Failed to create invoice", 400);
+            
           }
         } else {
           await prisma.invoice.delete({
@@ -132,8 +132,8 @@ export const createInvoice = async (req: Request, res: Response) => {
             },
           });
           console.error("failed to Upload pdf");
-          response.error(res, "Failed to create invoice", 400);
-          return;
+          return response.error(res, "Failed to create invoice", 400);
+          
         }
       } else {
         await prisma.invoice.delete({
@@ -142,17 +142,17 @@ export const createInvoice = async (req: Request, res: Response) => {
           },
         });
         console.error("failed to download pdf");
-        response.error(res, "Failed to create invoice", 400);
-        return;
+        return response.error(res, "Failed to create invoice", 400);
+        
       }
     } else {
-      response.error(res, "No Client Exists", 404);
-      return;
+      return response.error(res, "No Client Exists", 404);
+      
     }
   } else {
     console.log(requestValidation.error.message);
-    response.error(res, "Invalid Data Sent", 400);
-    return;
+    return response.error(res, "Invalid Data Sent", 400);
+    
   }
 };
 

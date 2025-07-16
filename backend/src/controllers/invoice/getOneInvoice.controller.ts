@@ -83,18 +83,18 @@ export const getOneInvoice = async (req: Request, res: Response) => {
     });
 
     if (invoice) {
-      response.ok<invoiceDataType>(
+      return response.ok<invoiceDataType>(
         res,
         "Invoices Fetched Successfully",
         200,
         invoice
       );
-      return;
+      
     } else {
-      response.error(res, "No Invoices Found", 404);
+      return response.error(res, "No Invoices Found", 404);
     }
   } else {
-    response.error(res, "Invalid Paramters", 400);
+    return response.error(res, "Invalid Paramters", 400);
   }
 };
 

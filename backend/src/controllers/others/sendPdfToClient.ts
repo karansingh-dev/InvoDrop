@@ -14,32 +14,32 @@ const sendPdfToClient = async (req: Request, res: Response) => {
     const isPdfDownloaded = await downloadPdf(invoiceId);
 
     if (!isPdfDownloaded.success) {
-      response.error(res, "Failed To Send Pdf", 400);
-      return;
+      return response.error(res, "Failed To Send Pdf", 400);
+      
     }
 
     const isUploaded = await uploadPdf();
 
     if (!isUploaded.success) {
-      response.error(res, "Failed To Send Pdf", 400);
-      return;
+      return response.error(res, "Failed To Send Pdf", 400);
+      
     }
 
     if (isUploaded.url) {
       const isPdfSent = await sendPdf(email, isUploaded.url);
       if (isPdfSent.success) {
-        response.ok(res, "Pdf Sent Successfully", 200);
-        return;
+        return response.ok(res, "Pdf Sent Successfully", 200);
+        
       } else {
-        response.error(res, "Failed To Send Pdf", 400);
-        return;
+        return response.error(res, "Failed To Send Pdf", 400);
+        
       }
     } else {
-      response.error(res, "Failed To Send Pdf", 400);
-      return;
+      return response.error(res, "Failed To Send Pdf", 400);
+      
     }
   } else {
-    response.error(res, "Invalid Parameters Sent Or Data Sent", 400);
+    return response.error(res, "Invalid Parameters Sent Or Data Sent", 400);
   }
 };
 

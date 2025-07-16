@@ -27,8 +27,8 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     if (!userData) {
-      response.error(res, "No User Found", 404);
-      return;
+      return response.error(res, "No User Found", 404);
+  
     }
 
     const responseData: UserDetails = {
@@ -51,8 +51,8 @@ export const getUser = async (req: Request, res: Response) => {
 
     if (companyData) responseData.isCompanyAdded = true;
 
-    response.ok(res, "User Data Found Successfully", 200, responseData);
-    return;
+    return response.ok(res, "User Data Found Successfully", 200, responseData);
+ 
   } catch (error: any) {
     console.error("Error Gettung User Data", error.message);
     throw new Error(error.message);

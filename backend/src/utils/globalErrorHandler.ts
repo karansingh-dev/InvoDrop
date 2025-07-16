@@ -10,5 +10,5 @@ export const globalErrorHandler = (
   console.error(error.stack);
 
   console.log("Internal Server Error", error.message);
-  response.error(res, "Internal Server Error", 501);
+  return response.error(res, "Internal Server Error", 501);
 };
