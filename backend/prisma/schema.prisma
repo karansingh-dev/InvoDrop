@@ -102,7 +102,9 @@ model Client {
   createdAt          DateTime @map("created_at") @default(now())
   updatedAt          DateTime @map("updated_at") @default(now())
 
+   @@unique([email, userId])   //composite unique constraints
   // Relations
+   
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   invoices           Invoice[]
 

@@ -1,16 +1,44 @@
 import z from "zod";
 
 export const addClientSchema = z.object({
-    companyName: z.string().min(1, "Company name must be at least 1 character").max(200, "Company name must at most 200 characters"),
-    contactPersonName: z.string().min(1, "Contact Person name must be at least 1 character").max(200, "Contact Peron name must at most 150 characters"),
-    phoneNumber: z.string().min(1, "Phone Number be at least 10 character").max(200, "Company name must at most 20 characters"),
-    email: z.string().email("Must be a valid email"),
-    status:z.boolean(),
-    streetAddress: z.string().min(5, "Street Address must be at least 5 characters").max(100, "Street Address must be at most 100 characters"),
-    city: z.string().min(1, "city name must be at least 1 characters").max(50, "city name must be at most 50 characters"),
-    state: z.string().min(1, "State name must be at least 1 characters").max(50, "state name must be at most 50 characters"),
-    country: z.string().min(1, "Country Name must be at least 1 characters").max(50, "Country name must be at most 50 characters"),
-    pinCode: z.string().min(6, "Pin Code must be at least 6 characters").max(8, "Pin Code must be at most 50 characters"),
-
-
-})
+  companyName: z
+    .string()
+    .nonempty("Company name is required")
+    .max(200, "Company name must be at most 200 characters"),
+  contactPersonName: z
+    .string()
+    .nonempty("Contact person name is required")
+    .max(150, "Contact person name must be at most 150 characters"),
+  phoneNumber: z
+    .string()
+    .nonempty("Phone number is required")
+    .min(10, "Phone number must be at least 10 characters")
+    .max(20, "Phone number must be at most 20 characters"),
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Must be a valid email address"),
+  status: z.boolean(),
+  streetAddress: z
+    .string()
+    .nonempty("Street address is required")
+    .min(5, "Street address must be at least 5 characters")
+    .max(100, "Street address must be at most 100 characters"),
+  city: z
+    .string()
+    .nonempty("City is required")
+    .max(50, "City name must be at most 50 characters"),
+  state: z
+    .string()
+    .nonempty("State is required")
+    .max(50, "State name must be at most 50 characters"),
+  country: z
+    .string()
+    .nonempty("Country is required")
+    .max(50, "Country name must be at most 50 characters"),
+  pinCode: z
+    .string()
+    .nonempty("Pin code is required")
+    .min(6, "Pin code must be at least 6 characters")
+    .max(8, "Pin code must be at most 8 characters"),
+});

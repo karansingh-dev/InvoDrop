@@ -3,7 +3,7 @@ export const baseUrl = "http://localhost:5000/invodrop";
 type methods = "POST" | "GET" | "PUT" | "DELETE";
 type authType = "noauth" | "protected";
 
-type apiResponse<t> = {
+export type apiResponse<t> = {
   success: boolean;
   message: string;
   data: t;
