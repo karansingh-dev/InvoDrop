@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:5000/invodrop";
+export const baseUrl = "http://localhost:5000/api";
 
 type methods = "POST" | "GET" | "PUT" | "DELETE";
 type authType = "noauth" | "protected";
@@ -43,10 +43,11 @@ export const apiCall = async <tresponse = null, trequest = null>(
   let result;
   try {
     response = await fetch(`${baseUrl}${route}`, config);
+
     result = await response.json();
   } catch (error: any) {
     console.log("Error Calling API's", error.message);
-    throw new Error(error.message);
+    throw error;
   }
 
   return result;

@@ -3,7 +3,7 @@ import { apiCall } from "../apiCall";
 
 export const getUserData = async () => {
   try {
-    console.log("running")
+   
     const response = await apiCall<UserDetailsType>(
       "/get-user-data",
       "GET",

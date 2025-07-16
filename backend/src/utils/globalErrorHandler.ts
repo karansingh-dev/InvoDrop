@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { response } from "./response";
+import logger from "./pino/logger";
 
 export const globalErrorHandler = (
   error: Error,
@@ -7,8 +8,8 @@ export const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(error.stack);
+  logger.error(error.stack);
 
-  console.log("Internal Server Error", error.message);
+  logger.error("Internal Server Error", error.message);
   return response.error(res, "Internal Server Error", 501);
 };

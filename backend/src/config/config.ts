@@ -6,6 +6,7 @@ export const config = {
   CLOUDINARY_URL: process.env.CLOUDINARY_URL,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
+  NODE_ENV:process.env.NODE_ENV
 };
 
 for (const [key, value] of Object.entries(config)) {

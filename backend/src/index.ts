@@ -7,14 +7,17 @@ import { router } from "./routes/router";
 import "./routes/allRoutes";
 import { globalErrorHandler } from "./utils/globalErrorHandler";
 import { startOverDueJob } from "./helpers/cronJobs/overDue";
+import logger from "./utils/pino/logger";
 
 const app = express();
 
 async function startServer() {
   app.use(cors());
   app.use(bodyParser.json());
+
+  app.use("/api", router);
+
   app.use(globalErrorHandler);
-  app.use("/invodrop", router);
 
   //Background task to update status of invoices to overdue, Runs every midnight
   startOverDueJob();
@@ -22,7 +25,7 @@ async function startServer() {
   await dbConnection();
 
   app.listen(config.PORT, () => {
-    console.log(`Server running on port ${config.PORT}`);
+    logger.info(`Server running on port ${config.PORT}`);
   });
 }
 

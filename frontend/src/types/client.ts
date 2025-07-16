@@ -5,3 +5,4 @@ import z from "zod";
 
 
 export type NewClientDataType = z.infer<typeof addClientSchema>;
+

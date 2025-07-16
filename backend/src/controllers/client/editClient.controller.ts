@@ -1,35 +1,60 @@
 import { Request, Response } from "express";
-import { z } from "zod";
-import { addClientSchema } from "../../validations/client/addClientSchema";
+import { addClientSchema as oldClientSchema } from "../../validations/client/addClientSchema";
 import { response } from "../../utils/response";
 import prisma from "../../helpers/prismaClient";
 import { api } from "../../routes/router";
-
-type clientDataType = z.infer<typeof addClientSchema>;
+import { NewClientDataType as OldClientDataType } from "../../types/client";
+import logger from "../../utils/pino/logger";
+import { isUUID } from "../../validations/isUUID";
 
 const editClient = async (req: Request, res: Response) => {
-  const client: clientDataType = req.body;
-  const clientId = req.params.clientId;
+  try {
+    const clientData: OldClientDataType = req.body;
+    const user = req.user;
 
-  const requestValidation = addClientSchema.safeParse(client);
+    const { clientId } = req.params;
 
-  if (requestValidation.success && clientId) {
-    const updatedClient = await prisma.client.update({
+    
+
+    if (!clientId || !isUUID(clientId))
+      return response.error(res, "Invalid Client Id ", 400);
+
+    const clientExist = await prisma.client.findUnique({
       where: {
         id: clientId,
       },
-      data: client,
     });
 
-    if (updatedClient) {
-      return response.ok(res, "Client Successfully Updated", 200);
-      
-    } else {
-      return response.error(res, "Failed To Update Client", 400);
-      
+    if (!clientExist) return response.error(res, "Client not found", 404);
+
+    if (clientExist.userId !== user.userId) {
+      return response.error(res, "Unauthorized to edit this client", 403);
     }
-  } else {
-    return response.error(res, "Invalid Data Sent", 400);
+
+    const requestValidation = oldClientSchema.safeParse(clientData);
+
+    console.log(requestValidation.error);
+    if (!requestValidation.success)
+      return response.error(res, "Invalid Data Sent", 400);
+
+    //full validated data;
+    const newClientData = requestValidation.data;
+
+    await prisma.client.update({
+      where: {
+        id: clientId,
+      },
+      data: newClientData,
+    });
+
+    return response.ok(res, "Successfully Updated Client Details", 200);
+  } catch (error: any) {
+    logger.error(
+      { err: error.message, route: "/edit-client", userId: req.user.userId },
+      "Failedto update Client in DB"
+    );
+
+    throw error;
   }
 };
 

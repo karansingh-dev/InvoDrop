@@ -17,7 +17,6 @@ export const defaultMiddleware = async (
 
   if (!token) {
     return response.error(res, "Authorization Token is Required", 401);
-    
   }
 
   try {
@@ -32,9 +31,8 @@ export const defaultMiddleware = async (
       next();
     } else {
       return response.error(res, "Invalid Token", 401);
-      
     }
-  } catch (error:any) {
+  } catch (error: any) {
     console.log(error.message, token);
     return response.error(res, "Invalid Token", 401);
     next(error);
